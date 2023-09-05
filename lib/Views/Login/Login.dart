@@ -118,16 +118,20 @@ class _LoginScreenState extends State<LoginScreen> {
               ButtonCustom(
                 buttonText: "login".tr,
                 onPress: () async {
+                  FIXME: "Simple Email Login";
                   //Verifying the User Cred
-                  var verified = await _controller.LoginRequest(body: {
-                    "name": emailController.value.text,
-                    "password": passwordController.value.text
-                  }, header: {
-                    "Signature": "HelloAPI"
-                  });
-                  if (verified == 200) {
-                    Get.offAll(HomeScreen());
-                  } else {}
+                  // var verified = await _controller.LoginRequest(body: {
+                  //   "name": emailController.value.text,
+                  //   "password": passwordController.value.text
+                  // }, header: {
+                  //   "Signature": "HelloAPI"
+                  // });
+                  // if (verified == 200) {
+                  //   Get.offAll(HomeScreen());
+                  // } else {
+                  //   Get.offAll(HomeScreen());
+                  // }
+                  Get.offAll(HomeScreen());
                 },
                 backgroundColor: AppConstants.loginButton,
                 elevation: 2,
@@ -151,7 +155,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      FIXME:"Google_Authentication for the login";
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
