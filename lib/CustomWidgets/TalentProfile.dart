@@ -197,7 +197,7 @@ class _TalentProfileState extends State<TalentProfile> {
                           fontsize: 12,
                           onPress: () {
                             setState(() {
-                              _isTapped = !_isTapped;
+                              _isTapped = false;
                             });
                           },
                           backgroundColor: Colors.transparent,
@@ -216,7 +216,7 @@ class _TalentProfileState extends State<TalentProfile> {
                           buttonText: "Info".toUpperCase(),
                           onPress: () {
                             setState(() {
-                              _isTapped = !_isTapped;
+                              _isTapped = true;
                             });
                           },
                           backgroundColor: Colors.transparent,

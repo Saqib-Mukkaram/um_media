@@ -2,9 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/Controller/Langauge.dart';
+import 'package:um_media/CustomWidgets/ProfileInfo.dart';
 import 'package:um_media/CustomWidgets/TalentProfile.dart';
 import 'package:um_media/CustomWidgets/TalentsView.dart';
 import 'package:um_media/Views/Home/Home.dart';
+import 'package:um_media/Views/Home/Home_artisan.dart';
+import 'package:um_media/Views/Login/Login.dart';
+import 'package:um_media/Views/Profile/ProfilePage.dart';
+import 'package:um_media/Views/Splash/spalsh.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +32,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: "Poppins"
       ),
-      home: HomeScreen()
+      home: SplashScreen()
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/CustomWidgets/TextWithDividers.dart';
 import 'package:um_media/Views/Home/Home.dart';
+import 'package:um_media/Views/Home/Home_artisan.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
 import 'package:um_media/Views/Reset/ConfirmEmail.dart';
 
@@ -109,9 +110,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Get.to(ConfirmEmail());
                     },
-                    child: Text(
-                      "forget_password".tr,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    child: InkWell(
+                      onTap: () {
+                        Get.offAll(HomeArtisanScreen());
+                      },
+                      child: Text(
+                        "forget_password".tr,
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      ),
                     ),
                   )
                 ],

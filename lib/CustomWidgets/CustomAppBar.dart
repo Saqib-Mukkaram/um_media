@@ -8,7 +8,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     required this.scaffoldkey,
     Key? key,
   }) : super(key: key);
-  
+
   set scaffoldKey(GlobalKey<ScaffoldState> scaffoldKey) {}
 
   @override
@@ -19,7 +19,6 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-
   @override
   void initState() {
     widget.scaffoldKey = GlobalKey<ScaffoldState>();
@@ -36,6 +35,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           widget.scaffoldkey.currentState?.openDrawer();
         },
       ),
+     
       backgroundColor: Colors.black,
       elevation: 0,
       title: Text(

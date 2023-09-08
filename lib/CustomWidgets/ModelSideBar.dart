@@ -3,19 +3,20 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/Views/Login/Login.dart';
+import 'package:um_media/Views/Profile/ProfilePage.dart';
 
 import 'SidebarButtons.dart';
 
-class SideBar extends StatefulWidget {
-  const SideBar({
+class ModelSideBar extends StatefulWidget {
+  const ModelSideBar({
     super.key,
   });
 
   @override
-  State<SideBar> createState() => _SideBarState();
+  State<ModelSideBar> createState() => _ModelSideBarState();
 }
 
-class _SideBarState extends State<SideBar> {
+class _ModelSideBarState extends State<ModelSideBar> {
   var buttonlist = [];
   var functionlist = [];
   var buttonIconlist = [];
@@ -68,15 +69,18 @@ class _SideBarState extends State<SideBar> {
                 scrollDirection: Axis.vertical,
                 padding: EdgeInsets.all(10.0),
                 shrinkWrap: true, // Set shrinkWrap to true
-                itemCount: 5,
+                itemCount: 1,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
+                    onTap: () {
+                      Get.to(ProfilePage());
+                    },
                     dense: true,
                     leading: Icon(
-  Icons.help_outline_outlined,
-),
-                    title: Text("Sample"),
-                    subtitle: Text("Description"),
+                      Icons.account_circle_outlined,
+                    ),
+                    title: Text("Profile"),
+                    subtitle: Text("Profile Settings"),
                   );
                 },
               ),

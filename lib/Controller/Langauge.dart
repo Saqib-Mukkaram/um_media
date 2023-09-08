@@ -45,7 +45,8 @@ class Languages extends Translations {
           "let_us_decide":
               "we’ll help you find the perfect star for your campaign.",
           "username": "UserName",
-          "logout":"Logout"
+          "logout":"Logout",
+          "choose_talent": "Choose your Talent"
         },
         'de_DE': {
           'hello': 'Hallo Welt',
