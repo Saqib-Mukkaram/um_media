@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Views/Login/Login.dart';
 
-
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -22,18 +20,33 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAll(LoginScreen());
       },
     );
-    FIXME:"If the User is Logged in It should login to home screen.";
-    
+    FIXME:
+    "If the User is Logged in It should login to home screen.";
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppConstants.white,
-      child: Center(
-        child: Image.asset(
-          AppConstants.Logo,
-          width: 100,
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Container(
+        width: size.width,
+        color: Colors.black,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              AppConstants.Logo,
+              width: 300,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Powered by UM Media",
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            )
+          ],
         ),
       ),
     );

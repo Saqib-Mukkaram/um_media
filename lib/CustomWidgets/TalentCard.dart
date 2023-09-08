@@ -16,38 +16,45 @@ class TalentCard extends StatelessWidget {
     // Size size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.fromLTRB(5, 0, 5, 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        child: Container(
-          color: Color.fromARGB(28, 0, 0, 0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Image.asset(AppConstants.img_photography)
-                netImg
-                    ? Image.network(
-                        src,
-                        width: 200,
-                        height: 270,
-                        fit: BoxFit.fill,
-                      )
-                    : Image.asset(
-                        src,
-                        width: 200,
-                        height: 270,
-                        fit: BoxFit.fill,
+      child: Card(
+        elevation: 8,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          child: Container(
+            color: Colors.white,
+            // color: Color.fromARGB(28, 0, 0, 0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Image.asset(AppConstants.img_photography)
+                  netImg
+                      ? Image.network(
+                          src,
+                          width: 150,
+                          height: 200,
+                          fit: BoxFit.fill,
+                        )
+                      : Image.asset(
+                          src,
+                          width: 150,
+                          height: 200,
+                          fit: BoxFit.fill,
+                        ),
+                  Padding(
+                    padding:  EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: Text(
+                      text.toUpperCase(),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        // backgroundColor: const Color.fromARGB(96, 0, 0, 0),
+                        fontWeight: FontWeight.bold,
                       ),
-                Text(
-                  text.toUpperCase(),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 28,
-                    // backgroundColor: const Color.fromARGB(96, 0, 0, 0),
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ]),
+                    ),
+                  )
+                ]),
+          ),
         ),
       ),
     );

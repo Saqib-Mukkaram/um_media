@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -118,7 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ButtonCustom(
                 buttonText: "login".tr,
                 onPress: () async {
-                  FIXME: "Simple Email Login";
+                  FIXME:
+                  "Simple Email Login";
                   //Verifying the User Cred
                   // var verified = await _controller.LoginRequest(body: {
                   //   "name": emailController.value.text,
@@ -156,7 +158,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     onPressed: () {
-                      FIXME:"Google_Authentication for the login";
+                      FIXME:
+                      "Google_Authentication for the login";
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

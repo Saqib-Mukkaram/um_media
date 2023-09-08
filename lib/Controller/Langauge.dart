@@ -43,7 +43,9 @@ class Languages extends Translations {
           "viewall": "View All >",
           "cant_decide": "Cant Decide ?",
           "let_us_decide":
-              "we’ll help you find the perfect star for your campaign."
+              "we’ll help you find the perfect star for your campaign.",
+          "username": "UserName",
+          "logout":"Logout"
         },
         'de_DE': {
           'hello': 'Hallo Welt',

@@ -13,6 +13,7 @@ class ButtonCustom extends StatefulWidget {
   final double paddingTop;
   final double elevation;
   final double borderRadius;
+  final double fontsize;
 
   const ButtonCustom({
     Key? key,
@@ -26,6 +27,7 @@ class ButtonCustom extends StatefulWidget {
     this.paddingTop = 40,
     this.elevation = 8,
     this.borderRadius = 8,
+    this.fontsize = 18,
     required this.buttonText,
     required this.onPress,
   }) : super(key: key);
