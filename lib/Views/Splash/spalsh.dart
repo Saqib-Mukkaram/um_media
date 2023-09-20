@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Views/Homes/ClientHome/Home.dart';
+import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
 import 'package:um_media/Views/Login/Login.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       Duration(seconds: 2), // Adjust the duration as needed
       () {
-        Get.offAll(LoginScreen());
+        Get.offAll(HomeScreen());
       },
     );
     FIXME:

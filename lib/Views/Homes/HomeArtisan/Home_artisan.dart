@@ -23,7 +23,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  var barNumber = 2;
+  var barNumber = 0;
   late CustomTabButtons _tabButtons;
 
   int CustomBar(int exp) {
@@ -222,9 +222,9 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                           });
                                         },
                                         backgroundColor: Colors.transparent,
-                                        foregroundColor: _isTapped
-                                            ? AppConstants.siteSubColor
-                                            : Colors.white,
+                                        foregroundColor: barNumber == 0
+                                            ? Colors.white
+                                            : AppConstants.siteSubColor,
                                         paddingBottom: 0,
                                         paddingTop: 0,
                                         paddingRight: 8,
@@ -242,7 +242,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                           });
                                         },
                                         backgroundColor: Colors.transparent,
-                                        foregroundColor: _isTapped
+                                        foregroundColor: barNumber == 1
                                             ? Colors.white
                                             : AppConstants.siteSubColor,
                                         paddingLeft: 0,
@@ -259,12 +259,13 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                         onPress: () {
                                           setState(() {
                                             _isbuttonTapped = !_isbuttonTapped;
-                                            barNumber = CustomBar(2);
+                                            barNumber = 2;
                                           });
                                         },
                                         backgroundColor: Colors.transparent,
-                                        foregroundColor:
-                                            AppConstants.siteSubColor,
+                                        foregroundColor: barNumber == 2
+                                            ? Colors.white
+                                            : AppConstants.siteSubColor,
                                         paddingLeft: 8,
                                         paddingBottom: 0,
                                         paddingTop: 0,
@@ -327,34 +328,52 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                     )
                                   : barNumber == 0
                                       ? Container(
-                                          height: 350,
-                                          child: GridView.builder(
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                            ),
-                                            itemCount: _imgs_sana.length,
-                                            padding: EdgeInsets.all(8),
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Padding(
-                                                padding: EdgeInsets.all(4),
-                                                child: Image.asset(
-                                                  _imgs_sana[index],
-                                                  width: 100,
-                                                  height: 100,
-                                                ),
-                                              );
-                                            },
+                                        height: 600,
+                                        child: GridView.builder(
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
                                           ),
-                                        )
-                                      : Column(
-                                          children: [
-                                            ListTile(
-                                              title: Text("Actor"),
-                                              contentPadding: EdgeInsets.all(0),
-                                            ),
-                                          ],
+                                          itemCount: _imgs_sana.length,
+                                          padding: EdgeInsets.all(8),
+                                          itemBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return index == 0
+                                                ? IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(Icons.add))
+                                                : Padding(
+                                                    padding:
+                                                        EdgeInsets.all(4),
+                                                    child: Image.asset(
+                                                      _imgs_sana[index],
+                                                      width: 100,
+                                                      height: 100,
+                                                    ),
+                                                  );
+                                          },
+                                        ),
+                                      )
+                                      : Container(
+                                          height: 500,
+                                          child: ListView.builder(
+                                              itemCount: 2,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return ButtonCustom(
+                                                  borderRadius: 0,
+                                                  paddingBottom: 0,
+                                                  paddingTop: 10,
+                                                  backgroundColor:
+                                                      AppConstants.subTextGrey,
+                                                  foregroundColor:
+                                                      AppConstants.siteSubColor,
+                                                  buttonText: "Actor",
+                                                  onPress: () {},
+                                                );
+                                              }),
                                         )
                             ],
                           ),

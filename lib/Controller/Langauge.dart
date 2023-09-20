@@ -41,12 +41,13 @@ class Languages extends Translations {
           "talents": "Talents",
           "studio": "Studio",
           "viewall": "View All >",
-          "cant_decide": "Cant Decide ?",
+          "join_us_talent": "Join Us!",
           "let_us_decide":
-              "we’ll help you find the perfect star for your campaign.",
+              "Compnay is always on the lookout for up and coming talent.",
           "username": "UserName",
-          "logout":"Logout",
-          "choose_talent": "Choose your Talent"
+          "logout": "Logout",
+          "choose_talent": "Choose your Talent",
+          "apply_now_button": "Apply Now"
         },
         'de_DE': {
           'hello': 'Hallo Welt',

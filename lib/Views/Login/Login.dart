@@ -6,8 +6,8 @@ import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/CustomWidgets/TextWithDividers.dart';
-import 'package:um_media/Views/Home/Home.dart';
-import 'package:um_media/Views/Home/Home_artisan.dart';
+import 'package:um_media/Views/Homes/ClientHome/Home.dart';
+import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
 import 'package:um_media/Views/Reset/ConfirmEmail.dart';
 
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: InkWell(
                       onTap: () {
-                        Get.offAll(HomeArtisanScreen());
+                        // Get.offAll();
                       },
                       child: Text(
                         "forget_password".tr,
@@ -141,7 +141,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   // }
                   Get.offAll(HomeScreen());
                 },
-                backgroundColor: AppConstants.loginButton,
+                backgroundColor: AppConstants.subTextGrey,
+                foregroundColor: AppConstants.siteSubColor,
                 elevation: 2,
               ),
               TextWithDividers(
@@ -150,46 +151,14 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: AppConstants.dividerColor),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      FIXME:
-                      "Google_Authentication for the login";
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            AppConstants.google_icon,
-                            width: 25,
-                          ),
-                        ),
-                        Text(
-                          "google_login".tr,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                        ),
-                      ],
-                    )),
-              ),
+          
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: Colors.white,
                     elevation: 0,
+                    
                   ),
                   onPressed: () {
                     Get.to(RegisterScreen());

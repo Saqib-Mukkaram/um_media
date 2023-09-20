@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:um_media/AppConstants.dart';
 
-// typedef FormValidatorCallback = String? Function(String? value);
-
-class InputField extends StatefulWidget {
+class IconInputField extends StatefulWidget {
   final String placeholderText;
   final TextEditingController fieldController;
   final double width;
@@ -12,23 +11,21 @@ class InputField extends StatefulWidget {
   final double suffixIconImageWidth;
   final double suffixIconImageHeight;
   final double sufficIconPadding;
-  final String? suffixIconImage;
-  final String? prefixIconImage;
+  final Widget? suffixIcon; // Updated to accept both icon and image
+  final Widget? prefixIcon; // Updated to accept both icon and image
   final bool obscureText;
   final TextInputType keyboardType;
-  // late final GlobalKey<FormState> formKey;
 
-  InputField({
+  IconInputField({
     Key? key,
-    // required this.formKey,
     required this.placeholderText,
     required this.fieldController,
     this.width = double.infinity,
     this.fieldPaddingleft = 16,
     this.fieldPaddingright = 16,
-    this.suffixIconImage,
+    this.suffixIcon,
     this.height = 60,
-    this.prefixIconImage,
+    this.prefixIcon,
     this.suffixIconImageHeight = 20,
     this.suffixIconImageWidth = 30,
     this.sufficIconPadding = 8,
@@ -37,36 +34,12 @@ class InputField extends StatefulWidget {
   });
 
   @override
-  State<InputField> createState() => _InputFieldState();
+  State<IconInputField> createState() => _IconInputFieldState();
 }
 
-class _InputFieldState extends State<InputField> {
+class _IconInputFieldState extends State<IconInputField> {
   @override
   Widget build(BuildContext context) {
-    Widget? suffixImage;
-    if (widget.suffixIconImage != null) {
-      suffixImage = Padding(
-        padding: EdgeInsets.all(widget.sufficIconPadding),
-        child: Image.asset(
-          widget.suffixIconImage!,
-          width: widget.suffixIconImageWidth,
-          height: widget.suffixIconImageHeight,
-        ),
-      );
-    }
-
-    Widget? prefixImage;
-    if (widget.prefixIconImage != null && widget.prefixIconImage!.isNotEmpty) {
-      prefixImage = Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Image.asset(
-          widget.prefixIconImage!,
-          width: 30,
-          height: 20,
-        ),
-      );
-    }
-
     return Padding(
       padding: EdgeInsets.fromLTRB(
         widget.fieldPaddingleft,
@@ -89,14 +62,8 @@ class _InputFieldState extends State<InputField> {
           },
           cursorColor: Colors.black,
           decoration: InputDecoration(
-            // border: const OutlineInputBorder(
-            //   borderSide: BorderSide(color: Colors.grey),
-            //   borderRadius: BorderRadius.all(
-            //     Radius.circular(8),
-            //   ),
-            // ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
+              borderSide: BorderSide(color: AppConstants.subTextGrey),
               borderRadius: BorderRadius.all(
                 Radius.circular(8),
               ),
@@ -107,7 +74,6 @@ class _InputFieldState extends State<InputField> {
                 Radius.circular(8),
               ),
             ),
-            // errorText: "This is a requirement",
             focusedErrorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
               borderRadius: BorderRadius.all(
@@ -119,12 +85,11 @@ class _InputFieldState extends State<InputField> {
             hintStyle: TextStyle(
               color: Colors.grey.shade400,
             ),
-            suffixIcon: suffixImage,
-            prefixIcon: prefixImage,
+            suffixIcon: widget.suffixIcon,
+            prefixIcon: widget.prefixIcon,
           ),
           keyboardType: widget.keyboardType,
           obscureText: widget.obscureText,
-          // Hides entered characters
         ),
       ),
     );

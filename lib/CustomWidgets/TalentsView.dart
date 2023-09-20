@@ -44,9 +44,9 @@ class _TalentsViewState extends State<TalentsView> {
             // scrollDirection: Axis.vertical,
             padding: EdgeInsets.all(10.0),
             shrinkWrap: true, // Set shrinkWrap to true
-            itemCount:3 ,
+            itemCount:1 ,
             itemBuilder: (BuildContext context, int index) {
-              return TalentPost() ;
+              return TalentPost();
             },
           ),
         ));
