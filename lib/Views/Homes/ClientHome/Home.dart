@@ -30,20 +30,7 @@ class _HomeScreenState extends State<HomeScreen>
   var data;
   late TabController _tabController;
 
-  var talentlist = [
-    "Actor",
-    "Influencer",
-    "dj",
-    "musician",
-    "Singer",
-    "youtuber",
-    "dancers",
-    "photography"
-  ];
 
-  var talenturl = AppConstants.talentlist;
-
-  var talentsgrid = [];
 
   var radius = 35.0;
   var scaffoldKey;

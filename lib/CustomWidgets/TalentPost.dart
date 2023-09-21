@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/TalentProfile.dart';
+import 'package:um_media/Views/Rooster/RoosterView.dart';
 
 class TalentPost extends StatefulWidget {
   const TalentPost({super.key});
@@ -66,7 +67,8 @@ class _TalentPostState extends State<TalentPost> {
                     ]),
                     child: InkWell(
                       onTap: () {
-                        Get.to(TalentProfile());
+                        //FIXME: THese need to be looked at
+                        Get.to(RoosterView());
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(50)),

@@ -9,6 +9,7 @@ import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
 import 'package:um_media/Views/Login/Login.dart';
 import 'package:um_media/Views/Profile/ProfilePage.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
+import 'package:um_media/Views/Rooster/RoosterView.dart';
 import 'package:um_media/Views/Splash/spalsh.dart';
 import 'package:um_media/Views/Studio/StudioView.dart';
 
@@ -32,6 +33,6 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
             useMaterial3: true,
             fontFamily: "Poppins"),
-        home:HomeScreen());
+        home: RoosterView());
   }
 }
