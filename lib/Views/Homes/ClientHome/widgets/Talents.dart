@@ -15,6 +15,7 @@ class Talents extends StatefulWidget {
 }
 
 class _TalentsState extends State<Talents> {
+  //TODO: Talent Controller for the forward Routes.
   final TalentController _controller = Get.put(TalentController());
 
   @override
@@ -39,6 +40,24 @@ class _TalentsState extends State<Talents> {
           child: FutureBuilder(
               future: _controller.getCategories(),
               builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  //FIXME: SHIMMER is to be Implemented. with Animation
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: CircularProgressIndicator(
+                            color: AppConstants
+                                .siteSubColor), // Show a loading indicator
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                        "Error: Cannot Fetch Data."), // Show an error message
+                  );
+                }
                 if (snapshot.connectionState == ConnectionState.done) {
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -67,7 +86,7 @@ class _TalentsState extends State<Talents> {
                           //     ));
                           //   });
                           // } else {
-                          Get.to(TalentsView());
+                          Get.to(TalentsView(category_id: category.id, category_name: category.name,));
                           // }
                         },
                         child: TalentCard(

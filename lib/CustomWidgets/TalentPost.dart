@@ -3,19 +3,27 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/TalentProfile.dart';
+import 'package:um_media/Models/RoosterInterests.dart';
 import 'package:um_media/Views/Rooster/RoosterView.dart';
 
-class TalentPost extends StatefulWidget {
-  const TalentPost({super.key});
+class TalentPost extends StatelessWidget {
+  final String profilePath;
+  final String imagePath;
+  final String roosterName;
+  final int roosterId;
+  final List<RoosterInterests> roosterTags;
+  const TalentPost(
+      {required this.roosterId,
+      required this.roosterName,
+      required this.imagePath,
+      required this.profilePath,
+      required this.roosterTags,
+      super.key});
 
-  @override
-  State<TalentPost> createState() => _TalentPostState();
-}
-
-class _TalentPostState extends State<TalentPost> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String tagsText = roosterTags.map((tag) => tag.name).join(', ');
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Stack(
@@ -28,21 +36,15 @@ class _TalentPostState extends State<TalentPost> {
                 SizedBox(
                   height: 60,
                 ),
+                //  TODO: Needs to be FIXED //
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: Image.asset(
-                      "assets/imgs/People/Sana-1.png",
-                      width: size.width,
-                    ),
+                    child: Image.network(imagePath,
+                        width: size.width, height: 300, fit: BoxFit.fill),
                   ),
                 ),
-                // Divider(
-                //   indent: 16,
-                //   endIndent: 16,
-                //   color: AppConstants.siteSubColor,
-                // ),
               ],
             ),
           ),
@@ -70,11 +72,14 @@ class _TalentPostState extends State<TalentPost> {
                         //FIXME: THese need to be looked at
                         Get.to(RoosterView());
                       },
+                      //FIXME: Images are to be Like Fixed
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
-                        child: Image.asset(
-                          "assets/imgs/People/Sana-1.png",
+                        child: Image.network(
+                          profilePath,
                           width: 75,
+                          height: 75,
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
@@ -90,7 +95,7 @@ class _TalentPostState extends State<TalentPost> {
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 25, 0, 0),
                 child: Text(
-                  "Sana Mirza",
+                  roosterName,
                   style: TextStyle(fontSize: 18),
                 ),
               ),
@@ -98,7 +103,7 @@ class _TalentPostState extends State<TalentPost> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 25, 20, 0),
                 child: Text(
-                  "#actor, #model",
+                  tagsText,
                   style:
                       TextStyle(fontSize: 12, color: AppConstants.subTextGrey),
                 ),

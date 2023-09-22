@@ -1,4 +1,4 @@
-class RosterData {
+class RoosterData {
   final int id;
   final String firstName;
   final String lastName;
@@ -10,10 +10,10 @@ class RosterData {
   final String country;
   final String dob;
   final String profile_image;
-  final String weight;
-  final String height;
+  final String? weight;
+  final String? height;
 
-  RosterData(
+  RoosterData(
       {required this.id,
       required this.firstName,
       required this.lastName,
@@ -29,8 +29,8 @@ class RosterData {
       required this.height
       });
 
-  factory RosterData.fromJson(Map<String, dynamic> json) {
-    return RosterData(
+  factory RoosterData.fromJson(Map<String, dynamic> json) {
+    return RoosterData(
         id: json['id'],
         firstName: json['first_name'],
         lastName: json['last_name'],

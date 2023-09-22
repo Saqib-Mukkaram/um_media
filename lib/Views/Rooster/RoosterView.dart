@@ -14,28 +14,24 @@ class RoosterView extends StatefulWidget {
 }
 
 class _RoosterViewState extends State<RoosterView> {
-  RoosterController _controller = RoosterController();
+  //FIXME: Need to Come back here for testing if this is necessary
+  RoosterController _controller = Get.find();
 
-  var _isTapped = RxBool(false);
-  bool _isbuttonTapped = false;
+  RxBool _isTapped = false.obs;
+
+  var _isbuttonTapped = false.obs;
   var _imgs_sana = AppConstants.img_sana;
-  var infolist = [
-    "Sana Mirza",
-    "Lahore Pakistan",
-    "26",
-    "81cm",
-    "66cm",
-    "89cm"
+
+ 
+
+  var infohead = [
+    "Name",
+    "Location",
+    "Date of Birth",
+    "Number",
+    "Weight",
+    "Height"
   ];
-
-  Future<Future> PageFuture() {
-     _controller.fetchRoosters();
-     _controller.fetchRoostersImages();
-     _controller.fetchRoostersInterests();
-    return Future.delayed(Duration(seconds: 1));
-  }
-
-  var infohead = ["Name", "Location", "Date of Birth", "Bust", "Waist", "Hips"];
   final infoIcons = [
     Icon(
       Icons.person_outlined,
@@ -62,11 +58,6 @@ class _RoosterViewState extends State<RoosterView> {
       color: AppConstants.subTextGrey,
     ),
   ];
-  void _handlefunctionTap() {
-    setState(() {
-      _isbuttonTapped = !_isbuttonTapped;
-    });
-  }
 
   var scaffoldkey;
   @override
@@ -75,8 +66,9 @@ class _RoosterViewState extends State<RoosterView> {
     scaffoldkey = GlobalKey<ScaffoldState>();
     // _controller.fetchRoostersInterests();
     // _controller.fetchRoosters();
-    PageFuture();
-    _isTapped = false.obs;
+    // PageFuture();
+    // _controller = RoosterController();
+    // _isTapped = false.obs;
     super.initState();
   }
 
@@ -111,44 +103,66 @@ class _RoosterViewState extends State<RoosterView> {
         ),
       ),
       body: FutureBuilder(
-          future: PageFuture(),
-          builder: (context, snaphsot) {
+          future: _controller.fetchAll(),
+          builder: (context, snapshot) {
             List<Widget> widgets = [];
-            for (int i = 0; i < _controller.roosterInterests.length; i++) {
-              var interests = _controller.roosterInterests.elementAt(i);
-              widgets.add(
-                Padding(
-                  padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Handle button press
-                    },
-                    child: Text(
-                      interests.name,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: AppConstants.siteSubColor,
-                      backgroundColor: AppConstants.subTextGrey,
-                      minimumSize: Size(40, 20),
-                    ),
+
+            var rooster;
+            var rooster_images;
+            // var rooster_interests = _controller.roosterInterests.first;
+            var tilelist = [];
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(
+                        color: AppConstants
+                            .siteSubColor), // Show a loading indicator
                   ),
-                ),
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child:
+                    Text("Error: Cannot Fetch Data."), // Show an error message
               );
             }
-            var rooster = _controller.roosterList.first;
-            var rooster_images = _controller.roosterImages.first;
-            // var rooster_interests = _controller.roosterInterests.first;
-            var tilelist = [
-              "${rooster.firstName} ${rooster.lastName}",
-              "${rooster.city} ${rooster.country}",
-              rooster.dob,
-              rooster.phone,
-              rooster.weight,
-              rooster.height
-            ];
 
-            if (snaphsot.connectionState == ConnectionState.done) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              rooster = _controller.roosterList.first;
+              rooster_images = _controller.roosterImages;
+              tilelist = [
+                "${rooster.firstName} ${rooster.lastName}",
+                "${rooster.city} ${rooster.country}",
+                rooster.dob,
+                rooster.phone,
+                rooster.weight,
+                rooster.height
+              ];
+              for (int i = 0; i < _controller.roosterInterests.length; i++) {
+                var interests = _controller.roosterInterests.elementAt(i);
+                widgets.add(
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle button press
+                      },
+                      child: Text(
+                        interests.name,
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: AppConstants.siteSubColor,
+                        backgroundColor: AppConstants.subTextGrey,
+                        minimumSize: Size(40, 20),
+                      ),
+                    ),
+                  ),
+                );
+              }
               return SingleChildScrollView(
                 child: SafeArea(
                   child: Center(
@@ -157,12 +171,13 @@ class _RoosterViewState extends State<RoosterView> {
                         SizedBox(
                           height: 20,
                         ),
+                        //FIXME: THis is yet to be Looked AT.
                         ClipOval(
                           child: Image.network(
                             AppConstants.base_URL + rooster.profile_image,
                             width: 150,
                             height: 150,
-                            fit: BoxFit.scaleDown,
+                            fit: BoxFit.fill,
                           ),
                         ),
                         SizedBox(
@@ -239,69 +254,79 @@ class _RoosterViewState extends State<RoosterView> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                ButtonCustom(
-                                  elevation: 0,
-                                  height: 25,
-                                  width: size.width / 4,
-                                  buttonText: "Photos".toUpperCase(),
-                                  fontsize: 12,
-                                  onPress: () {
-                                    setState(() {
-                                      _isTapped.value = false;
-                                    });
-                                    // _isTapped.value = false;
-                                  },
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: _isTapped.value
-                                      ? AppConstants.siteSubColor
-                                      : Colors.white,
-                                  paddingBottom: 0,
-                                  paddingTop: 0,
-                                  paddingRight: 8,
-                                ),
-                                ButtonCustom(
-                                  elevation: 0,
-                                  height: 25,
-                                  fontsize: 12,
-                                  width: size.width / 4,
-                                  buttonText: "Info".toUpperCase(),
-                                  onPress: () {
-                                    setState(() {
-                                      _isTapped.value = true;
-                                    });
-                                    // _isTapped.value = true;
-                                  },
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: _isTapped.value
-                                      ? Colors.white
-                                      : AppConstants.siteSubColor,
-                                  paddingLeft: 0,
-                                  paddingBottom: 0,
-                                  paddingTop: 0,
-                                  paddingRight: 0,
-                                ),
-                                ButtonCustom(
-                                  elevation: 0,
-                                  height: 25,
-                                  fontsize: 12,
-                                  width: size.width / 4,
-                                  buttonText: _isbuttonTapped
-                                      ? "enquired".toUpperCase()
-                                      : "Enquire".toUpperCase(),
-                                  onPress: () {
-                                    setState(() {
-                                      _isbuttonTapped = !_isbuttonTapped;
-                                    });
-                                  },
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: _isbuttonTapped
-                                      ? Colors.white
-                                      : AppConstants.siteSubColor,
-                                  paddingLeft: 8,
-                                  paddingBottom: 0,
-                                  paddingTop: 0,
-                                  paddingRight: 0,
-                                )
+                                Obx(() => ButtonCustom(
+                                      elevation: 0,
+                                      height: 25,
+                                      width: size.width / 4,
+                                      buttonText: "Photos".toUpperCase(),
+                                      fontsize: 12,
+                                      onPress: () {
+                                        //FIXME: THis is to be Looked at
+                                        // setState(() {
+                                        //   _isTapped.value = false;
+                                        // });
+                                        _isTapped.value = false;
+                                      },
+                                      backgroundColor: Colors.transparent,
+                                      foregroundColor: _isTapped.value
+                                          ? AppConstants.siteSubColor
+                                          : Colors.white,
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
+                                      paddingRight: 8,
+                                    )),
+                                Obx(() => ButtonCustom(
+                                      elevation: 0,
+                                      height: 25,
+                                      fontsize: 12,
+                                      width: size.width / 4,
+                                      buttonText: "Info".toUpperCase(),
+                                      onPress: () {
+                                        // setState(() {
+                                        //   _isTapped.value = true;
+                                        // });
+                                        _isTapped.value = true;
+                                      },
+                                      backgroundColor: Colors.transparent,
+                                      foregroundColor: _isTapped.value
+                                          ? Colors.white
+                                          : AppConstants.siteSubColor,
+                                      paddingLeft: 0,
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
+                                      paddingRight: 0,
+                                    )),
+                                    //TODO: Put in it the bottom of the page.
+                                Obx(() => ButtonCustom(
+                                      elevation: 0,
+                                      height: 25,
+                                      fontsize: 12,
+                                      width: size.width / 4,
+                                      buttonText: _isbuttonTapped.value
+                                          ? "enquired".toUpperCase()
+                                          : "Enquire".toUpperCase(),
+                                      onPress: () {
+                                        //TODO: THis is to be Implemented
+                                        _isbuttonTapped.toggle();
+                                        _isbuttonTapped.value
+                                            ? Get.defaultDialog(
+                                                title: "Rooster Enquired",
+                                                middleText:
+                                                    "Check Enquire List.")
+                                            : Get.defaultDialog(
+                                                title: "Enquiry Canceled.",
+                                                middleText:
+                                                    "Rooster removed from Enquire List");
+                                      },
+                                      backgroundColor: Colors.transparent,
+                                      foregroundColor: _isbuttonTapped.value
+                                          ? Colors.white
+                                          : AppConstants.siteSubColor,
+                                      paddingLeft: 8,
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
+                                      paddingRight: 0,
+                                    ))
                               ],
                             ),
                           ),
@@ -313,79 +338,89 @@ class _RoosterViewState extends State<RoosterView> {
                         // ),
                         SingleChildScrollView(
                           child: AnimatedSwitcher(
-                            duration: Duration(milliseconds: 500),
-                            child: _isTapped.value
-                                ? Row(
-                                    children: [
-                                      Container(
-                                        width: 200,
-                                        height: 300,
-                                        child: ListView.builder(
-                                            itemCount: 3,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return ListTile(
-                                                  visualDensity: VisualDensity(
-                                                      vertical: -4),
-                                                  leading: infoIcons[index],
-                                                  title: Text(infohead[index]),
-                                                  subtitle:
-                                                      Text(tilelist[index]),
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          16, 0, 0, 0));
-                                            }),
-                                      ),
-                                      Container(
-                                        width: 200,
-                                        height: 300,
-                                        child: ListView.builder(
-                                            itemCount: 3,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return ListTile(
-                                                  visualDensity: VisualDensity(
-                                                      vertical: -4),
-                                                  leading: infoIcons[index + 3],
-                                                  title:
-                                                      Text(infohead[index + 3]),
-                                                  subtitle:
-                                                      Text(tilelist[index + 3]),
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          16, 0, 0, 0));
-                                            }),
-                                      ),
-                                    ],
-                                  )
-                                : Container(
-                                    height: 350,
-                                    child: GridView.builder(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                      ),
-                                      itemCount:
-                                          _controller.roosterImages.length,
-                                      padding: EdgeInsets.all(8),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        var roosterPhoto = _controller
-                                            .roosterImages
-                                            .elementAt(index);
-                                        return Padding(
-                                          padding: EdgeInsets.all(4),
-                                          child: Image.network(
-                                            AppConstants.base_URL +
-                                                roosterPhoto.image,
+                              duration: Duration(milliseconds: 500),
+                              child: Obx(() {
+                                return _isTapped.value
+                                    ? Row(
+                                        children: [
+                                          Container(
                                             width: 200,
-                                            height: 100,
+                                            height: 300,
+                                            child: ListView.builder(
+                                                itemCount: 3,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return ListTile(
+                                                      visualDensity:
+                                                          VisualDensity(
+                                                              vertical: -4),
+                                                      leading:
+                                                          infoIcons[index],
+                                                      title: Text(
+                                                          infohead[index]),
+                                                      subtitle: Text(
+                                                          tilelist[index]
+                                                              .toString()),
+                                                      contentPadding:
+                                                          EdgeInsets.fromLTRB(
+                                                              16, 0, 0, 0));
+                                                }),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                          ),
+                                          Container(
+                                            width: 200,
+                                            height: 300,
+                                            child: ListView.builder(
+                                                itemCount: 3,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return ListTile(
+                                                      visualDensity:
+                                                          VisualDensity(
+                                                              vertical: -4),
+                                                      leading: infoIcons[
+                                                          index + 3],
+                                                      title: Text(infohead[
+                                                          index + 3]),
+                                                      subtitle: Text(
+                                                          tilelist[index + 3]
+                                                              .toString()),
+                                                      contentPadding:
+                                                          EdgeInsets.fromLTRB(
+                                                              16, 0, 0, 0));
+                                                }),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(
+                                        height: 350,
+                                        child: GridView.builder(
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                          ),
+                                          itemCount: _controller
+                                              .roosterImages.length,
+                                          padding: EdgeInsets.all(8),
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            var roosterPhoto = _controller
+                                                .roosterImages
+                                                .elementAt(index);
+                                            return Padding(
+                                              padding: EdgeInsets.all(4),
+                                              child: Image.network(
+                                                AppConstants.base_URL +
+                                                    roosterPhoto.image,
+                                                width: 200,
+                                                height: 100,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                              })),
                         ),
                         // ButtonCustom(
                         //   buttonText: "Enquire Now",

@@ -1,57 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:um_media/CustomWidgets/CustomAppBar.dart';
-import 'package:um_media/CustomWidgets/SideBar.dart';
+import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/RoosterController.dart';
+import 'package:um_media/Controller/TalentController.dart';
+
 import 'package:um_media/CustomWidgets/TalentPost.dart';
-import 'package:um_media/CustomWidgets/TalentProfile.dart';
+import 'package:um_media/Models/RoosterImages.dart';
 
-class TalentsView extends StatefulWidget {
-  const TalentsView({super.key});
-
-  @override
-  State<TalentsView> createState() => _TalentsViewState();
-}
-
-class _TalentsViewState extends State<TalentsView> {
-  var scaffoldKey;
-  @override
-  void initState() {
-    // TODO: implement initState
-    scaffoldKey = GlobalKey<ScaffoldState>();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  var talentslist = ["Sana Mirza"];
-  var talenturl = ["assets/imgs/People/Sana-2.png"];
+class TalentsView extends StatelessWidget {
+  TalentController _talentController = Get.find();
+  RoosterController _roosterController = Get.put(RoosterController());
+  final int category_id;
+  final String category_name;
+  TalentsView(
+      {required this.category_id, required this.category_name, super.key});
 
   @override
   Widget build(BuildContext context) {
     // var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        key: scaffoldKey,
-        drawer: SideBar(),
-        appBar: CustomAppBar(
-          scaffoldkey: scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: AppConstants.subTextGrey,
+          leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              )),
+          title: Text(
+            "Back",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         body: SafeArea(
-          child: ListView.builder(
-            // scrollDirection: Axis.vertical,
-            padding: EdgeInsets.all(10.0),
-            shrinkWrap: true, // Set shrinkWrap to true
-            itemCount:1 ,
-            itemBuilder: (BuildContext context, int index) {
-              return TalentPost();
-            },
+          child: RefreshIndicator(
+            onRefresh: () async {},
+            child: FutureBuilder(
+                future: _roosterController.fetchAll(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(
+                              color: AppConstants
+                                  .siteSubColor), // Show a loading indicator
+                        ),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                          "Error: Cannot Fetch Data. "), // Show an error message
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return ListView.builder(
+                      // scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.all(10.0),
+                      shrinkWrap: true, // Set shrinkWrap to true
+                      itemCount: _roosterController.roosterList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        // var talentCategory =
+                        //     _talentController.categories.elementAt(index);
+                        var rooster_img =
+                            _roosterController.roosterImages.elementAt(index);
+                        var rooster_interest =
+                            _roosterController.roosterInterests;
+                        var rooster_list =
+                            _roosterController.roosterList.elementAt(index);
+                        List<RoosterImages> rooster_gallery =
+                            _roosterController.roosterGallery.elementAt(index);
+
+                        print(rooster_gallery.elementAt(index));
+                        return TalentPost(
+                          roosterId: rooster_list.id,
+                          imagePath: AppConstants.base_URL + rooster_img.image,
+                          profilePath: AppConstants.base_URL +
+                              rooster_list.profile_image,
+                          roosterName:
+                              rooster_list.firstName + rooster_list.lastName,
+                          roosterTags: rooster_interest,
+                        );
+                      },
+                    );
+                  } else {
+                    return Text("Loading");
+                  }
+                }),
           ),
         ));
   }
 }
+
 // 
 //  Row(
 //                   mainAxisSize: MainAxisSize.min,

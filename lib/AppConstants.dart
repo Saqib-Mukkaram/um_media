@@ -77,6 +77,7 @@ class AppConstants {
   static const String studio_details = "/api/studio/details";
   static const String register = "api/register";
   static const String login = "api/login";
+  static const String rooster_list = "/api/roster";
   static const httpHeader = {
     'Accept': 'application/json',
     'Authorization': 'Bearer ${AppConstants.API_TOKEN}',

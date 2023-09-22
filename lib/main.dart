@@ -33,6 +33,6 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
             useMaterial3: true,
             fontFamily: "Poppins"),
-        home: RoosterView());
+        home: HomeScreen());
   }
 }
