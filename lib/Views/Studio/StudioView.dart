@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
-import 'package:um_media/CustomWidgets/StudioBookingScreen.dart';
+import 'package:um_media/Views/Studio/StudioBookingScreen.dart';
 
 class StudioView extends StatefulWidget {
   const StudioView({super.key});
@@ -23,8 +23,10 @@ class _StudioViewState extends State<StudioView> {
   }
 
   Future<void> _refresh() async {
-    await _controller.getStudios();
-    await _controller.getStudioList();
+    setState(() {
+       _controller.getStudios();
+    _controller.getStudioList();
+    });
   }
 
   @override

@@ -70,7 +70,7 @@ class TalentPost extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         //FIXME: THese need to be looked at
-                        Get.to(RoosterView());
+                        Get.to(RoosterView(rooster_id:roosterId,));
                       },
                       //FIXME: Images are to be Like Fixed
                       child: ClipRRect(

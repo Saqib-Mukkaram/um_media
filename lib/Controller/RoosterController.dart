@@ -9,15 +9,20 @@ import 'package:um_media/Models/RoosterInterests.dart';
 
 class RoosterController extends GetxController {
   List<RoosterData> roosterList = [];
-  List<RoosterImages> roosterImages = [];
-  List<RoosterInterests> roosterInterests = [];
-  List<dynamic> roosterGallery = [];
+  List<RoosterImages> _roosterImages = [];
+  List<RoosterInterests> _rooster_interests = [];
+  List<List<RoosterInterests>> roosterInterests = [];
+  List<List<RoosterImages>> roosterGallery = [];
 
   Future<void> fetchAll() async {
     await getRoosters();
     Future.delayed(Duration(milliseconds: 500));
     await fetchRoosterData();
     Future.delayed(Duration(milliseconds: 500));
+    var specific = roosterList.first.interest?.first;
+    var value = specific?.entries.first;
+    print(value?.value);
+    // print(roosterList.first.interest.map((key, value) => ));
     // await fetchRoostersImages();
     // await fetchRoostersInterests();
   }
@@ -70,8 +75,9 @@ class RoosterController extends GetxController {
     // print(response.body);
     var roosdata =
         jsonDecode(response.body)['data']['interest'] as List<dynamic>;
-    roosterInterests =
+    _rooster_interests =
         roosdata.map((e) => RoosterInterests.fromJson(e)).toList();
+    roosterInterests.add(_rooster_interests);
   }
 
   Future<void> fetchSingleRoostersImages({required int id}) async {
@@ -81,8 +87,8 @@ class RoosterController extends GetxController {
         body: {"roster_id": "${id}"});
     // print(response.body);
     var data = jsonDecode(response.body)['data']['gallery'] as List<dynamic>;
-    roosterImages = data.map((e) => RoosterImages.fromjson(e)).toList();
-    roosterGallery.add(roosterImages);
+    _roosterImages = data.map((e) => RoosterImages.fromjson(e)).toList();
+    roosterGallery.add(_roosterImages);
   }
 
   Future<void> fetchRoosterData() async {

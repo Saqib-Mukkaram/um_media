@@ -5,9 +5,12 @@ import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/CustomAppBar.dart';
 import 'package:um_media/Models/Rooster.dart';
+import 'package:um_media/Models/RoosterImages.dart';
+import 'package:um_media/Models/RoosterInterests.dart';
 
 class RoosterView extends StatefulWidget {
-  const RoosterView({super.key});
+  final int rooster_id;
+  RoosterView({required this.rooster_id, super.key});
 
   @override
   State<RoosterView> createState() => _RoosterViewState();
@@ -15,14 +18,11 @@ class RoosterView extends StatefulWidget {
 
 class _RoosterViewState extends State<RoosterView> {
   //FIXME: Need to Come back here for testing if this is necessary
-  RoosterController _controller = Get.find();
+  RoosterController _controller = RoosterController();
 
   RxBool _isTapped = false.obs;
 
   var _isbuttonTapped = false.obs;
-  var _imgs_sana = AppConstants.img_sana;
-
- 
 
   var infohead = [
     "Name",
@@ -32,6 +32,7 @@ class _RoosterViewState extends State<RoosterView> {
     "Weight",
     "Height"
   ];
+
   final infoIcons = [
     Icon(
       Icons.person_outlined,
@@ -63,12 +64,6 @@ class _RoosterViewState extends State<RoosterView> {
   @override
   void initState() {
     // TODO: implement initState
-    scaffoldkey = GlobalKey<ScaffoldState>();
-    // _controller.fetchRoostersInterests();
-    // _controller.fetchRoosters();
-    // PageFuture();
-    // _controller = RoosterController();
-    // _isTapped = false.obs;
     super.initState();
   }
 
@@ -79,7 +74,6 @@ class _RoosterViewState extends State<RoosterView> {
   }
 
   // Create widgets and add them to the list
-
   @override
   Widget build(BuildContext context) {
     //TODO: TAKE A LOOK
@@ -106,9 +100,7 @@ class _RoosterViewState extends State<RoosterView> {
           future: _controller.fetchAll(),
           builder: (context, snapshot) {
             List<Widget> widgets = [];
-
-            var rooster;
-            var rooster_images;
+            List<RoosterData> rooster;
             // var rooster_interests = _controller.roosterInterests.first;
             var tilelist = [];
 
@@ -131,18 +123,38 @@ class _RoosterViewState extends State<RoosterView> {
             }
 
             if (snapshot.connectionState == ConnectionState.done) {
-              rooster = _controller.roosterList.first;
-              rooster_images = _controller.roosterImages;
+              rooster = _controller.roosterList
+                  .where((element) => element.id == widget.rooster_id)
+                  .toList();
+              var rooster_data = rooster.first;
+
+              // rooster_images = _controller.roosterGallery.where((element) => element.roster_id == widget.rooster_id).toList();
+              List<List<RoosterImages>> rooster_images = _controller
+                  .roosterGallery
+                  .where((innerList) => innerList
+                      .any((element) => element.roster_id == widget.rooster_id))
+                  .toList();
+
               tilelist = [
-                "${rooster.firstName} ${rooster.lastName}",
-                "${rooster.city} ${rooster.country}",
-                rooster.dob,
-                rooster.phone,
-                rooster.weight,
-                rooster.height
+                "${rooster_data.firstName} ${rooster_data.lastName}",
+                "${rooster_data.city} ${rooster_data.country}",
+                rooster_data.dob,
+                rooster_data.phone,
+                rooster_data.weight,
+                rooster_data.height
               ];
-              for (int i = 0; i < _controller.roosterInterests.length; i++) {
-                var interests = _controller.roosterInterests.elementAt(i);
+              print(" ${rooster_data.firstName} \n${rooster_data.lastName}\n");
+              List<List<RoosterInterests>> rooster_interests = _controller
+                  .roosterInterests
+                  .where((innerList) => innerList
+                      .any((element) => element.roosterId == widget.rooster_id))
+                  .toList();
+              
+              for (int i = 0; i < rooster_interests.first.length ; i++) {
+                print("Rooster Interests Length = ${rooster_interests.length}");
+                var interestsdata = rooster_interests.first;
+                var interests = interestsdata.elementAt(i);
+
                 widgets.add(
                   Padding(
                     padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -174,7 +186,7 @@ class _RoosterViewState extends State<RoosterView> {
                         //FIXME: THis is yet to be Looked AT.
                         ClipOval(
                           child: Image.network(
-                            AppConstants.base_URL + rooster.profile_image,
+                            AppConstants.base_URL + rooster_data.profile_image,
                             width: 150,
                             height: 150,
                             fit: BoxFit.fill,
@@ -184,7 +196,7 @@ class _RoosterViewState extends State<RoosterView> {
                           height: 10,
                         ),
                         Text(
-                          "${rooster.firstName} ${rooster.lastName}",
+                          "${rooster_data.firstName} ${rooster_data.lastName}",
                           style: TextStyle(
                               color: AppConstants.subTextGrey, fontSize: 18),
                         ),
@@ -295,38 +307,8 @@ class _RoosterViewState extends State<RoosterView> {
                                       paddingBottom: 0,
                                       paddingTop: 0,
                                       paddingRight: 0,
-                                    )),
-                                    //TODO: Put in it the bottom of the page.
-                                Obx(() => ButtonCustom(
-                                      elevation: 0,
-                                      height: 25,
-                                      fontsize: 12,
-                                      width: size.width / 4,
-                                      buttonText: _isbuttonTapped.value
-                                          ? "enquired".toUpperCase()
-                                          : "Enquire".toUpperCase(),
-                                      onPress: () {
-                                        //TODO: THis is to be Implemented
-                                        _isbuttonTapped.toggle();
-                                        _isbuttonTapped.value
-                                            ? Get.defaultDialog(
-                                                title: "Rooster Enquired",
-                                                middleText:
-                                                    "Check Enquire List.")
-                                            : Get.defaultDialog(
-                                                title: "Enquiry Canceled.",
-                                                middleText:
-                                                    "Rooster removed from Enquire List");
-                                      },
-                                      backgroundColor: Colors.transparent,
-                                      foregroundColor: _isbuttonTapped.value
-                                          ? Colors.white
-                                          : AppConstants.siteSubColor,
-                                      paddingLeft: 8,
-                                      paddingBottom: 0,
-                                      paddingTop: 0,
-                                      paddingRight: 0,
-                                    ))
+                                    ),),
+                                //TODO: Put in it the bottom of the page.
                               ],
                             ),
                           ),
@@ -351,14 +333,15 @@ class _RoosterViewState extends State<RoosterView> {
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
+                                                  print(
+                                                      "this is working -- Info");
                                                   return ListTile(
                                                       visualDensity:
                                                           VisualDensity(
                                                               vertical: -4),
-                                                      leading:
-                                                          infoIcons[index],
-                                                      title: Text(
-                                                          infohead[index]),
+                                                      leading: infoIcons[index],
+                                                      title:
+                                                          Text(infohead[index]),
                                                       subtitle: Text(
                                                           tilelist[index]
                                                               .toString()),
@@ -375,14 +358,16 @@ class _RoosterViewState extends State<RoosterView> {
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
+                                                  print(
+                                                      "info List is Working Correctly");
                                                   return ListTile(
                                                       visualDensity:
                                                           VisualDensity(
                                                               vertical: -4),
-                                                      leading: infoIcons[
-                                                          index + 3],
-                                                      title: Text(infohead[
-                                                          index + 3]),
+                                                      leading:
+                                                          infoIcons[index + 3],
+                                                      title: Text(
+                                                          infohead[index + 3]),
                                                       subtitle: Text(
                                                           tilelist[index + 3]
                                                               .toString()),
@@ -400,14 +385,17 @@ class _RoosterViewState extends State<RoosterView> {
                                               const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 3,
                                           ),
-                                          itemCount: _controller
-                                              .roosterImages.length,
+                                          //FIXME: Hardcoded VALUE
+                                          itemCount: 5,
                                           padding: EdgeInsets.all(8),
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            var roosterPhoto = _controller
-                                                .roosterImages
-                                                .elementAt(index);
+                                            print(
+                                                "Rooster images length == ${rooster_images}");
+                                            var roostergallery =
+                                                rooster_images.first;
+                                            var roosterPhoto =
+                                                roostergallery.elementAt(index);
                                             return Padding(
                                               padding: EdgeInsets.all(4),
                                               child: Image.network(
@@ -430,6 +418,38 @@ class _RoosterViewState extends State<RoosterView> {
                         //   backgroundColor: AppConstants.subTextGrey,
                         //   foregroundColor: AppConstants.siteSubColor,
                         // )
+                        Obx(() => ButtonCustom(
+                                      elevation: 0,
+                                      
+                                      fontsize: 12,
+                                      width: size.width  - 32,
+                                      buttonText: _isbuttonTapped.value
+                                          ? "enquired".toUpperCase()
+                                          : "Enquire".toUpperCase(),
+                                      onPress: () {
+                                        //TODO: THis is to be Implemented
+                                        _isbuttonTapped.toggle();
+                                        _isbuttonTapped.value
+                                            ? Get.defaultDialog(
+                                                title: "Rooster Enquired",
+                                                middleText:
+                                                    "Check Enquire List.")
+                                            : Get.defaultDialog(
+                                                title: "Enquiry Canceled.",
+                                                middleText:
+                                                    "Rooster removed from Enquire List");
+                                      },
+                                      backgroundColor: _isbuttonTapped.value
+                                          ? AppConstants.siteSubColor
+                                          : AppConstants.subTextGrey,
+                                      foregroundColor: _isbuttonTapped.value
+                                          ? Colors.white
+                                          : AppConstants.siteSubColor,
+                                      paddingLeft: 8,
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
+                                      paddingRight: 0,
+                                    ))
                       ],
                     ),
                   ),

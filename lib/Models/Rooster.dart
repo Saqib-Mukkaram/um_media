@@ -1,3 +1,5 @@
+import 'package:um_media/Models/RoosterInterests.dart';
+
 class RoosterData {
   final int id;
   final String firstName;
@@ -12,22 +14,27 @@ class RoosterData {
   final String profile_image;
   final String? weight;
   final String? height;
+  // final List<dynamic, dynamic> interst;
+  final List<Map<String, dynamic>>? interest;
+  final Map<String, dynamic>? gallery;
 
-  RoosterData(
-      {required this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.gender,
-      required this.phone,
-      required this.email,
-      required this.city,
-      required this.state,
-      required this.country,
-      required this.dob,
-      required this.profile_image,
-      required this.weight,
-      required this.height
-      });
+  RoosterData({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.phone,
+    required this.email,
+    required this.city,
+    required this.state,
+    required this.country,
+    required this.dob,
+    required this.profile_image,
+    required this.weight,
+    required this.height,
+    required this.gallery,
+    required this.interest,
+  });
 
   factory RoosterData.fromJson(Map<String, dynamic> json) {
     return RoosterData(
@@ -43,7 +50,8 @@ class RoosterData {
         dob: json['dob'],
         profile_image: json['profile_image'],
         weight: json['weight'],
-        height: json['height']
-        );
+        height: json['height'],
+        interest: json['interest'],
+        gallery: json['gallery']);
   }
 }

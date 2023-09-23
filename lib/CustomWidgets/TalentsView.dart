@@ -5,15 +5,29 @@ import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 
 import 'package:um_media/CustomWidgets/TalentPost.dart';
+import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Models/RoosterImages.dart';
 
-class TalentsView extends StatelessWidget {
-  TalentController _talentController = Get.find();
-  RoosterController _roosterController = Get.put(RoosterController());
+class TalentsView extends StatefulWidget {
   final int category_id;
   final String category_name;
   TalentsView(
       {required this.category_id, required this.category_name, super.key});
+
+  @override
+  State<TalentsView> createState() => _TalentsViewState();
+}
+
+class _TalentsViewState extends State<TalentsView> {
+  TalentController _talentController = Get.find();
+
+  RoosterController _roosterController = RoosterController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +44,17 @@ class TalentsView extends StatelessWidget {
                 Icons.arrow_back,
                 color: Colors.white,
               )),
+          centerTitle: true,
           title: Text(
-            "Back",
+            widget.category_name.toUpperCase(),
             style: TextStyle(color: Colors.white),
           ),
         ),
         body: SafeArea(
           child: RefreshIndicator(
-            onRefresh: () async {},
+            onRefresh: () async {
+              await _roosterController.fetchAll();
+            },
             child: FutureBuilder(
                 future: _roosterController.fetchAll(),
                 builder: (context, snapshot) {
@@ -55,10 +72,19 @@ class TalentsView extends StatelessWidget {
                   } else if (snapshot.hasError) {
                     return Center(
                       child: Text(
-                          "Error: Cannot Fetch Data. "), // Show an error message
+                          "Error: Cannot Fetch Data. ${snapshot.error} "), // Show an error message
                     );
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
+                    // var specificRooster =
+                    //     _roosterController.roosterList.where((element) {
+                    //   return element.interest_name.any(
+                    //       (element) => element.name == widget.category_name);
+                    // // }).toList();
+                    // print(specificRooster.length);
+                    // print(specificRooster.elementAt(1));
+                    var list = _roosterController.roosterList.first;
+                    // list.interest.map((key, value) => )
                     return ListView.builder(
                       // scrollDirection: Axis.vertical,
                       padding: EdgeInsets.all(10.0),
@@ -68,18 +94,18 @@ class TalentsView extends StatelessWidget {
                         // var talentCategory =
                         //     _talentController.categories.elementAt(index);
                         var rooster_img =
-                            _roosterController.roosterImages.elementAt(index);
-                        var rooster_interest =
-                            _roosterController.roosterInterests;
+                            _roosterController.roosterGallery.elementAt(index);
+                        var rooster_interest = _roosterController
+                            .roosterInterests
+                            .elementAt(index);
                         var rooster_list =
                             _roosterController.roosterList.elementAt(index);
-                        List<RoosterImages> rooster_gallery =
-                            _roosterController.roosterGallery.elementAt(index);
-
-                        print(rooster_gallery.elementAt(index));
+                        var rooster_gallery = rooster_img.elementAt(index);
+                        // List<RoosterData> roosterData = _roosterController.roosterList.where((element) => element. )
                         return TalentPost(
                           roosterId: rooster_list.id,
-                          imagePath: AppConstants.base_URL + rooster_img.image,
+                          imagePath:
+                              AppConstants.base_URL + rooster_gallery.image,
                           profilePath: AppConstants.base_URL +
                               rooster_list.profile_image,
                           roosterName:
