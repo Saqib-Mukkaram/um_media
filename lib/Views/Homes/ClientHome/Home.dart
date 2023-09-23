@@ -5,11 +5,8 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/Controller/TalentController.dart';
-
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
-
 import 'package:um_media/CustomWidgets/SideBar.dart';
-
 import 'package:um_media/Views/Homes/ClientHome/widgets/EnquireList.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/Studios.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/StudiosBar.dart';
@@ -38,8 +35,11 @@ class _HomeScreenState extends State<HomeScreen>
   Future<void> _refresh() async {
     StudioController _studioController = Get.find();
     TalentController _talentController = Get.find();
-    await _studioController.getStudioList();
-    await _talentController.getCategories();
+    setState(() {
+     _studioController.getStudioList();
+     _talentController.getCategories();
+      
+    });
   }
 
   @override
@@ -122,14 +122,15 @@ class _HomeScreenState extends State<HomeScreen>
             )
           ],
         ),
-        body: RefreshIndicator(
-          onRefresh: _refresh,
-          child: Builder(
-            builder: (context) {
-              return TabBarView(
-                controller: _tabController,
-                children: [
-                  SingleChildScrollView(
+        body: Builder(
+          builder: (context) {
+            return TabBarView(
+              controller: _tabController,
+              children: [
+                RefreshIndicator(
+                  onRefresh: _refresh,
+                  color: AppConstants.siteSubColor,
+                  child: SingleChildScrollView(
                     child: SafeArea(
                       child: Column(
                         children: [
@@ -193,13 +194,13 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ),
                   ),
-                  SafeArea(
-                    child: EnqurieList(),
-                  )
-                ],
-              );
-            },
-          ),
+                ),
+                SafeArea(
+                  child: EnqurieList(),
+                )
+              ],
+            );
+          },
         ),
       ),
     );

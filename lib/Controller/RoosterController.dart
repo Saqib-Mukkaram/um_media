@@ -16,9 +16,9 @@ class RoosterController extends GetxController {
 
   Future<void> fetchAll() async {
     await getRoosters();
-    Future.delayed(Duration(milliseconds: 500));
+    // Future.delayed(Duration(milliseconds: 500));
     await fetchRoosterData();
-    Future.delayed(Duration(milliseconds: 500));
+    // Future.delayed(Duration(milliseconds: 500));
     var specific = roosterList.first.interest?.first;
     var value = specific?.entries.first;
     print(value?.value);
@@ -95,7 +95,6 @@ class RoosterController extends GetxController {
     //TODO: STARTING FROM INDEX 1
     for (var x = 1; x <= roosterList.length; x++) {
       await fetchSingleRoostersImages(id: x);
-      print("Data Fetched Successfully $x");
       await fetchSingleRoostersInterests(id: x);
       print("Data Fetched Successfully $x");
     }

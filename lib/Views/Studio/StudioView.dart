@@ -24,8 +24,8 @@ class _StudioViewState extends State<StudioView> {
 
   Future<void> _refresh() async {
     setState(() {
-       _controller.getStudios();
-    _controller.getStudioList();
+      _controller.getStudios();
+      _controller.getStudioList();
     });
   }
 
@@ -61,6 +61,23 @@ class _StudioViewState extends State<StudioView> {
         child: FutureBuilder(
             future: _refresh(),
             builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: CircularProgressIndicator(
+                          color: AppConstants
+                              .siteSubColor), // Show a loading indicator
+                    ),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                      "Error: Cannot Fetch Data."), // Show an error message
+                );
+              }
               if (snapshot.connectionState == ConnectionState.done) {
                 return ListView.builder(
                     itemCount: _controller.studiosList.length,
