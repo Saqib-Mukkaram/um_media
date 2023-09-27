@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
-import 'package:um_media/Views/Homes/ClientHome/Home.dart';
-import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
-import 'package:um_media/Views/Login/Login.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,19 +11,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
-    super.initState();
-    Future.delayed(
-      Duration(seconds: 2), // Adjust the duration as needed
-      () {
-        Get.offAll(HomeScreen());
-      },
-    );
-    FIXME:
-    "If the User is Logged in It should login to home screen.";
-  }
 
+    super.initState();
+
+   
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -47,7 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 "Powered by UM Media",
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
-            )
+            ),
+          
           ],
         ),
       ),

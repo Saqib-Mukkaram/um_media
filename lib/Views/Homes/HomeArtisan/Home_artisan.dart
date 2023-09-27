@@ -8,7 +8,7 @@ import 'package:um_media/CustomWidgets/SideBar.dart';
 import 'package:um_media/CustomWidgets/StudioCard.dart';
 import 'package:um_media/CustomWidgets/TalentCard.dart';
 import 'package:um_media/CustomWidgets/TalentCard_Artisan.dart';
-import 'package:um_media/CustomWidgets/TalentsView.dart';
+import 'package:um_media/Views/Talents/TalentsView.dart';
 
 class HomeArtisanScreen extends StatefulWidget {
   const HomeArtisanScreen({super.key});

@@ -13,7 +13,7 @@ class Studios extends StatefulWidget {
 }
 
 class _StudiosState extends State<Studios> {
-  final StudioController _controller = Get.put(StudioController());
+  final StudioController _controller = Get.find();
   var studiourl = AppConstants.img_studio;
   var studioitem = [
     "Music Studio",
@@ -39,16 +39,34 @@ class _StudiosState extends State<Studios> {
         Container(
           height: 345,
           child: FutureBuilder(
-            future: _controller.getStudioList(),
+            future: _controller.fetchAll(),
             builder: ((context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: CircularProgressIndicator(
+                          color: AppConstants
+                              .siteSubColor), // Show a loading indicator
+                    ),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                      "Error: Cannot Fetch Data."), // Show an error message
+                );
+              }
+
               if (snapshot.connectionState == ConnectionState.done) {
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.all(10.0),
                   shrinkWrap: true, // Set shrinkWrap to true
-                  itemCount: _controller.studiosList.length,
+                  itemCount: _controller.studios.length,
                   itemBuilder: (BuildContext context, int index) {
-                    var studio = _controller.studiosList.elementAt(index);
+                    var studio = _controller.studios.elementAt(index);
                     return InkWell(
                       onTap: () {
                         print("The tapped Item is ${studio.name}");

@@ -2,23 +2,47 @@ import 'package:flutter/material.dart';
 
 class Studio {
   final int id;
-  final int studioId;
+  final String name;
+  // final int studioId;
   final String image;
+  final List<StudioImage> gallery;
 
-
-  Studio({
-    required this.id,
-    required this.studioId,
-    required this.image
+  Studio({required this.name, required this.id, required this.image,
+  required this.gallery,
   });
   factory Studio.fromJson(Map<String, dynamic> json) {
     return Studio(
       id: json['id'],
-      studioId: json['studio_id'],
+      name: json['name'],
+      // studioId: json['studio_id'],
       image: json['image'] ?? '',
+      gallery: (json['gallery'] as List<dynamic>)
+          .map((studioimage) => StudioImage.fromJson(studioimage))
+          .toList(),
     );
   }
 }
+
+class StudioImage {
+  final int id;
+  final int studio_id;
+  final String image;
+
+  StudioImage({
+    required this.id,
+    required this.studio_id,
+    required this.image,
+  });
+  factory StudioImage.fromJson(Map<String, dynamic> json) {
+    return StudioImage(
+      id: json['id'],
+      studio_id: json['studio_id'],
+      image: json['image'],
+    );
+  }
+}
+
+
 // class Studio {
 //   final int id;
 //   final String image;

@@ -1,13 +1,32 @@
 import 'dart:convert';
 
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/CacheController.dart';
 import 'package:um_media/Models/TalentCategory.dart';
 // Import the Category class
 
 class TalentController extends GetxController {
-  List<TalentCategory> categories = []; // Create a list to store Category objects
+  List<TalentCategory> categories =
+      []; // Create a list to store Category objects
+
+  Future<bool> isDataFetched() {
+    if (categories.isNotEmpty) {
+      return Future.value(true);
+    } else {
+      return Future.value(false);
+    }
+  }
+
+
+  Future<void> fetchAll() async {
+    await getCategories();
+    // await cachedData();
+    print("Categories Fetched");
+  }
+
   Future<void> getCategories() async {
     try {
       var response = await http.post(
@@ -30,3 +49,15 @@ class TalentController extends GetxController {
     }
   }
 }
+
+  // Future<void> cachedData() async {
+  //   var studioImgList = categories.map((element) => element.photo).toList();
+  //   print("Studios List");
+  //   print(studioImgList);
+  //   for (var element in studioImgList) {
+  //     var image = await CacheController.cache
+  //         .downloadFile(AppConstants.base_URL + element);
+  //     images.add(image);
+  //   }
+  //   // cache.getFileFromCache(key);
+  // }

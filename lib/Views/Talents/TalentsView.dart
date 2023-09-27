@@ -4,7 +4,7 @@ import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 
-import 'package:um_media/CustomWidgets/TalentPost.dart';
+import 'package:um_media/Views/Talents/TalentPost.dart';
 import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Models/RoosterImages.dart';
 
@@ -21,7 +21,14 @@ class TalentsView extends StatefulWidget {
 class _TalentsViewState extends State<TalentsView> {
   TalentController _talentController = Get.find();
 
-  RoosterController _roosterController = RoosterController();
+  RoosterController _roosterController = Get.find();
+
+  Future<void> onRefresh() async {
+    setState(() {
+      
+     _roosterController.fetchAll();
+    });
+  }
 
   @override
   void initState() {
@@ -51,74 +58,77 @@ class _TalentsViewState extends State<TalentsView> {
           ),
         ),
         body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              await _roosterController.fetchAll();
-            },
-            child: FutureBuilder(
-                future: _roosterController.fetchAll(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: CircularProgressIndicator(
-                              color: AppConstants
-                                  .siteSubColor), // Show a loading indicator
-                        ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                          "Error: Cannot Fetch Data. ${snapshot.error} "), // Show an error message
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    // var specificRooster =
-                    //     _roosterController.roosterList.where((element) {
-                    //   return element.interest_name.any(
-                    //       (element) => element.name == widget.category_name);
-                    // // }).toList();
-                    // print(specificRooster.length);
-                    // print(specificRooster.elementAt(1));
-                    var list = _roosterController.roosterList.first;
-                    // list.interest.map((key, value) => )
-                    return ListView.builder(
+          child: FutureBuilder(
+              future: _roosterController.isDataFetched(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    _roosterController.isDataFetched() == false) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: CircularProgressIndicator(
+                            color: AppConstants
+                                .siteSubColor), // Show a loading indicator
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return Center(
+                    child: Text(
+                        "Error: Cannot Fetch Data."), // Show an error message
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  var specific = _roosterController.roosterList
+                      .where((element) => element.interests.any(
+                          (element) => element.name == widget.category_name))
+                      .toList();
+
+                  print(
+                      "specific ${specific.length} value of specific is ${specific}");
+                  return RefreshIndicator(
+                    onRefresh: onRefresh,
+                    child: ListView.builder(
                       // scrollDirection: Axis.vertical,
                       padding: EdgeInsets.all(10.0),
                       shrinkWrap: true, // Set shrinkWrap to true
-                      itemCount: _roosterController.roosterList.length,
+                      itemCount: specific.length == 0 ? 1 : specific.length,
                       itemBuilder: (BuildContext context, int index) {
-                        // var talentCategory =
-                        //     _talentController.categories.elementAt(index);
-                        var rooster_img =
-                            _roosterController.roosterGallery.elementAt(index);
-                        var rooster_interest = _roosterController
-                            .roosterInterests
-                            .elementAt(index);
-                        var rooster_list =
-                            _roosterController.roosterList.elementAt(index);
-                        var rooster_gallery = rooster_img.elementAt(index);
-                        // List<RoosterData> roosterData = _roosterController.roosterList.where((element) => element. )
-                        return TalentPost(
-                          roosterId: rooster_list.id,
-                          imagePath:
-                              AppConstants.base_URL + rooster_gallery.image,
-                          profilePath: AppConstants.base_URL +
-                              rooster_list.profile_image,
-                          roosterName:
-                              rooster_list.firstName + rooster_list.lastName,
-                          roosterTags: rooster_interest,
-                        );
+                        if (specific.length == 0) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Text(
+                                "No Roosters Found",
+                                style: TextStyle(color: Colors.black, fontSize: 24),
+                              )),
+                            ],
+                          );
+                        } else {
+                          var rooster =
+                              // _roosterController.roosterList.elementAt(index);
+                              specific.elementAt(index);
+                          return TalentPost(
+                            roosterId: rooster.id,
+                            imagePath: AppConstants.base_URL +
+                                rooster.gallery.elementAt(index + 1).image,
+                            profilePath:
+                                AppConstants.base_URL + rooster.profileImage,
+                            roosterName:
+                                "${rooster.firstName} ${rooster.lastName}",
+                            roosterTags: rooster.interests,
+                          );
+                        }
                       },
-                    );
-                  } else {
-                    return Text("Loading");
-                  }
-                }),
-          ),
+                    ),
+                  );
+                } else {
+                  return Text("Loading");
+                }
+              }),
         ));
   }
 }

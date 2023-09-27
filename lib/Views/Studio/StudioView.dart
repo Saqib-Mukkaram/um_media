@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -23,10 +24,11 @@ class _StudioViewState extends State<StudioView> {
   }
 
   Future<void> _refresh() async {
+    // _controller.dispose();
     setState(() {
-      _controller.getStudios();
-      _controller.getStudioList();
+      _controller.fetchAll();
     });
+    print("studio Controller fetch ${_controller.studios.length}");
   }
 
   @override
@@ -59,7 +61,7 @@ class _StudioViewState extends State<StudioView> {
         backgroundColor: AppConstants.subTextGrey,
         onRefresh: _refresh,
         child: FutureBuilder(
-            future: _refresh(),
+            future: _controller.getStudios(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Column(
@@ -79,10 +81,11 @@ class _StudioViewState extends State<StudioView> {
                 );
               }
               if (snapshot.connectionState == ConnectionState.done) {
+                var studioList;
                 return ListView.builder(
-                    itemCount: _controller.studiosList.length,
+                    itemCount: _controller.studios.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var studioList = _controller.studiosList.elementAt(index);
+                      studioList = _controller.studios.elementAt(index);
                       return Padding(
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Card(
@@ -106,6 +109,7 @@ class _StudioViewState extends State<StudioView> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
+                                  //FIXME: THis is a Constant.
                                   child:
                                       Image.asset(AppConstants.img_studio[0]),
                                 ),
@@ -124,12 +128,14 @@ class _StudioViewState extends State<StudioView> {
                                       builder: (context, snapshot) {
                                         return ListView.builder(
                                             scrollDirection: Axis.horizontal,
-                                            itemCount:
-                                                _controller.studios.length,
+                                            itemCount: _controller.studios
+                                                .elementAt(index)
+                                                .gallery
+                                                .length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              var Gallerylist = _controller
-                                                  .studios
+                                              var Gallerylist = studioList
+                                                  .gallery
                                                   .elementAt(index);
                                               return Padding(
                                                 padding: EdgeInsets.all(8.0),
@@ -143,12 +149,32 @@ class _StudioViewState extends State<StudioView> {
                                                         BorderRadius.all(
                                                             Radius.circular(
                                                                 12)),
-                                                    child: Image.network(
-                                                      AppConstants.base_URL +
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: AppConstants
+                                                              .base_URL +
                                                           Gallerylist.image,
                                                       width: 125,
                                                       height: 65,
                                                       fit: BoxFit.fill,
+                                                      progressIndicatorBuilder:
+                                                          (context, url,
+                                                                  downloadProgress) =>
+                                                              Padding(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                32, 64, 32, 64),
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress,
+                                                          color: AppConstants
+                                                              .siteSubColor,
+                                                        ),
+                                                      ),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Icon(Icons.error),
                                                     ),
                                                   ),
                                                 ),

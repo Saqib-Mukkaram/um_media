@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/CacheController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 import 'package:um_media/CustomWidgets/TalentCard.dart';
-import 'package:um_media/CustomWidgets/TalentsView.dart';
+import 'package:um_media/Views/Talents/TalentsView.dart';
 
 import 'package:um_media/Views/Homes/Shimmers/TalentShimmer.dart';
 
@@ -16,7 +20,7 @@ class Talents extends StatefulWidget {
 
 class _TalentsState extends State<Talents> {
   //TODO: Talent Controller for the forward Routes.
-  final TalentController _controller = Get.put(TalentController());
+  final TalentController _controller = Get.find();
 
   @override
   void initState() {
@@ -27,7 +31,7 @@ class _TalentsState extends State<Talents> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+
     super.dispose();
   }
 
@@ -38,9 +42,10 @@ class _TalentsState extends State<Talents> {
         Container(
           height: 275,
           child: FutureBuilder(
-              future: _controller.getCategories(),
+              future: _controller.isDataFetched(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    _controller.isDataFetched() == false) {
                   //FIXME: SHIMMER is to be Implemented. with Animation
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -67,33 +72,22 @@ class _TalentsState extends State<Talents> {
                     itemBuilder: (BuildContext context, int index) {
                       //TODO: Make it DYNAMIC
                       var category = _controller.categories.elementAt(index);
+                     
+
                       return InkWell(
                         onTap: () {
-                          // print(
-                          //     "The tapped Item is $");
-                          // if (index >
-                          //     talentsgrid.length) {
-                          //   setState(() {
-                          //     Get.showSnackbar(
-                          //         GetSnackBar(
-                          //       title:
-                          //           ""
-                          //               .toUpperCase(),
-                          //       message: "No Data found.",
-                          //       isDismissible: true,
-                          //       duration:
-                          //           Duration(seconds: 1),
-                          //     ));
-                          //   });
-                          // } else {
-                          Get.to(TalentsView(category_id: category.id, category_name: category.name,));
-                          // }
+                          Get.to(TalentsView(
+                            category_id: category.id,
+                            category_name: category.name,
+                          ));
                         },
+                        //TODO: Cache Img Used.
                         child: TalentCard(
-                          netImg: true,
-                          src: AppConstants.base_URL + category.photo,
-                          text: category.name,
-                        ),
+                                netImg: true,
+                                src: AppConstants.base_URL + category.photo,
+                                text: category.name,
+                              ),
+                            
                       );
                     },
                   );

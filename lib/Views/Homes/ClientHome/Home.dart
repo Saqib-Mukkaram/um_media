@@ -22,24 +22,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  int talent_count = 0;
-
-  var data;
   late TabController _tabController;
 
-
-
-  var radius = 35.0;
   var scaffoldKey;
 
   Future<void> _refresh() async {
     StudioController _studioController = Get.find();
     TalentController _talentController = Get.find();
     setState(() {
-     _studioController.getStudioList();
-     _talentController.getCategories();
-      
+      _studioController.getStudios();
+      _talentController.getCategories();
     });
+    
   }
 
   @override
@@ -183,7 +177,8 @@ class _HomeScreenState extends State<HomeScreen>
                             onPress: () async {
                               // print(_controller.parseCategory(data));
                             },
-                            backgroundColor: Colors.black,
+                            backgroundColor: AppConstants.subTextGrey,
+                            foregroundColor: AppConstants.siteSubColor,
                             paddingTop: 8,
                             paddingBottom: 0,
                             paddingLeft: 0,

@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:um_media/AppConstants.dart';
 
 class TalentCard extends StatelessWidget {
   final String src;
@@ -29,20 +31,31 @@ class TalentCard extends StatelessWidget {
                 children: [
                   // Image.asset(AppConstants.img_photography)
                   netImg
-                      ? Image.network(
-                          src,
+                      ? CachedNetworkImage(
+                          imageUrl: src,
                           width: 150,
                           height: 200,
                           fit: BoxFit.fill,
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(32,64,32,64),
+                                    child: CircularProgressIndicator(
+                                        value: downloadProgress.progress,
+                                        color: AppConstants.siteSubColor
+                                        ,),
+                                  ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         )
-                      : Image.asset(
+                      : Image.network(
                           src,
                           width: 150,
                           height: 200,
                           fit: BoxFit.fill,
                         ),
                   Padding(
-                    padding:  EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Text(
                       text.toUpperCase(),
                       style: TextStyle(
