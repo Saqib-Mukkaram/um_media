@@ -22,23 +22,23 @@ class TalentsBar extends StatelessWidget {
                 color: Colors.white),
           ),
         ),
-        Spacer(),
-        InkWell(
-          onTap: () {
-            FIXME:
-            "This is yet to be Implemented";
-            print("View all is tapped");
-          },
-          child: Padding(
-            padding:
-                const EdgeInsets.fromLTRB(0, 0, 16, 0),
-            child: Text(
-              "viewall".tr,
-              style: TextStyle(
-                  color: AppConstants.siteSubColor),
-            ),
-          ),
-        )
+        // Spacer(),
+        // InkWell(
+        //   onTap: () {
+        //     FIXME:
+        //     "This is yet to be Implemented";
+        //     print("View all is tapped");
+        //   },
+        //   child: Padding(
+        //     padding:
+        //         const EdgeInsets.fromLTRB(0, 0, 16, 0),
+        //     child: Text(
+        //       "viewall".tr,
+        //       style: TextStyle(
+        //           color: AppConstants.siteSubColor),
+        //     ),
+        //   ),
+        // )
       ],
     );
   }

@@ -18,9 +18,9 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _waistController = TextEditingController();
-  final TextEditingController _hipsController = TextEditingController();
-  final TextEditingController _bustController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+
+  final TextEditingController _heightController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.black,
         leading: IconButton(
           onPressed: () {
@@ -51,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         title: Text(
-          "Edit Profile",
+          "Profile",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -67,85 +68,97 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Stack(children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        "assets/imgs/People/Sana-4.png",
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 65,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(50),
                         child: Container(
-                          width: 25,
-                          height: 25,
-                          color: Colors.black,
-                          child: PopupMenuButton<String>(
-                            color: Colors.white,
-                            elevation: 5,
-                            padding: EdgeInsets.all(0),
-                            itemBuilder: (BuildContext context) {
-                              return <PopupMenuEntry<String>>[
-                                PopupMenuItem<String>(
-                                  value: "change_picture",
-                                  child: Text(
-                                    "Change Picture",
-                                    style: TextStyle(
-                                      color: Colors.black, // Text color
-                                      fontSize: 16, // Text size
-                                    ),
-                                  ),
-                                ),
-                              ];
-                            },
-                            onSelected: (String choice) {
-                              if (choice == "change_picture") {
-                                //TODO: CHange the Picture Functionality
-                                // Add your logic to change the picture here
-                                print("Changing the picture");
-                              }
-                            },
-                            child: Center(
-                              child: Icon(
-                                Icons.add_outlined,
-                                color: Colors.white,
-                                size: 14,
-                              ),
+                          height: 100,
+                          width: 100,
+                          color: Colors.grey.shade300,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.add_a_photo_outlined,
+                              size: 36,
                             ),
+                            onPressed: () {
+                              Get.defaultDialog(title: "To be Implemented");
+                            },
                           ),
+                        )
+                        // Image.asset(
+                        //   "assets/imgs/People/Sana-4.png",
+                        //   width: 100,
+                        //   height: 100,
+                        //   fit: BoxFit.fill,
+                        // ),
                         ),
-                      ),
-                    )
+                    //     Positioned(
+                    //   bottom: 0,
+                    //   left: 65,
+                    //   child: ClipRRect(
+                    //     borderRadius: BorderRadius.circular(20),
+                    //     child: Container(
+                    //       width: 25,
+                    //       height: 25,
+                    //       color: Colors.black,
+                    //       child: PopupMenuButton<String>(
+                    //         color: Colors.white,
+                    //         elevation: 5,
+                    //         padding: EdgeInsets.all(0),
+                    //         itemBuilder: (BuildContext context) {
+                    //           return <PopupMenuEntry<String>>[
+                    //             PopupMenuItem<String>(
+                    //               value: "change_picture",
+                    //               child: Text(
+                    //                 "Change Picture",
+                    //                 style: TextStyle(
+                    //                   color: Colors.black, // Text color
+                    //                   fontSize: 16, // Text size
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ];
+                    //         },
+                    //         onSelected: (String choice) {
+                    //           if (choice == "change_picture") {
+                    //             //TODO: CHange the Picture Functionality
+                    //             // Add your logic to change the picture here
+                    //             print("Changing the picture");
+                    //           }
+                    //         },
+                    //         child: Center(
+                    //           child: Icon(
+                    //             Icons.add_outlined,
+                    //             color: Colors.white,
+                    //             size: 14,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ]),
                 ],
               ),
               LabelText(labelText: "Name", paddingbottom: 0),
               InputField(
                 fieldController: _nameController,
-                placeholderText: "Sana Mirza",
+                placeholderText: "Full Name",
                 height: 35,
               ),
-
               Padding(
-                padding: const EdgeInsets.fromLTRB(16,5,16,0),
+                padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                 child: Container(width: size.width, child: CustomDropDown()),
               ),
-             
               LabelText(labelText: "Age", paddingbottom: 0),
               InputField(
                 fieldController: _ageController,
-                placeholderText: "26",
+                placeholderText: "",
                 height: 35,
                 keyboardType: TextInputType.number,
               ),
               LabelText(labelText: "Address", paddingbottom: 0),
               InputField(
                 fieldController: _addressController,
-                placeholderText: "Lahore Pakistan",
+                placeholderText: "",
                 height: 35,
               ),
               Divider(
@@ -154,30 +167,55 @@ class _ProfilePageState extends State<ProfilePage> {
                 indent: 16,
                 color: AppConstants.siteSubColor,
               ),
-              LabelText(labelText: "Waist", paddingbottom: 0),
+              LabelText(labelText: "Weight (kg)", paddingbottom: 0),
               InputField(
-                fieldController: _waistController,
-                placeholderText: "66" + "cm",
+                fieldController: _weightController,
+                placeholderText: "",
                 height: 35,
                 keyboardType: TextInputType.number,
               ),
-              LabelText(labelText: "Bust", paddingbottom: 0),
+              LabelText(labelText: "Height (ft)", paddingbottom: 0),
               InputField(
-                fieldController: _bustController,
-                placeholderText: "81" + "cm",
-                height: 35,
-                keyboardType: TextInputType.number,
-              ),
-              LabelText(labelText: "Hips", paddingbottom: 0),
-              InputField(
-                fieldController: _hipsController,
-                placeholderText: "89" + "cm",
+                fieldController: _heightController,
+                placeholderText: "",
                 height: 35,
                 keyboardType: TextInputType.number,
               ),
               ButtonCustom(
                 buttonText: "Save Changes",
-                onPress: () {},
+                onPress: () {
+                  if (_addressController.value.text.isEmpty ||
+                      _ageController.value.text.isEmpty ||
+                      _heightController.value.text.isEmpty ||
+                      _weightController.value.text.isEmpty ||
+                      _nameController.value.text.isEmpty) {
+                    Get.defaultDialog(
+                        title: "Empty Fields",
+                        middleText: "All fields are requried.");
+                  } else if (_nameController.value.text.isEmpty) {
+                    Get.defaultDialog(
+                        title: "Full Name",
+                        middleText: "Name Field is Requried.");
+                  } else if (_ageController.value.text.length > 2 ||
+                      _ageController.value.text.length < 2) {
+                    Get.defaultDialog(
+                        title: "Invalid Age",
+                        middleText: "Please enter the correct age.");
+                  } else if (_addressController.value.text.isEmpty) {
+                    Get.defaultDialog(
+                        title: "Address Field",
+                        middleText: "Address Field is Empty.");
+                  } else if (_weightController.value.text.isEmpty) {
+                    Get.defaultDialog(
+                        title: "Weight Field",
+                        middleText: "Weight Field is Required.");
+                  } else if (_heightController.value.text.isEmpty) {
+                    Get.defaultDialog(
+                        title: "Height is Empty",
+                        middleText: " Please enter the height.");
+                  }
+                  Get.defaultDialog(title: "To be Implemented");
+                },
                 backgroundColor: Colors.black,
                 foregroundColor: AppConstants.siteSubColor,
               )

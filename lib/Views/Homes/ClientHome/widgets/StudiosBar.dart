@@ -22,14 +22,14 @@ class StudiosBar extends StatelessWidget {
                 color: Colors.white),
           ),
         ),
-        Spacer(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-          child: Text(
-            "viewall".tr,
-            style: TextStyle(color: AppConstants.siteSubColor),
-          ),
-        )
+        // Spacer(),
+        // Padding(
+        //   padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+        //   child: Text(
+        //     "viewall".tr,
+        //     style: TextStyle(color: AppConstants.siteSubColor),
+        //   ),
+        // )
       ],
     );
   }

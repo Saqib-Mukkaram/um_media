@@ -9,6 +9,7 @@ import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/EnquireList.dart';
+import 'package:um_media/Views/Rooster/EnquireListRoosterView.dart';
 
 class RoosterView extends StatefulWidget {
   final int rooster_id;
@@ -71,7 +72,13 @@ class _RoosterViewState extends State<RoosterView> {
   var scaffoldkey;
   @override
   void initState() {
-    // TODO: implement initState
+    _isbuttonTapped = _controller.roosterList
+            .where((element) => element.id == widget.rooster_id)
+            .first
+            .IsEnquired
+            .value
+        ? true.obs
+        : false.obs;
     super.initState();
   }
 
@@ -103,14 +110,51 @@ class _RoosterViewState extends State<RoosterView> {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          IconButton(
-              icon: Icon(
-                Icons.shopping_bag_outlined,
-                color: AppConstants.siteSubColor,
+          Obx(() => Stack(
+            children: [
+              // Icon
+              IconButton(
+                  icon: Icon(
+                    Icons.favorite_outlined,
+                    color: AppConstants.siteSubColor,
+                  ),
+                  onPressed: () {
+                    Get.to(EnquireListRoosterView());
+                  }), // Replace with your desired icon
+
+              // Counter
+              Positioned(
+                right: 5,
+                top: 7,
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _enquireListController.roosterEnquireList.length == 0
+                          ? Colors.transparent
+                          : Colors.red // Customize the color
+                      ),
+                  constraints: BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Center(
+                    child: Obx(() => _enquireListController.roosterEnquireList.length == 0
+                        ? SizedBox()
+                        : Text(
+                            _enquireListController.roosterEnquireList.length
+                                .toString(), // Replace with your counter value
+                            style: TextStyle(
+                              color: Colors.white, // Customize the text color
+                              fontSize: 12, // Customize the font size
+                            ),
+                          ),)
+                  ),
+                ),
               ),
-              onPressed: () {
-                Get.to(EnqurieList());
-              })
+            ],
+          ) )
+          
         ],
       ),
       body: FutureBuilder(
@@ -339,125 +383,109 @@ class _RoosterViewState extends State<RoosterView> {
                         //   color: AppConstants.siteSubColor,
                         // ),
                         AnimatedSwitcher(
-                            duration: Duration(milliseconds: 500),
-                            child: Obx(() {
-                              print(
-                                  "rooster enquiry value = ${_rooster.first.IsEnquired.value}");
-                              return _isTapped.value
-                                  ? Row(
-                                      children: [
-                                        Container(
-                                          width: 200,
-                                          height: 300,
-                                          child: ListView.builder(
-                                              itemCount: 3,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                print(
-                                                    "this is working -- Info");
-                                                return ListTile(
-                                                    visualDensity:
-                                                        VisualDensity(
-                                                            vertical: -4),
-                                                    leading: infoIcons[index],
-                                                    title:
-                                                        Text(infohead[index]),
-                                                    subtitle: Text(
-                                                        tilelist[index]
-                                                            .toString()),
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            16, 0, 0, 0));
-                                              }),
-                                        ),
-                                        Container(
-                                          width: 200,
-                                          height: 300,
-                                          child: ListView.builder(
-                                              itemCount: 3,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                print(
-                                                    "info List is Working Correctly");
-                                                return ListTile(
-                                                    visualDensity:
-                                                        VisualDensity(
-                                                            vertical: -4),
-                                                    leading:
-                                                        infoIcons[index + 3],
-                                                    title: Text(
-                                                        infohead[index + 3]),
-                                                    subtitle: Text(
-                                                        tilelist[index + 3]
-                                                            .toString()),
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            16, 0, 0, 0));
-                                              }),
-                                        ),
-                                      ],
-                                    )
-                                  : Container(
-                                      height: 350,
-                                      child: GridView.builder(
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                        ),
-                                        //FIXME: Hardcoded VALUE
-                                        itemCount: 5,
-                                        padding: EdgeInsets.all(8),
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          // print(
-                                          //     "Rooster images length == ${rooster_images}");
-                                          // var roostergallery =
-                                          //     rooster_images.first;
-                                          // var roosterPhoto =
-                                          //     roostergallery.elementAt(index);
-                                          var gallery = _rooster.first.gallery
-                                              .elementAt(index);
-
-                                          return Padding(
-                                            padding: EdgeInsets.all(4),
-                                            child: CachedNetworkImage(
-                                              imageUrl: AppConstants.base_URL +
-                                                  gallery.image,
-                                              width: 200,
-                                              height: 100,
-                                              progressIndicatorBuilder:
-                                                  (context, url,
-                                                          downloadProgress) =>
-                                                      Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    32, 64, 32, 64),
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  value:
-                                                      downloadProgress.progress,
-                                                  color:
-                                                      AppConstants.siteSubColor,
-                                                ),
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
-                                            ),
-                                          );
-                                        },
+                          duration: Duration(milliseconds: 500),
+                          child: Obx(() {
+                            print(
+                                "rooster enquiry value = ${_rooster.first.IsEnquired.value}");
+                            return _isTapped.value
+                                ? Row(
+                                    children: [
+                                      Container(
+                                        width: 200,
+                                        height: 300,
+                                        child: ListView.builder(
+                                            itemCount: 3,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              print("this is working -- Info");
+                                              return ListTile(
+                                                  visualDensity: VisualDensity(
+                                                      vertical: -4),
+                                                  leading: infoIcons[index],
+                                                  title: Text(infohead[index]),
+                                                  subtitle: Text(tilelist[index]
+                                                      .toString()),
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          16, 0, 0, 0));
+                                            }),
                                       ),
-                                    );
-                            })),
-                        // ButtonCustom(
-                        //   buttonText: "Enquire Now",
-                        //   onPress: () {
-                        //     Get.to(Enquire());
-                        //   },
-                        //   backgroundColor: AppConstants.subTextGrey,
-                        //   foregroundColor: AppConstants.siteSubColor,
-                        // )
+                                      Container(
+                                        width: 200,
+                                        height: 300,
+                                        child: ListView.builder(
+                                            itemCount: 3,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              print(
+                                                  "info List is Working Correctly");
+                                              return ListTile(
+                                                  visualDensity: VisualDensity(
+                                                      vertical: -4),
+                                                  leading: infoIcons[index + 3],
+                                                  title:
+                                                      Text(infohead[index + 3]),
+                                                  subtitle: Text(
+                                                      tilelist[index + 3]
+                                                          .toString()),
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          16, 0, 0, 0));
+                                            }),
+                                      ),
+                                    ],
+                                  )
+                                : Container(
+                                    height: 300,
+                                    child: GridView.builder(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                      ),
+                                      //FIXME: Hardcoded VALUE
+                                      itemCount: 5,
+                                      padding: EdgeInsets.all(8),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        // print(
+                                        //     "Rooster images length == ${rooster_images}");
+                                        // var roostergallery =
+                                        //     rooster_images.first;
+                                        // var roosterPhoto =
+                                        //     roostergallery.elementAt(index);
+                                        var gallery = _rooster.first.gallery
+                                            .elementAt(index);
+
+                                        return Padding(
+                                          padding: EdgeInsets.all(4),
+                                          child: CachedNetworkImage(
+                                            imageUrl: AppConstants.base_URL +
+                                                gallery.image,
+                                            width: 200,
+                                            height: 100,
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  32, 64, 32, 64),
+                                              child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress,
+                                                color:
+                                                    AppConstants.siteSubColor,
+                                              ),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                          }),
+                        ),
+
                         Obx(() => ButtonCustom(
                               elevation: 0,
                               fontsize: 12,
@@ -474,8 +502,8 @@ class _RoosterViewState extends State<RoosterView> {
                                         Get.defaultDialog(
                                             title: "Rooster Enquired",
                                             middleText: "Check Enquire List."),
-                                        _enquireListController.enquireList.add(
-                                            Enquire(rooster: _rooster.first)),
+                                        _enquireListController.roosterEnquireList.add(
+                                            EnquireRooster(rooster: _rooster.first)),
                                         _rooster.first.IsEnquired.toggle(),
                                         print(
                                             "Rooster Value = ${_rooster.first.IsEnquired.value}")
@@ -485,9 +513,11 @@ class _RoosterViewState extends State<RoosterView> {
                                             title: "Enquiry Canceled.",
                                             middleText:
                                                 "Rooster removed from Enquire List"),
-                                        _enquireListController.enquireList
-                                            .remove(Enquire(
-                                                rooster: _rooster.first)),
+                                        _enquireListController.roosterEnquireList
+                                            .removeWhere((element) =>
+                                                element.rooster.id ==
+                                                _rooster.first.id),
+                                                
                                         _rooster.first.IsEnquired.toggle(),
                                         print(
                                             "Rooster Value = ${_rooster.first.IsEnquired.value}")

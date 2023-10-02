@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/EnquireListController.dart';
+import 'package:um_media/Controller/LoginController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
@@ -23,17 +25,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final EnquireListController _enquireListController = Get.find();
+  final LoginController _loginController = Get.find();
 
   var scaffoldKey;
 
   Future<void> _refresh() async {
     StudioController _studioController = Get.find();
     TalentController _talentController = Get.find();
-    setState(() {
-      _studioController.getStudios();
-      _talentController.getCategories();
-    });
-    
+
+    await _studioController.fetchAll();
+    await _talentController.fetchAll();
+    setState(() {});
   }
 
   @override
@@ -82,16 +85,68 @@ class _HomeScreenState extends State<HomeScreen>
                         color: AppConstants.siteSubColor,
                       ))),
               Tab(
-                child: IconButton(
-                    onPressed: () {
-                      FIXME:
-                      "THis is to be Redone";
-                      _tabController.animateTo(1);
-                    },
-                    icon: Icon(
-                      Icons.shopping_bag_outlined,
-                      color: AppConstants.siteSubColor,
-                    )),
+                child: Obx(
+                  () => _enquireListController.roosterEnquireList.isEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            FIXME:
+                            "THis is to be Redone";
+                            _tabController.animateTo(1);
+                          },
+                          icon: Icon(
+                            Icons.favorite_outlined,
+                            color: AppConstants.siteSubColor,
+                          ),
+                        )
+                      : Stack(children: [
+                          // Icon
+                          IconButton(
+                              icon: Icon(
+                                Icons.favorite_outlined,
+                                color: AppConstants.siteSubColor,
+                              ),
+                              onPressed: () {
+                                _tabController.animateTo(1);
+                              }),
+                          Positioned(
+                            right: 5,
+                            top: 7,
+                            child: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _enquireListController
+                                              .roosterEnquireList.length ==
+                                          0
+                                      ? Colors.transparent
+                                      : Colors.red // Customize the color
+                                  ),
+                              constraints: BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: Center(
+                                  child: Obx(
+                                () => _enquireListController
+                                            .roosterEnquireList.length ==
+                                        0
+                                    ? SizedBox()
+                                    : Text(
+                                        _enquireListController
+                                            .roosterEnquireList.length
+                                            .toString(), // Replace with your counter value
+                                        style: TextStyle(
+                                          color: Colors
+                                              .white, // Customize the text color
+                                          fontSize:
+                                              12, // Customize the font size
+                                        ),
+                                      ),
+                              )),
+                            ),
+                          ),
+                        ]),
+                ),
               ),
             ],
           ),
@@ -101,20 +156,23 @@ class _HomeScreenState extends State<HomeScreen>
             "home".tr,
             style: TextStyle(color: Colors.white),
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ClipOval(
-                child: Image.asset(
-                  AppConstants.img_person,
-                  width:
-                      35.0, // Set the width and height to twice the radius to make it circular
-                  height: 35.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //       padding: EdgeInsets.all(8.0),
+          //       child: _loginController.isLoggedin.value
+          //           ? InkWell(
+          //             onTap: (){
+                        
+          //             },
+          //               child: Text(
+          //               "Logout",
+          //               style: TextStyle(color: Colors.white),
+          //             ))
+          //           : Text(
+          //               "Login",
+          //               style: TextStyle(color: Colors.white),
+          //             ))
+          // ],
         ),
         body: Builder(
           builder: (context) {

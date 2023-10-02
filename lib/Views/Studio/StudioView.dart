@@ -16,7 +16,7 @@ class StudioView extends StatefulWidget {
 }
 
 class _StudioViewState extends State<StudioView> {
-  final StudioController _controller = Get.find();
+   StudioController _controller = Get.find();
   @override
   void initState() {
     // TODO: implement initState
@@ -25,9 +25,8 @@ class _StudioViewState extends State<StudioView> {
 
   Future<void> _refresh() async {
     // _controller.dispose();
-    setState(() {
-      _controller.fetchAll();
-    });
+  
+    await  _controller.fetchAll();
     print("studio Controller fetch ${_controller.studios.length}");
   }
 
@@ -185,7 +184,7 @@ class _StudioViewState extends State<StudioView> {
                                 ButtonCustom(
                                   buttonText: "Book Studio",
                                   onPress: () {
-                                    Get.to(StudioBookingScreen());
+                                    Get.to(StudioBookingScreen(id: studioList.id,));
                                   },
                                   backgroundColor: AppConstants.subTextGrey,
                                   foregroundColor: AppConstants.siteSubColor,

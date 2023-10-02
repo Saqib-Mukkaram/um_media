@@ -75,8 +75,8 @@ class AppConstants {
   static const String rooster_details = "/api/roster/details";
   static const String studio_list = "/api/studio";
   static const String studio_details = "/api/studio/details";
-  static const String register = "api/register";
-  static const String login = "api/login";
+  static const String register = "/api/roster/register";
+  static const String login = "/api/roster/login";
   static const String rooster_list = "/api/roster";
   static const httpHeader = {
     'Accept': 'application/json',

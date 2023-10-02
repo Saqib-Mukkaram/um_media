@@ -16,6 +16,8 @@ class InputField extends StatefulWidget {
   final String? prefixIconImage;
   final bool obscureText;
   final TextInputType keyboardType;
+  final bool expands;
+  final int maxlines;
   // late final GlobalKey<FormState> formKey;
 
   InputField({
@@ -34,6 +36,8 @@ class InputField extends StatefulWidget {
     this.sufficIconPadding = 8,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.expands = false,
+    this.maxlines = 1,
   });
 
   @override
@@ -78,6 +82,9 @@ class _InputFieldState extends State<InputField> {
         width: widget.width,
         height: widget.height,
         child: TextFormField(
+          minLines: widget.expands ? null : 1,
+          maxLines: widget.expands ? null : widget.maxlines,
+          expands: widget.expands,
           style: TextStyle(),
           controller: widget.fieldController,
           validator: (value) {

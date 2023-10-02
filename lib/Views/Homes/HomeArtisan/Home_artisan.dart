@@ -148,20 +148,20 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
             "home".tr,
             style: TextStyle(color: Colors.white),
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ClipOval(
-                child: Image.asset(
-                  AppConstants.img_person,
-                  width:
-                      35.0, // Set the width and height to twice the radius to make it circular
-                  height: 35.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: EdgeInsets.all(8.0),
+          //     child: ClipOval(
+          //       child: Image.asset(
+          //         AppConstants.img_person,
+          //         width:
+          //             35.0, // Set the width and height to twice the radius to make it circular
+          //         height: 35.0,
+          //         fit: BoxFit.cover,
+          //       ),
+          //     ),
+          //   )
+          // ],
         ),
         body: Builder(
           builder: (context) {

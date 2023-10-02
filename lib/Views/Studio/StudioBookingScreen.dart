@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 
 class StudioBookingScreen extends StatefulWidget {
-  const StudioBookingScreen({super.key});
+  final int id;
+  StudioBookingScreen({
+    required this.id,
+    super.key});
 
   @override
   State<StudioBookingScreen> createState() => _StudioBookingScreenState();
@@ -15,6 +19,8 @@ class StudioBookingScreen extends StatefulWidget {
 class _StudioBookingScreenState extends State<StudioBookingScreen> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+  final StudioController _controller = Get.find();
+ 
   var time = TimeOfDay.now().obs;
   var date = DateTime.now().obs;
   Future<void> _selectDate(BuildContext context) async {
@@ -97,7 +103,7 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
           SizedBox(
             height: 20,
           ),
-          Text("Music Studio", style: TextStyle(fontSize: 20)),
+          Text("${_controller.studios.where((element) => element.id == widget.id).first.name}", style: TextStyle(fontSize: 20)),
           SizedBox(
             height: 5,
           ),
@@ -235,7 +241,9 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
           ),
           ButtonCustom(
             buttonText: "Book Now",
-            onPress: () {},
+            onPress: () {
+              
+            },
             backgroundColor: AppConstants.subTextGrey,
             foregroundColor: AppConstants.siteSubColor,
           )

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
@@ -73,8 +75,8 @@ class _SideBarState extends State<SideBar> {
                   return ListTile(
                     dense: true,
                     leading: Icon(
-  Icons.help_outline_outlined,
-),
+                      Icons.help_outline_outlined,
+                    ),
                     title: Text("Sample"),
                     subtitle: Text("Description"),
                   );
@@ -87,7 +89,21 @@ class _SideBarState extends State<SideBar> {
                 Icons.logout_outlined,
               ),
               onPressed: () {
-                Get.offAll(LoginScreen());
+                Get.defaultDialog(
+                    title: "Sign Out",
+                    cancel: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("No"),
+                    ),
+                    middleText: "Tapping yes will show the Login Screen",
+                    confirm: ElevatedButton(
+                      onPressed: () {
+                        Get.offAll(LoginScreen());
+                      },
+                      child: Text("Yes"),
+                    ));
               },
               label: Text("Logout"),
               style: ElevatedButton.styleFrom(

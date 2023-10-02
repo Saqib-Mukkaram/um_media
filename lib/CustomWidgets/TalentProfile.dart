@@ -5,7 +5,7 @@ import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/CustomAppBar.dart';
 import 'package:um_media/CustomWidgets/ProfileInfo.dart';
 import 'package:um_media/CustomWidgets/SideBar.dart';
-import 'package:um_media/Views/Enquire/Enquire.dart';
+import 'package:um_media/Views/Enquire/EnquireForm.dart';
 
 class TalentProfile extends StatefulWidget {
   const TalentProfile({super.key});

@@ -19,6 +19,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
   void initState() {
     // TODO: implement initState
     // _controller.dropDownValueList = value;
+
     super.initState();
   }
 
@@ -39,14 +40,14 @@ class _CustomDropDownState extends State<CustomDropDown> {
             Radius.circular(8),
           ),
         ),
-        errorBorder: const OutlineInputBorder(
+        errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
           borderRadius: BorderRadius.all(
             Radius.circular(8),
           ),
         ),
         // errorText: "This is a requirement",
-        focusedErrorBorder: const OutlineInputBorder(
+        focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
           borderRadius: BorderRadius.all(
             Radius.circular(8),
@@ -62,7 +63,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
       displayCompleteItem: true,
 
       // initialValue: const ["name1", "name2", "name8", "name3"],
-      dropDownList: const [
+      dropDownList: [
         DropDownValueModel(name: ' Actor', value: 0),
         DropDownValueModel(name: ' Singer', value: 1),
         DropDownValueModel(name: ' Dancer', value: 2),
@@ -73,9 +74,16 @@ class _CustomDropDownState extends State<CustomDropDown> {
         DropDownValueModel(name: ' Musician', value: 7),
       ],
       onChanged: (val) {
-        setState(() {
-          print(val);
-        });
+        print("\n\n\n\n\n");
+        print(_controller.dropDownValueList!.length);
+        print("\n\n\n\n\n");
+        print(_controller.dropDownValueList!.length);
+
+        // Access the selected list
+        List<DropDownValueModel> selectedList = _controller.dropDownValueList!;
+        for (var item in selectedList) {
+          print("Selected Item: ${item.name}, Value: ${item.value}");
+        }
       },
       dropdownColor: Colors.white,
       padding: EdgeInsets.all(0),

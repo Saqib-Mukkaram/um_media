@@ -22,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final _controller = LoginController();
 
   @override
   void initState() {
@@ -39,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -57,12 +57,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         "welcome_back_user".tr,
                         style: TextStyle(fontSize: 24),
                       ),
-                      Text(
-                        "UserName",
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                      ),
+                      // Text(
+                      //   "UserName",
+                      //   style: TextStyle(
+                      //     fontSize: 24,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -108,16 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent, elevation: 0),
                     onPressed: () {
-                      Get.to(ConfirmEmail());
+                      Get.to(HomeArtisanScreen());
                     },
-                    child: InkWell(
-                      onTap: () {
-                        // Get.offAll();
-                      },
-                      child: Text(
-                        "forget_password".tr,
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                      ),
+                    child: Text(
+                      "forget_password".tr,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
                     ),
                   )
                 ],
@@ -151,14 +146,12 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 20,
               ),
-          
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     elevation: 0,
-                    
                   ),
                   onPressed: () {
                     Get.to(RegisterScreen());

@@ -3,11 +3,16 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/Controller/Langauge.dart';
+import 'package:um_media/Controller/LoginController.dart';
 import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 import 'package:um_media/Models/Studio.dart';
 import 'package:um_media/Views/Homes/ClientHome/Home.dart';
+import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
+import 'package:um_media/Views/Login/Login.dart';
+import 'package:um_media/Views/Profile/ProfilePage.dart';
+import 'package:um_media/Views/Registeration/Register.dart';
 import 'package:um_media/Views/Splash/spalsh.dart';
 
 void main() {
@@ -29,6 +34,7 @@ class _MyAppState extends State<MyApp> {
   final StudioController _studioController = Get.put(StudioController());
   final EnquireListController _enquireListController =
       Get.put(EnquireListController());
+      final LoginController _loginController = Get.put(LoginController());
 
   Future<void> fetchData() async {
     if (_talentController.categories.isEmpty ||
