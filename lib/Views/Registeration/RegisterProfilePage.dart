@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/GalleryController.dart';
+import 'package:um_media/Controller/RegisterController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/CheckBox.dart';
 import 'package:um_media/CustomWidgets/CustomDropDown.dart';
@@ -12,15 +14,17 @@ import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:um_media/Models/Register.dart';
+import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
 // import 'package:um_media/lib/Controller/GalleryController.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class RegisterProfilePage extends StatefulWidget {
+  final Register register;
+  const RegisterProfilePage({required this.register, super.key});
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<RegisterProfilePage> createState() => _RegisterProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _RegisterProfilePageState extends State<RegisterProfilePage> {
   // final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -29,7 +33,12 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
-
+  final TextEditingController _countryController = TextEditingController();
+  final RegisterController _registerController = RegisterController();
+  final List<String> items = AppConstants.talentlist;
+  List<String> selectedItems = [];
+  List<int> selectedItemsIndex = [];
+  Map<String, int>? interests;
   final picker = ImagePicker();
   var image;
   var date = DateTime.now().obs;
@@ -48,11 +57,8 @@ class _ProfilePageState extends State<ProfilePage> {
       date.value = DateTime.now();
       setState(() {});
     }
-
   }
 
-  final List<String> items = AppConstants.talentlist;
-  List<String> selectedItems = [];
   Future<void> _getImage() async {
     try {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -63,6 +69,15 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  void createMap() {
+    interests ??= {};
+    for (int i = 0; i < selectedItems.length; i++) {
+      interests!.addAll({i.toString(): selectedItemsIndex[i] + 1});
+      print(interests);
+      setState(() {});
     }
   }
 
@@ -217,7 +232,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               onTap: () {
                                 isSelected
                                     ? selectedItems.remove(item)
-                                    : selectedItems.add(item);
+                                    : {
+                                        selectedItems.add(item),
+                                        selectedItemsIndex
+                                            .add(items.indexOf(item))
+                                      };
+
                                 //This rebuilds the StatefulWidget to update the button's text
                                 setState(() {});
                                 //This rebuilds the dropdownMenu Widget to update the check mark
@@ -338,6 +358,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+              LabelText(labelText: "Country", paddingbottom: 0),
+              InputField(
+                fieldController: _countryController,
+                placeholderText: "",
+                height: 35,
+              ),
               LabelText(labelText: "State", paddingbottom: 0),
               InputField(
                 fieldController: _stateController,
@@ -374,28 +400,24 @@ class _ProfilePageState extends State<ProfilePage> {
                 keyboardType: TextInputType.number,
               ),
               ButtonCustom(
-                buttonText: "Save Changes",
-                onPress: () {
-                  if (_addressController.value.text.isEmpty ||
-                      _ageController.value.text.isEmpty ||
-                      _heightController.value.text.isEmpty ||
-                      _weightController.value.text.isEmpty ) {
-                    Get.defaultDialog(
-                        title: "Empty Fields",
-                        middleText: "All fields are requried.");
-                  }  else if (selectedItems.isEmpty) {
+                buttonText: "Register",
+                onPress: () async {
+                  if (selectedItems.isEmpty) {
                     Get.defaultDialog(
                         title: "Interests are Empty",
                         middleText: " Please select the interests.");
-                  } else if (_ageController.value.text.length > 2 ||
-                      _ageController.value.text.length < 2) {
+                  } else if (_countryController.value.text.isEmpty) {
                     Get.defaultDialog(
-                        title: "Invalid Age",
-                        middleText: "Please enter the correct age.");
-                  } else if (_addressController.value.text.isEmpty) {
+                        title: "State Field",
+                        middleText: "State Field is Empty.");
+                  } else if (_stateController.value.text.isEmpty) {
                     Get.defaultDialog(
-                        title: "Address Field",
-                        middleText: "Address Field is Empty.");
+                        title: "State Field",
+                        middleText: "State Field is Empty.");
+                  } else if (_cityController.value.text.isEmpty) {
+                    Get.defaultDialog(
+                        title: "City Field",
+                        middleText: "City Field is Empty.");
                   } else if (_weightController.value.text.isEmpty) {
                     Get.defaultDialog(
                         title: "Weight Field",
@@ -404,8 +426,42 @@ class _ProfilePageState extends State<ProfilePage> {
                     Get.defaultDialog(
                         title: "Height is Empty",
                         middleText: " Please enter the height.");
+                  }
+                  if (image == null) {
+                    Get.defaultDialog(
+                        title: "Profile Picture",
+                        middleText: "Profile Picture is Required.");
                   } else {
-                    Get.defaultDialog(title: "To be Implemented");
+                    createMap();
+                    widget.register.city = _cityController.value.text;
+                    widget.register.state = _stateController.value.text;
+                    widget.register.country = _countryController.value.text;
+                    widget.register.dob =
+                        "${date.value.year}-${date.value.month}-${date.value.day}}";
+                    widget.register.interests = interests;
+                    widget.register.profileImage = File(image);
+                    
+                    
+                    _registerController
+                        .registerRooster(register: widget.register)
+                        .then(
+                      (value) {
+                        if (value == true) {
+                          Get.defaultDialog(
+                              title: "Success",
+                              middleText: "You have successfully registered.",
+                              onConfirm: () {
+                                //FIXME: Redirect to Home Page
+                                // Get.offAll(HomeArtisanScreen());
+
+                              });
+                        } else {
+                          Get.defaultDialog(
+                              title: "Error",
+                              middleText: "Something went wrong.");
+                        }
+                      },
+                    );
                   }
                 },
                 backgroundColor: Colors.black,

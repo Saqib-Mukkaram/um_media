@@ -23,6 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
+
     namespace "com.example.um_media"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -63,5 +64,6 @@ android {
 flutter {
     source '../..'
 }
+
 
 dependencies {}

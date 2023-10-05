@@ -15,9 +15,12 @@ class LoginController extends GetxController {
     // return respone.statusCode;
     if (response.statusCode == 200) {
       isLoggedin = true.obs;
-      return response.body;
+      print(response.body);
     } else {
-      return "Invalid Credientials";
+      print("Invalid Credientials");
     }
   }
+  // Future<void> LoginData(){
+
+  // }
 }

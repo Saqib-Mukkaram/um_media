@@ -4,7 +4,7 @@ class Languages extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en_US': {
           "welcome": "Welcome",
-          "welcome_back_user": "Welcome Back, ",
+          "welcome_back_user": "Welcome Back ",
           "welcome_back_descp": "Welcome back! Please enter your details.",
           "email": "Email",
           "password": "Password",

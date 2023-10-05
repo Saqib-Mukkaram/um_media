@@ -2,13 +2,16 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/RegisterController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/IconInputField.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/CustomWidgets/TextWithDividers.dart';
+import 'package:um_media/Models/Register.dart';
 import 'package:um_media/Views/Login/Login.dart';
 import 'package:um_media/Views/Profile/ProfilePage.dart';
+import 'package:um_media/Views/Registeration/RegisterProfilePage.dart';
 import 'package:um_media/Views/Splash/spalsh.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -26,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+ 
   TextEditingController _genderController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -53,36 +56,55 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
 
     return DefaultTabController(
       length: 1,
       animationDuration: Duration(seconds: 1),
       child: Scaffold(
+       
         body: SingleChildScrollView(
           child: SafeArea(
             child: Column(
               children: [
-                Image.asset(AppConstants.Logo, width: 100, height: 100),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(50, 0, 50, 10),
-                  child: Center(
-                    child: Text(
-                      "join_us".tr,
-                      style: TextStyle(fontSize: 24),
+                Container(
+                  color: AppConstants.subTextGrey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    color: AppConstants.subTextGrey,
+                    child: Image.asset(AppConstants.Logo, width: 100, height: 100)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    color: AppConstants.subTextGrey,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(50, 0, 50, 10),
+                      child: Center(
+                        child: Text(
+                          "join_us".tr,
+                          style: TextStyle(fontSize: 24, color: AppConstants.siteSubColor),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  "join_us_descp".tr,
-                  style:
-                      TextStyle(fontSize: 18, color: AppConstants.login_text),
-                ),
-                SizedBox(
-                  height: 10,
+                  Container(
+                    color: AppConstants.subTextGrey,
+                    child: Text(
+                      "join_us_descp".tr,
+                      style:
+                          TextStyle(fontSize: 18, color: AppConstants.siteSubColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                    ],
+                  ),
                 ),
                 TabBar(
                   controller: _tabController,
@@ -107,17 +129,14 @@ class _RegisterScreenState extends State<RegisterScreen>
                     // ),
                     Tab(
                       iconMargin: EdgeInsets.all(0),
-                      child: ElevatedButton.icon(
+                      child: ElevatedButton(
                           style: ElevatedButton.styleFrom(elevation: 0),
                           onPressed: () {
                             _tabController.animateTo(0);
                           },
-                          icon: Icon(
-                            Icons.star_outlined,
-                            color: AppConstants.siteSubColor,
-                          ),
-                          label: Text(
-                            "Model",
+                         
+                          child: Text(
+                            "Rooster",
                             style: TextStyle(color: AppConstants.siteSubColor),
                           )),
                     ),
@@ -262,6 +281,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                             fieldController: _emailController,
                             fieldPaddingleft: 20,
                             fieldPaddingright: 20,
+                            keyboardType: TextInputType.emailAddress,
                             prefixIcon: Icon(
                               Icons.alternate_email_outlined,
                             ),
@@ -427,9 +447,19 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     title: "Terms and Conditions",
                                     middleText:
                                         "Please Agree to the Terms and Conditions");
+                              } else {
+                                Register _register = Register(firstname: _firstnameController.value.text,
+                              lastName: _lastnameController.value.text,
+                              gender: _genderController.value.text,
+                              email: _emailController.value.text,
+                              password: _passwordController.value.text,
+                              phone: _phoneNumberController.value.text
+                              );
+                              Get.to(RegisterProfilePage(
+                                register: _register,
+                              ));
                               }
-
-                              Get.to(ProfilePage());
+                              
                             },
                             backgroundColor: AppConstants.subTextGrey,
                             foregroundColor: AppConstants.siteSubColor,
@@ -452,7 +482,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "no_account".tr,
+                                    "Already have an Account ?",
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 18),
                                   ),

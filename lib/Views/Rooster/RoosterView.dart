@@ -235,23 +235,37 @@ class _RoosterViewState extends State<RoosterView> {
                         ),
                         //FIXME: THis is yet to be Looked AT.
                         //TODO: Profile Picture
-                        ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl: AppConstants.base_URL +
-                                _rooster.first.profileImage,
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.fill,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => Padding(
-                              padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
-                              child: CircularProgressIndicator(
-                                value: downloadProgress.progress,
-                                color: AppConstants.siteSubColor,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black
+                                    .withOpacity(0.2), // Shadow color
+                                spreadRadius: 5, // Spread radius
+                                blurRadius: 7, // Blur radius
+                                // offset: Offset(0, 3), // Offset from the widget
                               ),
+                            ]),
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: AppConstants.base_URL +
+                                  _rooster.first.profileImage,
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.fill,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => Padding(
+                                padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
+                                child: CircularProgressIndicator(
+                                  value: downloadProgress.progress,
+                                  color: AppConstants.siteSubColor,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
                           ),
                         ),
                         SizedBox(

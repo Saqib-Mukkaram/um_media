@@ -7,12 +7,15 @@ import 'package:um_media/Controller/LoginController.dart';
 import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/Controller/TalentController.dart';
+import 'package:um_media/Models/Register.dart';
+import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Models/Studio.dart';
 import 'package:um_media/Views/Homes/ClientHome/Home.dart';
 import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
 import 'package:um_media/Views/Login/Login.dart';
 import 'package:um_media/Views/Profile/ProfilePage.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
+import 'package:um_media/Views/Registeration/RegisterProfilePage.dart';
 import 'package:um_media/Views/Splash/spalsh.dart';
 
 void main() {
@@ -34,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   final StudioController _studioController = Get.put(StudioController());
   final EnquireListController _enquireListController =
       Get.put(EnquireListController());
-      final LoginController _loginController = Get.put(LoginController());
+  final LoginController _loginController = Get.put(LoginController());
 
   Future<void> fetchData() async {
     if (_talentController.categories.isEmpty ||
@@ -77,7 +80,31 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // Once data is fetched, navigate to the HomeScreen
-            return HomeScreen();
+            Map<String, dynamic> roosterJson = {
+              "id": 1,
+              "first_name": "John",
+              "last_name": "Doe",
+              "gender": "Male",
+              "phone": "123456789",
+              "email": "john.doe@example.com",
+              "city": "New York",
+              "state": "NY",
+              "country": "USA",
+              "dob": "1990-01-01",
+              "profile_image":"",
+              "interest": [
+                
+              ],
+              "gallery": [
+                
+              ]
+            };
+
+            // Create a Rooster object
+            Rooster myRooster = Rooster.fromJson(roosterJson);
+            return HomeArtisanScreen(
+              rooster: myRooster,
+            );
           } else {
             // While data is being fetched, show the SplashScreen
             return SplashScreen();

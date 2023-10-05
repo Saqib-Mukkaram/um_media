@@ -9,11 +9,14 @@ import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/SideBar.dart';
+import 'package:um_media/CustomWidgets/SidebarButtons.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/EnquireList.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/Studios.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/StudiosBar.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/Talents.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/TalentsBar.dart';
+import 'package:um_media/Views/Login/Login.dart';
+import 'package:um_media/Views/Registeration/Register.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -61,15 +64,16 @@ class _HomeScreenState extends State<HomeScreen>
       length: 2,
       child: Scaffold(
         key: scaffoldKey,
-        drawer: SideBar(),
+        // drawer: SideBar(),
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.menu_outlined),
-            color: AppConstants.siteSubColor,
-            onPressed: () {
-              scaffoldKey.currentState?.openDrawer();
-            },
-          ),
+          // leading: SizedBox(),
+          // IconButton(
+          //   icon: Icon(Icons.menu_outlined),
+          //   color: AppConstants.siteSubColor,
+          //   onPressed: () {
+          //     scaffoldKey.currentState?.openDrawer();
+          //   // },
+          
           bottom: TabBar(
             controller: _tabController,
             dividerColor: AppConstants.siteSubColor,
@@ -156,23 +160,51 @@ class _HomeScreenState extends State<HomeScreen>
             "home".tr,
             style: TextStyle(color: Colors.white),
           ),
-          // actions: [
-          //   Padding(
-          //       padding: EdgeInsets.all(8.0),
-          //       child: _loginController.isLoggedin.value
-          //           ? InkWell(
-          //             onTap: (){
-                        
-          //             },
-          //               child: Text(
-          //               "Logout",
-          //               style: TextStyle(color: Colors.white),
-          //             ))
-          //           : Text(
-          //               "Login",
-          //               style: TextStyle(color: Colors.white),
-          //             ))
-          // ],
+          actions: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(0,0, 0,0),
+              child: _loginController.isLoggedin.value
+                  ? SideBarButtons(
+                      buttonIcon: Icon(
+                        Icons.logout_outlined,
+                      ),
+                      onPressed: () {
+                        Get.defaultDialog(
+                            title: "Sign Out",
+                            cancel: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("No"),
+                            ),
+                            middleText:
+                                "Tapping yes will return to login screen",
+                            confirm: ElevatedButton(
+                              onPressed: () {
+                                Get.offAll(LoginScreen());
+                              },
+                              child: Text("Yes"),
+                            ));
+                      },
+                      label: Text("Logout"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white),
+                    )
+                  : SideBarButtons(
+                      buttonIcon: Icon(
+                        Icons.login_outlined,
+                      ),
+                      onPressed: () {
+                        Get.to(LoginScreen());
+                      },
+                      label: Text("Log In"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white),
+                    ),
+            )
+          ],
         ),
         body: Builder(
           builder: (context) {
@@ -233,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen>
                           ButtonCustom(
                             buttonText: "apply_now_button".tr,
                             onPress: () async {
-                              // print(_controller.parseCategory(data));
+                              Get.to(RegisterScreen());
                             },
                             backgroundColor: AppConstants.subTextGrey,
                             foregroundColor: AppConstants.siteSubColor,

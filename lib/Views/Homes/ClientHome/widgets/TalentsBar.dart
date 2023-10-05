@@ -12,9 +12,9 @@ class TalentsBar extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+          padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
           child: Text(
-            "talents".tr.toUpperCase(),
+            "Talents".toUpperCase(),
             style: TextStyle(
                 fontSize: 22,
                 fontStyle: FontStyle.normal,
@@ -23,20 +23,11 @@ class TalentsBar extends StatelessWidget {
           ),
         ),
         // Spacer(),
-        // InkWell(
-        //   onTap: () {
-        //     FIXME:
-        //     "This is yet to be Implemented";
-        //     print("View all is tapped");
-        //   },
-        //   child: Padding(
-        //     padding:
-        //         const EdgeInsets.fromLTRB(0, 0, 16, 0),
-        //     child: Text(
-        //       "viewall".tr,
-        //       style: TextStyle(
-        //           color: AppConstants.siteSubColor),
-        //     ),
+        // Padding(
+        //   padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+        //   child: Text(
+        //     "viewall".tr,
+        //     style: TextStyle(color: AppConstants.siteSubColor),
         //   ),
         // )
       ],

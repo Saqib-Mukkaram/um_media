@@ -43,36 +43,46 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              SizedBox(
-                height: 100,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(50, 50, 50, 10),
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "welcome_back_user".tr,
-                        style: TextStyle(fontSize: 24),
-                      ),
-                      // Text(
-                      //   "UserName",
-                      //   style: TextStyle(
-                      //     fontSize: 24,
-                      //   ),
-                      // ),
-                    ],
+               Container(
+                color: AppConstants.subTextGrey,
+                 child: Column(
+                  children: [
+                    SizedBox(
+                  height: 10,
+                             ),
+                             Image.asset(AppConstants.Logo, width: 200, height: 200),
+                             
+                             Padding(
+                  padding: EdgeInsets.fromLTRB(50, 25, 50, 10),
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "welcome_back_user".tr,
+                          style: TextStyle(fontSize: 24,
+                          color: AppConstants.siteSubColor),
+                        ),
+                        // Text(
+                        //   "UserName",
+                        //   style: TextStyle(
+                        //     fontSize: 24,
+                        //   ),
+                        // ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-              Text(
-                "welcome_back_descp".tr,
-                style: TextStyle(fontSize: 18, color: AppConstants.login_text),
-              ),
+                             ),
+                             Text(
+                  "welcome_back_descp".tr,
+                  style: TextStyle(fontSize: 18,  color: AppConstants.siteSubColor),
+                             ),
+                  ],
+                 ),
+               ),
               SizedBox(
-                height: 100,
+                height: 50,
               ),
               InputField(
                   placeholderText: "email".tr,
@@ -108,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent, elevation: 0),
                     onPressed: () {
-                      Get.to(HomeArtisanScreen());
+                      // Get.to(HomeArtisanScreen());
                     },
                     child: Text(
                       "forget_password".tr,

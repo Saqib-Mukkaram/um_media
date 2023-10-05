@@ -64,25 +64,25 @@ class _SideBarState extends State<SideBar> {
               indent: 16,
               endIndent: 16,
             ),
-            Container(
-              height: 500,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                padding: EdgeInsets.all(10.0),
-                shrinkWrap: true, // Set shrinkWrap to true
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    dense: true,
-                    leading: Icon(
-                      Icons.help_outline_outlined,
-                    ),
-                    title: Text("Sample"),
-                    subtitle: Text("Description"),
-                  );
-                },
-              ),
-            ),
+            // Container(
+            //   height: 500,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.vertical,
+            //     padding: EdgeInsets.all(10.0),
+            //     shrinkWrap: true, // Set shrinkWrap to true
+            //     itemCount: 5,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       return ListTile(
+            //         dense: true,
+            //         leading: Icon(
+            //           Icons.help_outline_outlined,
+            //         ),
+            //         title: Text("Sample"),
+            //         subtitle: Text("Description"),
+            //       );
+            //     },
+            //   ),
+            // ),
             Spacer(),
             SideBarButtons(
               buttonIcon: Icon(
@@ -109,6 +109,7 @@ class _SideBarState extends State<SideBar> {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black, foregroundColor: Colors.white),
             ),
+            SizedBox(height: 20,)
           ],
         ),
       ),

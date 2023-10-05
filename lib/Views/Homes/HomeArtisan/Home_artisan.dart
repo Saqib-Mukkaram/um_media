@@ -1,6 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/LoginController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/CustomWidgets/ModelSideBar.dart';
@@ -8,10 +14,12 @@ import 'package:um_media/CustomWidgets/SideBar.dart';
 import 'package:um_media/CustomWidgets/StudioCard.dart';
 import 'package:um_media/CustomWidgets/TalentCard.dart';
 import 'package:um_media/CustomWidgets/TalentCard_Artisan.dart';
+import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Views/Talents/TalentsView.dart';
 
 class HomeArtisanScreen extends StatefulWidget {
-  const HomeArtisanScreen({super.key});
+  final Rooster rooster;
+  HomeArtisanScreen({Key? key, required this.rooster}) : super(key: key);
 
   @override
   State<HomeArtisanScreen> createState() => _HomeArtisanScreenState();
@@ -22,9 +30,39 @@ enum CustomTabButtons { Photos, Info, Talents }
 class _HomeArtisanScreenState extends State<HomeArtisanScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  // final LoginController _loginController = Get.find();
 
+  List<dynamic> grid_image_list = [];
   var barNumber = 0;
   late CustomTabButtons _tabButtons;
+  var grid_image;
+  var profileImage;
+  final picker = ImagePicker();
+  Future<void> _getImage(String type) async {
+    if (type == "profile") {
+      try {
+        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+        // Handle the picked image
+        // ...
+        setState(() {
+          profileImage = pickedFile!.path;
+        });
+      } catch (e) {
+        print('Error: $e');
+      }
+    } else {
+      try {
+        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+        setState(() {
+          grid_image = pickedFile!.path;
+          grid_image_list!.add(grid_image);
+        });
+      } catch (e) {
+        print('Error: $e');
+      }
+    }
+  }
 
   int CustomBar(int exp) {
     switch (exp) {
@@ -49,9 +87,11 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
     "66cm",
     "89cm"
   ];
+
   var _isTapped;
   var _imgs_sana = AppConstants.img_sana;
   var infohead = ["Name", "Location", "Age", "Bust", "Waist", "Hips"];
+
   final infoIcons = [
     Icon(
       Icons.person_outlined,
@@ -84,6 +124,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
   @override
   void initState() {
     // TODO: implement initState
+
     scaffoldKey = GlobalKey<ScaffoldState>();
     _tabController = TabController(length: 2, vsync: this);
     _isTapped = false;
@@ -175,7 +216,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                         bottom: 0,
                         child: Container(
                           width: size.width,
-                          height: (size.height - kToolbarHeight - 150),
+                          height: (size.height - kToolbarHeight - 225),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
@@ -186,7 +227,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                 BoxShadow(
                                   color: Colors.black
                                       .withOpacity(0.5), // Shadow color
-                                  spreadRadius: 5, // Spread radius
+                                  spreadRadius: 2, // Spread radius
                                   blurRadius: 7, // Blur radius
                                   // offset: Offset(0, 3), // Offset from the widget
                                 ),
@@ -194,12 +235,12 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                           child: Column(
                             children: [
                               SizedBox(
-                                height: 35,
+                                height: 60,
                               ),
                               Text(
-                                "Sana Mirza",
+                                "${widget.rooster.firstName} ${widget.rooster.lastName}}",
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                    fontSize: 24, fontWeight: FontWeight.bold),
                               ),
                               Container(
                                 height: 40,
@@ -277,6 +318,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                               ),
                               barNumber == 1
                                   ? Row(
+                                      // This is the Info Tab
                                       children: [
                                         Container(
                                           width: 200,
@@ -328,37 +370,40 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                     )
                                   : barNumber == 0
                                       ? Container(
-                                        height: 600,
-                                        child: GridView.builder(
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
+                                          //This is for Pictures
+                                          height: 500,
+                                          child: GridView.builder(
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                            ),
+                                            itemCount: grid_image_list.length == 0 ? 1 : grid_image_list.length ,
+                                            padding: EdgeInsets.all(8),
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return index == 0
+                                                  ? IconButton(
+                                                      onPressed: () {
+                                                        _getImage("");
+                                                      },
+                                                      icon: Icon(Icons.add))
+                                                  : Padding(
+                                                      padding:
+                                                          EdgeInsets.all(4),
+                                                      child: Image.file(
+                                                        File(grid_image_list![
+                                                            index]),
+                                                        width: 100,
+                                                        height: 100,
+                                                      ),
+                                                    );
+                                            },
                                           ),
-                                          itemCount: _imgs_sana.length,
-                                          padding: EdgeInsets.all(8),
-                                          itemBuilder:
-                                              (BuildContext context,
-                                                  int index) {
-                                            return index == 0
-                                                ? IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(Icons.add))
-                                                : Padding(
-                                                    padding:
-                                                        EdgeInsets.all(4),
-                                                    child: Image.asset(
-                                                      _imgs_sana[index],
-                                                      width: 100,
-                                                      height: 100,
-                                                    ),
-                                                  );
-                                          },
-                                        ),
-                                      )
+                                        )
                                       : Container(
                                           height: 500,
                                           child: ListView.builder(
-                                              itemCount: 2,
+                                              itemCount: 20,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -383,7 +428,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(0, 25, 0, 10),
+                            padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
                             child: Container(
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
@@ -398,11 +443,27 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                   ]),
                               child: ClipRRect(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
-                                child: Image.asset(
-                                  "assets/imgs/People/Sana-1.png",
-                                  width: 75,
-                                ),
+                                    BorderRadius.all(Radius.circular(75)),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(75),
+                                    child: Container(
+                                        height: 150,
+                                        width: 150,
+                                        color: Colors.grey.shade300,
+                                        child: profileImage == null
+                                            ? IconButton(
+                                                icon: Icon(
+                                                  Icons.add_a_photo_outlined,
+                                                  size: 36,
+                                                ),
+                                                onPressed: () async {
+                                                  _getImage("profile");
+                                                },
+                                              )
+                                            : Image.file(
+                                                File(profileImage),
+                                                fit: BoxFit.cover,
+                                              ))),
                               ),
                             ),
                           ),
@@ -415,7 +476,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                   child: Stack(
                     children: [
                       ListView.builder(
-                        itemCount: 20,
+                        itemCount: 1,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: EdgeInsets.all(8.0),
@@ -423,8 +484,17 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                               leading: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
-                                child: Image.asset(
-                                    "assets/imgs/People/Sana-2.png"),
+                                //FIXME : THE AVALIBILITY CHART
+                                child: widget.rooster.profileImage == null
+                                    ? IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.add_outlined,
+                                          size: 24,
+                                        ),
+                                      )
+                                    : Image.asset(
+                                        "assets/imgs/People/Sana-2.png"),
                               ),
                               title: Text("Sana Mirza"),
                               subtitle: Text("#actor, #model"),

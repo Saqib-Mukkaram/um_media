@@ -100,11 +100,24 @@ class EnquireForm extends StatelessWidget {
                       title: "Error", middleText: "Please fill all the fields");
                 } else {
                   Get.defaultDialog(
+                    backgroundColor: Colors.white,
                       title: "Rooster Enquired",
-                      middleText: "We will Contact you soon!");
+                      middleText: "We will Contact you soon!",
+                      confirm: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppConstants.subTextGrey,
+                          foregroundColor: AppConstants.siteSubColor,
+
+                        ),
+                        onPressed: () {
+                          Get.offAll(HomeScreen());
+                        },
+                        child: Text("Okay"),
+                      ));
 
                   _enquireListController.roosterEnquireList.clear();
-                  Get.offAll(HomeScreen());
+                  
+                  
                 }
               },
               foregroundColor: AppConstants.siteSubColor,

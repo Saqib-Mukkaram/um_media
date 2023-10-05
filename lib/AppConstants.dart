@@ -41,16 +41,19 @@ class AppConstants {
     // "assets/imgs/Studio/Studio-5.png",
   ];
   static const talentlist = [
-    "assets/imgs/Actor.png",
-    "assets/imgs/Influencer.png",
-    "assets/imgs/DJ.png",
-    "assets/imgs/Musician.png",
-    "assets/imgs/Singing.png",
-    "assets/imgs/Youtuber.png",
-    "assets/imgs/Dancing.png",
-    "assets/imgs/Photographer.png",
+    "Actor",
+    "Modelling",
+    "Singing",
+    "Dance",
+    "Voice Over",
+    "Youtuber",
+    "Influencer",
+    "Photographer",
+    "Videographer",
+    "DJ",
+    "Musician",
   ];
-
+ 
   static const NetworkPaths = {"Actor": ""};
   // Network Paths
   static const String net_actor =
@@ -77,6 +80,7 @@ class AppConstants {
   static const String studio_details = "/api/studio/details";
   static const String register = "/api/roster/register";
   static const String login = "/api/roster/login";
+  static const String enquire_rooster = "/api/roster/enquire";
   static const String rooster_list = "/api/roster";
   static const httpHeader = {
     'Accept': 'application/json',

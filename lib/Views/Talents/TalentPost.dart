@@ -29,78 +29,91 @@ class TalentPost extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
-        color: Colors.transparent,
-        height: 500 ,
+        height: 500,
         child: Stack(
           children: [
-            Material(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              elevation: 12,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  //  TODO: Needs to be FIXED //
-                  Padding(
+            Column(
+              children: [
+                //  TODO: Needs to be FIXED //
+                Container(
+                  decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black
+                                  .withOpacity(0.1), // Shadow color
+                              spreadRadius: 5, // Spread radius
+                              blurRadius: 7, // Blur radius
+                              // offset: Offset(0, 3), // Offset from the widget
+                            ),
+                          ]),
+                  child: Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      child: CachedNetworkImage(
-                        imageUrl: imagePath,
-                        width: size.width,
-                        height: 400,
-                        fit: BoxFit.fill,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) => Padding(
-                          padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
-                          child: CircularProgressIndicator(
-                            value: downloadProgress.progress,
-                            color: AppConstants.siteSubColor,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+                              child: Text(
+                                roosterName,
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 5, 20, 0),
+                              child: Text(
+                                "#$tagsText",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: AppConstants.subTextGrey),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          child: CachedNetworkImage(
+                            imageUrl: imagePath,
+                            width: size.width,
+                            height: 400,
+                            fit: BoxFit.fill,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => Padding(
+                              padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
+                              child: CircularProgressIndicator(
+                                value: downloadProgress.progress,
+                                color: AppConstants.siteSubColor,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
+                      ],
                     ),
                   ),
-                  
-                ],
-              ),
+                ),
+              ],
             ),
             //This is the Center Image
-      Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 25, 0, 0),
-                child: Text(
-                  roosterName,
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 25, 20, 0),
-                child: Text(
-                  "#$tagsText",
-                  style:
-                      TextStyle(fontSize: 16, color: AppConstants.subTextGrey),
-                ),
-              ),
-               SizedBox(
-                width: 10,
-              ),
-            ],
-          ),
+            
             Positioned(
               right: 15,
-              bottom: 10,
+              bottom: 20,
               child: Container(
                 width: 75,
                 height: 75,
+                color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
                     Get.to(RoosterView(
@@ -123,7 +136,8 @@ class TalentPost extends StatelessWidget {
                               "View",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: AppConstants.siteSubColor, fontSize: 24),
+                                  color: AppConstants.siteSubColor,
+                                  fontSize: 24),
                             ),
                           ],
                         ),

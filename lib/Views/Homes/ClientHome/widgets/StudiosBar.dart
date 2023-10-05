@@ -16,7 +16,7 @@ class StudiosBar extends StatelessWidget {
           child: Text(
             "studio".tr.toUpperCase(),
             style: TextStyle(
-                fontSize: 28,
+                fontSize: 22,
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.bold,
                 color: Colors.white),
