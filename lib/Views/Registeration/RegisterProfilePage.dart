@@ -432,16 +432,15 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                         title: "Profile Picture",
                         middleText: "Profile Picture is Required.");
                   } else {
-                    createMap();
+                    // createMap();
                     widget.register.city = _cityController.value.text;
                     widget.register.state = _stateController.value.text;
                     widget.register.country = _countryController.value.text;
                     widget.register.dob =
                         "${date.value.year}-${date.value.month}-${date.value.day}}";
-                    widget.register.interests = interests;
+                    widget.register.interests = selectedItemsIndex;
                     widget.register.profileImage = File(image);
-                    
-                    
+
                     _registerController
                         .registerRooster(register: widget.register)
                         .then(
@@ -453,7 +452,6 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                               onConfirm: () {
                                 //FIXME: Redirect to Home Page
                                 // Get.offAll(HomeArtisanScreen());
-
                               });
                         } else {
                           Get.defaultDialog(

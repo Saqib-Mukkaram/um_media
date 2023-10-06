@@ -11,7 +11,7 @@ class Register {
   String? password;
   String? phone;
   String? dob;
-  Map<String, int>? interests;
+  List<int>? interests;
   File? profileImage;
 
   Register({

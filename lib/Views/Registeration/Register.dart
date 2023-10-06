@@ -29,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
- 
+
   TextEditingController _genderController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -62,7 +62,6 @@ class _RegisterScreenState extends State<RegisterScreen>
       length: 1,
       animationDuration: Duration(seconds: 1),
       child: Scaffold(
-       
         body: SingleChildScrollView(
           child: SafeArea(
             child: Column(
@@ -72,37 +71,40 @@ class _RegisterScreenState extends State<RegisterScreen>
                   child: Column(
                     children: [
                       SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    color: AppConstants.subTextGrey,
-                    child: Image.asset(AppConstants.Logo, width: 100, height: 100)),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    color: AppConstants.subTextGrey,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(50, 0, 50, 10),
-                      child: Center(
-                        child: Text(
-                          "join_us".tr,
-                          style: TextStyle(fontSize: 24, color: AppConstants.siteSubColor),
+                        height: 10,
+                      ),
+                      Container(
+                          color: AppConstants.subTextGrey,
+                          child: Image.asset(AppConstants.Logo,
+                              width: 100, height: 100)),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        color: AppConstants.subTextGrey,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(50, 0, 50, 10),
+                          child: Center(
+                            child: Text(
+                              "join_us".tr,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: AppConstants.siteSubColor),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    color: AppConstants.subTextGrey,
-                    child: Text(
-                      "join_us_descp".tr,
-                      style:
-                          TextStyle(fontSize: 18, color: AppConstants.siteSubColor),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                      Container(
+                        color: AppConstants.subTextGrey,
+                        child: Text(
+                          "join_us_descp".tr,
+                          style: TextStyle(
+                              fontSize: 18, color: AppConstants.siteSubColor),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                 ),
@@ -134,7 +136,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                           onPressed: () {
                             _tabController.animateTo(0);
                           },
-                         
                           child: Text(
                             "Rooster",
                             style: TextStyle(color: AppConstants.siteSubColor),
@@ -448,18 +449,17 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     middleText:
                                         "Please Agree to the Terms and Conditions");
                               } else {
-                                Register _register = Register(firstname: _firstnameController.value.text,
-                              lastName: _lastnameController.value.text,
-                              gender: _genderController.value.text,
-                              email: _emailController.value.text,
-                              password: _passwordController.value.text,
-                              phone: _phoneNumberController.value.text
-                              );
-                              Get.to(RegisterProfilePage(
-                                register: _register,
-                              ));
+                                Register _register = Register(
+                                    firstname: _firstnameController.value.text,
+                                    lastName: _lastnameController.value.text,
+                                    gender: _genderController.value.text,
+                                    email: _emailController.value.text,
+                                    password: _passwordController.value.text,
+                                    phone: _phoneNumberController.value.text);
+                                Get.to(RegisterProfilePage(
+                                  register: _register,
+                                ));
                               }
-                              
                             },
                             backgroundColor: AppConstants.subTextGrey,
                             foregroundColor: AppConstants.siteSubColor,

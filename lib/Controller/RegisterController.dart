@@ -12,9 +12,9 @@ class RegisterController {
   Future<bool> registerRooster({
     required Register register,
   }) async {
-    print(jsonEncode(register.interests));
-    print(jsonEncode(register.interests
-        ?.map((key, value) => MapEntry(key.toString(), value))));
+    var x = register.interests!.map((e) => e.toString()).toList();
+    print("the Value of x is $x");
+
     var response = await http.post(
         Uri.parse(AppConstants.base_URL + AppConstants.register),
         headers: AppConstants.httpHeader,

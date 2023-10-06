@@ -79,32 +79,26 @@ class _MyAppState extends State<MyApp> {
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            // Once data is fetched, navigate to the HomeScreen
-            Map<String, dynamic> roosterJson = {
-              "id": 1,
-              "first_name": "John",
-              "last_name": "Doe",
-              "gender": "Male",
-              "phone": "123456789",
-              "email": "john.doe@example.com",
-              "city": "New York",
-              "state": "NY",
-              "country": "USA",
-              "dob": "1990-01-01",
-              "profile_image":"",
-              "interest": [
-                
-              ],
-              "gallery": [
-                
-              ]
-            };
+            // // Once data is fetched, navigate to the HomeScreen
+            // Map<String, dynamic> roosterJson = {
+            //   "id": 1,
+            //   "first_name": "John",
+            //   "last_name": "Doe",
+            //   "gender": "Male",
+            //   "phone": "123456789",
+            //   "email": "john.doe@example.com",
+            //   "city": "New York",
+            //   "state": "NY",
+            //   "country": "USA",
+            //   "dob": "1990-01-01",
+            //   "profile_image": "",
+            //   "interest": [],
+            //   "gallery": []
+            // };
 
             // Create a Rooster object
-            Rooster myRooster = Rooster.fromJson(roosterJson);
-            return HomeArtisanScreen(
-              rooster: myRooster,
-            );
+            // Rooster myRooster = Rooster.fromJson(roosterJson);
+            return RegisterScreen();
           } else {
             // While data is being fetched, show the SplashScreen
             return SplashScreen();
@@ -114,7 +108,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
 
 // void main() {
 //   // Ensure initialized
@@ -141,7 +134,7 @@ class _MyAppState extends State<MyApp> {
 //     await _talentController.fetchAll();
 //     await _studioController.fetchAll();
 //     await _roosterController.fetchAll();
-    
+
 //     setState(() {
 //       _isLoading = false; // Set loading indicator to false once data is fetched
 //     });
@@ -170,4 +163,3 @@ class _MyAppState extends State<MyApp> {
 //     );
 //   }
 // }
-
