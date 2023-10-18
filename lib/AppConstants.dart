@@ -73,7 +73,9 @@ class AppConstants {
 
   //API Paths
   static const String API_TOKEN = "e9a3cc12ce4aab1e136b25ad23b06d01";
+
   static const String base_URL = "https://ummediagroup.com";
+  // static const String base_URL = "http://127.0.0.1:8000";
   static const String rooster_categories = "/api/roster/categories";
   static const String rooster_details = "/api/roster/details";
   static const String studio_list = "/api/studio";

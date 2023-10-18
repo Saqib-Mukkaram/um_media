@@ -41,6 +41,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            CircularProgressIndicator(
+              color: AppConstants.siteSubColor,
+
+            )
           ],
         ),
       ),

@@ -3,7 +3,7 @@ class ClientEnquiry {
   final String email;
   final String phone;
   final String message;
-  final List<String> Enquiredroosters;
+  // final List<String> Enquiredroosters;
 
   
   ClientEnquiry({
@@ -11,6 +11,6 @@ class ClientEnquiry {
     required this.email,
     required this.phone,
     required this.message,
-    required this.Enquiredroosters,
+    // required this.Enquiredroosters,
   });
 }

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/Controller/Langauge.dart';
 import 'package:um_media/Controller/LoginController.dart';
@@ -38,6 +41,8 @@ class _MyAppState extends State<MyApp> {
   final EnquireListController _enquireListController =
       Get.put(EnquireListController());
   final LoginController _loginController = Get.put(LoginController());
+  SharedPreferences? prefs;
+  Rooster? rooster;
 
   Future<void> fetchData() async {
     if (_talentController.categories.isEmpty ||
@@ -49,12 +54,23 @@ class _MyAppState extends State<MyApp> {
       await _talentController.fetchAll();
       await _studioController.fetchAll();
       await _roosterController.fetchAll();
+      prefs = await SharedPreferences.getInstance();
       print(_talentController.categories);
       print(_roosterController.roosterList);
       print(_studioController.studios);
     } else {
       return Future.delayed(Duration(seconds: 2));
     }
+  }
+
+  Future<Rooster?> getRooster() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final roosterJson = prefs.getString('rooster');
+    if (roosterJson != null) {
+      final roosterMap = json.decode(roosterJson);
+      return Rooster.fromJson(roosterMap);
+    }
+    return null; // Return null if the rooster data is not found in SharedPreferences
   }
 
   @override
@@ -79,26 +95,20 @@ class _MyAppState extends State<MyApp> {
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            // // Once data is fetched, navigate to the HomeScreen
-            // Map<String, dynamic> roosterJson = {
-            //   "id": 1,
-            //   "first_name": "John",
-            //   "last_name": "Doe",
-            //   "gender": "Male",
-            //   "phone": "123456789",
-            //   "email": "john.doe@example.com",
-            //   "city": "New York",
-            //   "state": "NY",
-            //   "country": "USA",
-            //   "dob": "1990-01-01",
-            //   "profile_image": "",
-            //   "interest": [],
-            //   "gallery": []
-            // };
-
-            // Create a Rooster object
-            // Rooster myRooster = Rooster.fromJson(roosterJson);
-            return RegisterScreen();
+            // bool isLoggedIn = prefs?.getBool('isLoggedIn') ?? false;
+            // if (isLoggedIn) {
+            //   rooster =
+            //       jsonDecode(prefs?.getString('rooster') as String);
+            // }
+            // print("Logged ? $isLoggedIn");
+            //
+            // return isLoggedIn == true && rooster != null
+            //     ? HomeArtisanScreen(
+            //         rooster: rooster as Rooster,
+            //       )
+            //     : HomeScreen();
+            return HomeScreen();
+            // return HomeArtisanScreen(rooster_id: 1);
           } else {
             // While data is being fetched, show the SplashScreen
             return SplashScreen();
@@ -108,58 +118,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-// void main() {
-//   // Ensure initialized
-//   WidgetsFlutterBinding.ensureInitialized();
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatefulWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-
-// class _MyAppState extends State<MyApp> {
-//   RoosterController _roosterController = Get.put(RoosterController());
-//   TalentController _talentController = Get.put(TalentController());
-//   StudioController _studioController = Get.put(StudioController());
-//   EnquireListController _enquireListController = Get.put(EnquireListController());
-
-//   bool _isLoading = true; // Track whether data is being fetched
-
-//   Future<void> fetchData() async {
-//     await _talentController.fetchAll();
-//     await _studioController.fetchAll();
-//     await _roosterController.fetchAll();
-
-//     setState(() {
-//       _isLoading = false; // Set loading indicator to false once data is fetched
-//     });
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     fetchData();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GetMaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'UmMedia',
-//       translations: Languages(),
-//       locale: const Locale('en', 'US'),
-//       fallbackLocale: const Locale('en', 'UK'),
-//       theme: ThemeData(
-//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-//         useMaterial3: true,
-//         fontFamily: "Poppins",
-//       ),
-//       home: _isLoading ? SplashScreen() : HomeScreen(), // Show SplashScreen while loading
-//     );
-//   }
-// }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-class Register {
+class Update {
   String? firstname;
   String? lastName;
   String? gender;
@@ -11,11 +11,10 @@ class Register {
   String? password;
   String? phone;
   String? dob;
-  List<String>? interests;
+  List<int>? interests;
   File? profileImage;
-  
 
-  Register({
+  Update({
     this.firstname,
     this.lastName,
     this.gender,

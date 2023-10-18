@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/LoginController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/CustomWidgets/TextWithDividers.dart';
+import 'package:um_media/Models/LoginRequest.dart';
 import 'package:um_media/Views/Homes/ClientHome/Home.dart';
 import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
@@ -19,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  LoginController _loginController = Get.find();
   bool rememberMe = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -38,49 +41,70 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppConstants.subTextGrey,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_outlined,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Get.offAll(HomeScreen());
+          },
+        ),
+        title: Text(
+          "Back",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: [
-               Container(
+              Container(
                 color: AppConstants.subTextGrey,
-                 child: Column(
+                child: Column(
                   children: [
                     SizedBox(
-                  height: 10,
-                             ),
-                             Image.asset(AppConstants.Logo, width: 200, height: 200),
-                             
-                             Padding(
-                  padding: EdgeInsets.fromLTRB(50, 25, 50, 10),
-                  child: Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "welcome_back_user".tr,
-                          style: TextStyle(fontSize: 24,
-                          color: AppConstants.siteSubColor),
-                        ),
-                        // Text(
-                        //   "UserName",
-                        //   style: TextStyle(
-                        //     fontSize: 24,
-                        //   ),
-                        // ),
-                      ],
+                      height: 10,
                     ),
-                  ),
-                             ),
-                             Text(
-                  "welcome_back_descp".tr,
-                  style: TextStyle(fontSize: 18,  color: AppConstants.siteSubColor),
-                             ),
+                    Image.asset(AppConstants.Logo, width: 200, height: 200),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(50, 25, 50, 10),
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "welcome_back_user".tr,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: AppConstants.siteSubColor),
+                            ),
+                            // Text(
+                            //   "UserName",
+                            //   style: TextStyle(
+                            //     fontSize: 24,
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "welcome_back_descp".tr,
+                      style: TextStyle(
+                          fontSize: 18, color: AppConstants.siteSubColor),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    )
                   ],
-                 ),
-               ),
+                ),
+              ),
               SizedBox(
                 height: 50,
               ),
@@ -130,24 +154,24 @@ class _LoginScreenState extends State<LoginScreen> {
               ButtonCustom(
                 buttonText: "login".tr,
                 onPress: () async {
-                  FIXME:
-                  "Simple Email Login";
-                  //Verifying the User Cred
-                  // var verified = await _controller.LoginRequest(body: {
-                  //   "name": emailController.value.text,
-                  //   "password": passwordController.value.text
-                  // }, header: {
-                  //   "Signature": "HelloAPI"
-                  // });
-                  // if (verified == 200) {
-                  //   Get.offAll(HomeScreen());
-                  // } else {
-                  //   Get.offAll(HomeScreen());
-                  // }
-                  Get.offAll(HomeScreen());
+                  var loginrequest = LoginRequest(
+                      email: emailController.text,
+                      password: passwordController.text);
+                  var response = await _loginController.Login(loginrequest);
+                  if (response) {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setBool('isLoggedIn', true);
+                    Get.to(HomeArtisanScreen(
+                      rooster: _loginController.rooster!
+                    ));
+                  } else {
+                    Get.defaultDialog(
+                        title: "Invalid Credentials",
+                        middleText: "Invalid email or password.");
+                  }
                 },
                 backgroundColor: AppConstants.subTextGrey,
-                foregroundColor: AppConstants.siteSubColor,
+                foregroundColor: const Color.fromARGB(255, 147, 116, 48),
                 elevation: 2,
               ),
               TextWithDividers(

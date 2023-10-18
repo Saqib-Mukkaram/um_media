@@ -6,6 +6,7 @@ import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/CustomAppBar.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
+import 'package:um_media/Models/Client.dart';
 import 'package:um_media/Views/Homes/ClientHome/Home.dart';
 
 class EnquireForm extends StatelessWidget {
@@ -18,6 +19,7 @@ class EnquireForm extends StatelessWidget {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
   final EnquireListController _enquireListController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,33 +93,49 @@ class EnquireForm extends StatelessWidget {
             ),
             ButtonCustom(
               buttonText: "Enquire Now",
-              onPress: () {
+              onPress: () async {
                 if (_emailController.value.text.isEmpty ||
                     _phoneController.value.text.isEmpty ||
                     _messageController.value.text.isEmpty ||
                     _nameController.value.text.isEmpty) {
                   Get.defaultDialog(
                       title: "Error", middleText: "Please fill all the fields");
-                } else {
+                }
+                else if (_emailController.value.text == false) {
                   Get.defaultDialog(
-                    backgroundColor: Colors.white,
-                      title: "Rooster Enquired",
-                      middleText: "We will Contact you soon!",
-                      confirm: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppConstants.subTextGrey,
-                          foregroundColor: AppConstants.siteSubColor,
+                      title: "Error", middleText: "Please enter a Valid Email");
+                } else {
+                  var client = ClientEnquiry(
+                    name: _nameController.text,
+                    email: _emailController.text,
+                    phone: _phoneController.text,
+                    message: _messageController.text,
+                  );
+                  //FIXME: THis is Yet to Be Called Correctly from API
+                  await _enquireListController.EnquiredRoosterByClient(client)
+                      .then((value) {
+                    if (value == true) {
+                      Get.defaultDialog(
+                        title: "Success",
+                        middleText: "Enquiry Submitted Successfully We will contact you soon",
+                        onWillPop: () {
+                          _enquireListController.roosterEnquireList.clear();
 
-                        ),
-                        onPressed: () {
                           Get.offAll(HomeScreen());
+                          return Future.value(true);
                         },
-                        child: Text("Okay"),
-                      ));
-
-                  _enquireListController.roosterEnquireList.clear();
-                  
-                  
+                      );
+                    } else {
+                      Get.defaultDialog(
+                          title: "Error",
+                          middleText:
+                          "Enquiry Submission Failed\n Returning to Home Screen",
+                          onWillPop: () {
+                            Get.offAll(HomeScreen());
+                            return Future.value(true);
+                          });
+                    }
+                  });
                 }
               },
               foregroundColor: AppConstants.siteSubColor,
@@ -130,7 +148,7 @@ class EnquireForm extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   var item = _enquireListController.roosterEnquireList[index];
                   var tagsText =
-                      item.rooster.interests.map((tag) => tag.name).join(', ');
+                  item.rooster.interests.map((tag) => tag.name).join(', ');
                   return Padding(
                     padding: EdgeInsets.all(8.0),
                     child: ListTile(
@@ -138,12 +156,13 @@ class EnquireForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                         child: CachedNetworkImage(
                           imageUrl:
-                              AppConstants.base_URL + item.rooster.profileImage,
+                          AppConstants.base_URL + item.rooster.profileImage,
                           width: 25,
                         ),
                       ),
                       title: Text(
-                          "${item.rooster.firstName + " " + item.rooster.lastName}"),
+                          "${item.rooster.firstName + " " + item.rooster
+                              .lastName}"),
                       subtitle: Text(tagsText),
                       // trailing: IconButton(
                       //   onPressed: () {

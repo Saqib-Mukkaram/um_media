@@ -274,6 +274,9 @@ class _HomeScreenState extends State<HomeScreen>
                             paddingLeft: 0,
                             paddingRight: 0,
                             width: 200,
+                          ),
+                          SizedBox(
+                            height: 20,
                           )
                         ],
                       ),

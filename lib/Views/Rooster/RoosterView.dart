@@ -7,12 +7,14 @@ import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
+import 'package:um_media/Models/EnquiredRooster.dart';
 import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/EnquireList.dart';
 import 'package:um_media/Views/Rooster/EnquireListRoosterView.dart';
 
 class RoosterView extends StatefulWidget {
   final int rooster_id;
+
   RoosterView({required this.rooster_id, super.key});
 
   @override
@@ -25,6 +27,7 @@ class _RoosterViewState extends State<RoosterView> {
   EnquireListController _enquireListController = Get.find();
 
   RxBool _isTapped = false.obs;
+
   Future<void> _refresh() async {
     setState(() {
       _controller.fetchAll();
@@ -70,6 +73,7 @@ class _RoosterViewState extends State<RoosterView> {
   ];
 
   var scaffoldkey;
+
   @override
   void initState() {
     _isbuttonTapped = _controller.roosterList
@@ -111,50 +115,56 @@ class _RoosterViewState extends State<RoosterView> {
         ),
         actions: [
           Obx(() => Stack(
-            children: [
-              // Icon
-              IconButton(
-                  icon: Icon(
-                    Icons.favorite_outlined,
-                    color: AppConstants.siteSubColor,
-                  ),
-                  onPressed: () {
-                    Get.to(EnquireListRoosterView());
-                  }), // Replace with your desired icon
-
-              // Counter
-              Positioned(
-                right: 5,
-                top: 7,
-                child: Container(
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _enquireListController.roosterEnquireList.length == 0
-                          ? Colors.transparent
-                          : Colors.red // Customize the color
+                children: [
+                  // Icon
+                  IconButton(
+                      icon: Icon(
+                        Icons.favorite_outlined,
+                        color: AppConstants.siteSubColor,
                       ),
-                  constraints: BoxConstraints(
-                    minWidth: 16,
-                    minHeight: 16,
+                      onPressed: () {
+                        Get.to(EnquireListRoosterView());
+                      }), // Replace with your desired icon
+
+                  // Counter
+                  Positioned(
+                    right: 5,
+                    top: 7,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _enquireListController
+                                      .roosterEnquireList.length ==
+                                  0
+                              ? Colors.transparent
+                              : Colors.red // Customize the color
+                          ),
+                      constraints: BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Center(
+                          child: Obx(
+                        () => _enquireListController
+                                    .roosterEnquireList.length ==
+                                0
+                            ? SizedBox()
+                            : Text(
+                                _enquireListController.roosterEnquireList.length
+                                    .toString(),
+                                // Replace with your counter value
+                                style: TextStyle(
+                                  color:
+                                      Colors.white, // Customize the text color
+                                  fontSize: 12, // Customize the font size
+                                ),
+                              ),
+                      )),
+                    ),
                   ),
-                  child: Center(
-                    child: Obx(() => _enquireListController.roosterEnquireList.length == 0
-                        ? SizedBox()
-                        : Text(
-                            _enquireListController.roosterEnquireList.length
-                                .toString(), // Replace with your counter value
-                            style: TextStyle(
-                              color: Colors.white, // Customize the text color
-                              fontSize: 12, // Customize the font size
-                            ),
-                          ),)
-                  ),
-                ),
-              ),
-            ],
-          ) )
-          
+                ],
+              ))
         ],
       ),
       body: FutureBuilder(
@@ -237,17 +247,18 @@ class _RoosterViewState extends State<RoosterView> {
                         //TODO: Profile Picture
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(100)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black
-                                    .withOpacity(0.2), // Shadow color
-                                spreadRadius: 5, // Spread radius
-                                blurRadius: 7, // Blur radius
-                                // offset: Offset(0, 3), // Offset from the widget
-                              ),
-                            ]),
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black
+                                      .withOpacity(0.2), // Shadow color
+                                  spreadRadius: 5, // Spread radius
+                                  blurRadius: 7, // Blur radius
+                                  // offset: Offset(0, 3), // Offset from the widget
+                                ),
+                              ]),
                           child: ClipOval(
                             child: CachedNetworkImage(
                               imageUrl: AppConstants.base_URL +
@@ -515,9 +526,19 @@ class _RoosterViewState extends State<RoosterView> {
                                     ? {
                                         Get.defaultDialog(
                                             title: "Rooster Enquired",
-                                            middleText: "Check Enquire List."),
-                                        _enquireListController.roosterEnquireList.add(
-                                            EnquireRooster(rooster: _rooster.first)),
+                                            middleText: "Check Enquire List.",
+                                            onConfirm: () {
+                                              Navigator.of(context).pop();
+                                            },
+
+                                            confirmTextColor:
+                                                AppConstants.siteSubColor,
+                                            buttonColor:
+                                                AppConstants.subTextGrey),
+                                        _enquireListController
+                                            .roosterEnquireList
+                                            .add(EnquireRooster(
+                                                rooster: _rooster.first)),
                                         _rooster.first.IsEnquired.toggle(),
                                         print(
                                             "Rooster Value = ${_rooster.first.IsEnquired.value}")
@@ -526,12 +547,22 @@ class _RoosterViewState extends State<RoosterView> {
                                         Get.defaultDialog(
                                             title: "Enquiry Canceled.",
                                             middleText:
-                                                "Rooster removed from Enquire List"),
-                                        _enquireListController.roosterEnquireList
+                                                "Rooster removed from Enquire List",
+                                            onConfirm: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            onCancel: () {
+                                              // Navigator.of(context).pop();
+                                            },
+                                            confirmTextColor:
+                                                AppConstants.siteSubColor,
+                                            buttonColor:
+                                                AppConstants.subTextGrey),
+                                        _enquireListController
+                                            .roosterEnquireList
                                             .removeWhere((element) =>
                                                 element.rooster.id ==
                                                 _rooster.first.id),
-                                                
                                         _rooster.first.IsEnquired.toggle(),
                                         print(
                                             "Rooster Value = ${_rooster.first.IsEnquired.value}")

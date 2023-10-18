@@ -62,6 +62,18 @@ class _RegisterScreenState extends State<RegisterScreen>
       length: 1,
       animationDuration: Duration(seconds: 1),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppConstants.subTextGrey,
+          elevation: 0,
+
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_outlined , color: Colors.white,),
+            onPressed: (){
+              Get.back();
+            },
+          ),
+          title: Text("Back", style: TextStyle(color: Colors.white),),
+        ),
         body: SingleChildScrollView(
           child: SafeArea(
             child: Column(

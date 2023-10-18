@@ -48,7 +48,10 @@ dependencies:
   path_provider: ^2.1.1
   path: ^1.8.3
   image_picker: ^1.0.4
+  http_interceptor: ^2.0.0-beta.7
   dropdown_button2: ^2.3.9
+  dio: ^5.3.3
+  shared_preferences: ^2.2.2
   
 
 dev_dependencies:

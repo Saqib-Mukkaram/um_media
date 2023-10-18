@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,11 +16,14 @@ import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:um_media/Models/Register.dart';
 import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
+import 'package:um_media/Views/Registeration/RoosterRegistering.dart';
 // import 'package:um_media/lib/Controller/GalleryController.dart';
 
 class RegisterProfilePage extends StatefulWidget {
   final Register register;
+
   const RegisterProfilePage({required this.register, super.key});
+
   @override
   State<RegisterProfilePage> createState() => _RegisterProfilePageState();
 }
@@ -37,12 +41,13 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
   final RegisterController _registerController = RegisterController();
   final List<String> items = AppConstants.talentlist;
   List<String> selectedItems = [];
-  List<int> selectedItemsIndex = [];
+  List<String> selectedItemsIndex = [];
   Map<String, int>? interests;
   final picker = ImagePicker();
   var image;
   var date = DateTime.now().obs;
   var picked;
+
   Future<void> _selectDate(BuildContext context) async {
     picked = await showDatePicker(
       context: context,
@@ -72,14 +77,14 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
     }
   }
 
-  void createMap() {
-    interests ??= {};
-    for (int i = 0; i < selectedItems.length; i++) {
-      interests!.addAll({i.toString(): selectedItemsIndex[i] + 1});
-      print(interests);
-      setState(() {});
-    }
-  }
+  // void createMap() {
+  //   interests ??= {};
+  //   for (int i = 0; i < selectedItems.length; i++) {
+  //     interests!.addAll({i.toString(): (selectedItemsIndex[i] + 1)});
+  //     print(interests);
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   void initState() {
@@ -196,12 +201,6 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                   ]),
                 ],
               ),
-              // LabelText(labelText: "Name", paddingbottom: 0),
-              // InputField(
-              //   fieldController: _nameController,
-              //   placeholderText: "Full Name",
-              //   height: 35,
-              // ),
               LabelText(labelText: "Interests", paddingbottom: 0),
               Padding(
                 padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -235,7 +234,7 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                                     : {
                                         selectedItems.add(item),
                                         selectedItemsIndex
-                                            .add(items.indexOf(item))
+                                            .add(items.indexOf(item).toString())
                                       };
 
                                 //This rebuilds the StatefulWidget to update the button's text
@@ -402,6 +401,7 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
               ButtonCustom(
                 buttonText: "Register",
                 onPress: () async {
+                  var flag = false;
                   if (selectedItems.isEmpty) {
                     Get.defaultDialog(
                         title: "Interests are Empty",
@@ -426,8 +426,7 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                     Get.defaultDialog(
                         title: "Height is Empty",
                         middleText: " Please enter the height.");
-                  }
-                  if (image == null) {
+                  } else if (image == null) {
                     Get.defaultDialog(
                         title: "Profile Picture",
                         middleText: "Profile Picture is Required.");
@@ -437,29 +436,15 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                     widget.register.state = _stateController.value.text;
                     widget.register.country = _countryController.value.text;
                     widget.register.dob =
-                        "${date.value.year}-${date.value.month}-${date.value.day}}";
+                        "${date.value.year}-${date.value.month}-${date.value.day}";
                     widget.register.interests = selectedItemsIndex;
                     widget.register.profileImage = File(image);
-
-                    _registerController
-                        .registerRooster(register: widget.register)
-                        .then(
-                      (value) {
-                        if (value == true) {
-                          Get.defaultDialog(
-                              title: "Success",
-                              middleText: "You have successfully registered.",
-                              onConfirm: () {
-                                //FIXME: Redirect to Home Page
-                                // Get.offAll(HomeArtisanScreen());
-                              });
-                        } else {
-                          Get.defaultDialog(
-                              title: "Error",
-                              middleText: "Something went wrong.");
-                        }
-                      },
-                    );
+                    flag = true;
+                  }
+                  if (flag == true) {
+                    Get.to(() => RoosterRegistering(
+                          rooster: widget.register,
+                        ));
                   }
                 },
                 backgroundColor: Colors.black,

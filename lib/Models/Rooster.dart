@@ -66,7 +66,7 @@ class Rooster {
   final String profileImage;
   final List<Interest> interests;
   final List<GalleryImage> gallery;
-   var IsEnquired = false.obs;
+  var IsEnquired = false.obs;
 
   Rooster({
     required this.id,
@@ -82,8 +82,8 @@ class Rooster {
     required this.profileImage,
     required this.interests,
     required this.gallery,
-
   });
+
   factory Rooster.fromJson(Map<String, dynamic> json) {
     return Rooster(
       id: json['id'],
@@ -105,6 +105,25 @@ class Rooster {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'gender': gender,
+      'phone': phone,
+      'email': email,
+      'city': city,
+      'state': state,
+      'country': country,
+      'dob': dob,
+      'profile_image': profileImage,
+      'interests': interests.map((interest) => interest.toJson()).toList(),
+      'gallery': gallery.map((galleryImage) => galleryImage.toJson()).toList(),
+      'is_enquired': IsEnquired,
+    };
+  }
 }
 
 class Interest {
@@ -117,12 +136,21 @@ class Interest {
     required this.name,
     required this.photo,
   });
+
   factory Interest.fromJson(Map<String, dynamic> json) {
     return Interest(
       id: json['id'],
       name: json['name'],
       photo: json['photo'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'photo': photo,
+    };
   }
 }
 
@@ -136,11 +164,20 @@ class GalleryImage {
     required this.rosterId,
     required this.image,
   });
+
   factory GalleryImage.fromJson(Map<String, dynamic> json) {
     return GalleryImage(
       id: json['id'],
       rosterId: json['roster_id'],
       image: json['image'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'roster_id': rosterId,
+      'image': image,
+    };
   }
 }
