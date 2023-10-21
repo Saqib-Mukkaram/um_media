@@ -221,12 +221,12 @@ class _RoosterViewState extends State<RoosterView> {
                     },
                     child: Text(
                       "${interests.name}",
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 16),
                     ),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: AppConstants.siteSubColor,
                       backgroundColor: AppConstants.subTextGrey,
-                      minimumSize: Size(40, 20),
+                      minimumSize: Size(40, 30),
                     ),
                   ),
                 ),
@@ -263,12 +263,12 @@ class _RoosterViewState extends State<RoosterView> {
                             child: CachedNetworkImage(
                               imageUrl: AppConstants.base_URL +
                                   _rooster.first.profileImage,
-                              width: 200,
-                              height: 200,
+                              width: 150,
+                              height: 150,
                               fit: BoxFit.fill,
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) => Padding(
-                                padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
+                                padding: EdgeInsets.fromLTRB(32, 32, 32, 32),
                                 child: CircularProgressIndicator(
                                   value: downloadProgress.progress,
                                   color: AppConstants.siteSubColor,

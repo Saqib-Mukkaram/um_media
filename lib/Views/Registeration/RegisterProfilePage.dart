@@ -77,14 +77,6 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
     }
   }
 
-  // void createMap() {
-  //   interests ??= {};
-  //   for (int i = 0; i < selectedItems.length; i++) {
-  //     interests!.addAll({i.toString(): (selectedItemsIndex[i] + 1)});
-  //     print(interests);
-  //     setState(() {});
-  //   }
-  // }
 
   @override
   void initState() {
@@ -288,11 +280,7 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                         },
                       ).toList();
                     },
-                    // buttonStyleData: const ButtonStyleData(
-                    //   padding: EdgeInsets.only(left: 16, right: 8),
-                    //   height: 40,
-                    //   width: 140,
-                    // ),
+
                     menuItemStyleData: const MenuItemStyleData(
                       height: 40,
                       padding: EdgeInsets.zero,
@@ -439,6 +427,8 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                         "${date.value.year}-${date.value.month}-${date.value.day}";
                     widget.register.interests = selectedItemsIndex;
                     widget.register.profileImage = File(image);
+                    widget.register.height = _heightController.value.text;
+                    widget.register.weight = _weightController.value.text;
                     flag = true;
                   }
                   if (flag == true) {

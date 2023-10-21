@@ -11,6 +11,7 @@ import 'package:um_media/Models/LoginRequest.dart';
 import 'package:um_media/Views/Homes/ClientHome/Home.dart';
 import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
+import 'package:um_media/Views/Reset/ChangePassword.dart';
 import 'package:um_media/Views/Reset/ConfirmEmail.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -144,9 +145,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       // Get.to(HomeArtisanScreen());
                     },
-                    child: Text(
-                      "forget_password".tr,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(ConfirmEmail());
+                      },
+                      child: Text(
+                        "forget_password".tr,
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      ),
                     ),
                   )
                 ],

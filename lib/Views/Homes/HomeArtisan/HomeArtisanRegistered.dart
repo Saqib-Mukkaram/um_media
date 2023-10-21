@@ -84,7 +84,7 @@ class _HomeArtisanRegisteredState extends State<HomeArtisanRegistered>
   bool _isbuttonTapped = false;
 
   var _isTapped;
-  var _imgs_sana = AppConstants.img_sana;
+
   var infohead = ["Name", "Location", "Age", "Phone", "Weight", "Height"];
 
   final infoIcons = [
@@ -204,7 +204,7 @@ class _HomeArtisanRegisteredState extends State<HomeArtisanRegistered>
           children: [
             FutureBuilder(
               //FIXME: This is to be Made Dynamic
-                future: _artisanController.fetchArtisanDetails(1),
+                future: _artisanController.fetchArtisanDetails(widget.rooster_id),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     var rooster = _artisanController.rooster;

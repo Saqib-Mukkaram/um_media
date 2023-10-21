@@ -7,7 +7,7 @@
     <application
         android:label="um_media"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
     >
         <!-- FIXME: if we face problem for the http config. remove it -->
         <activity

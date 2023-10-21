@@ -45,21 +45,7 @@ class _SideBarState extends State<SideBar> {
             SizedBox(
               height: 40,
             ),
-            ListTile(
-              tileColor: Colors.transparent,
-              leading: ClipOval(
-                child: Image.asset(
-                  AppConstants.img_person,
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              enabled: true,
-              title: Text("username".tr),
-              subtitle: Text("Number/Descp"),
-              onTap: () {},
-            ),
+
             Divider(
               indent: 16,
               endIndent: 16,

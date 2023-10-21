@@ -14,9 +14,24 @@ class ConfirmEmail extends StatefulWidget {
 
 class _ConfirmEmailState extends State<ConfirmEmail> {
   final TextEditingController confirmEmailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: AppConstants.subTextGrey,
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_outlined,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Get.back();
+              }),
+          title: Text(
+            "Back",
+            style: TextStyle(color: Colors.white),
+          )),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -49,6 +64,8 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                   fieldController: confirmEmailController),
               ButtonCustom(
                   buttonText: "send_code".tr,
+                  foregroundColor: AppConstants.siteSubColor,
+                  backgroundColor: AppConstants.subTextGrey,
                   onPress: () {
                     Get.to(VerifyOTP());
                   })

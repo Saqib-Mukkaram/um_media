@@ -10,6 +10,7 @@ import 'package:um_media/Views/Registeration/Register.dart';
 
 class RoosterRegistering extends StatefulWidget {
   Register rooster;
+
   RoosterRegistering({
     super.key,
     required this.rooster,
@@ -20,8 +21,8 @@ class RoosterRegistering extends StatefulWidget {
 }
 
 class _RoosterRegisteringState extends State<RoosterRegistering> {
-  RegisterController _registerController = RegisterController();
-  
+  RegisterController _registerController = Get.put(RegisterController());
+
   @override
   initState() {
     super.initState();
@@ -63,65 +64,67 @@ class _RoosterRegisteringState extends State<RoosterRegistering> {
               SizedBox(
                 height: 40,
               ),
-              FutureBuilder(
-                  future: _registerController.registerRooster(
-                      register: widget.rooster),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.data == true) {
-                        return Column(
-                          children: [
+              Expanded(
+                child: FutureBuilder(
+                    future: _registerController.registerRooster(
+                        register: widget.rooster),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.data == true) {
+                          return Column(
+                            children: [
+                              Text(
+                                "Rooster Registration Successfull!",
+                                style:
+                                TextStyle(fontSize: 24, color: Colors.green),
+                              ),
+                              ButtonCustom(
+                                buttonText: "Continue",
+                                onPress: () {
+                                  Get.offAll(HomeArtisanRegistered(
+                                      rooster_id:
+                                      _registerController.rooster_id));
+                                },
+                                backgroundColor: AppConstants.subTextGrey,
+                                foregroundColor: AppConstants.siteSubColor,
+                              )
+                            ],
+                          );
+                        } else {
+                          return Column(
+                            children: [
                             Text(
-                              "Rooster Registration Successfull!",
-                              style:
-                                  TextStyle(fontSize: 24, color: Colors.green),
-                            ),
-                            ButtonCustom(
-                              buttonText: "Continue",
-                              onPress: () {
-                                Get.offAll(HomeArtisanRegistered(
-                                    rooster_id:
-                                        _registerController.rooster_id));
-                              },
-                              backgroundColor: AppConstants.subTextGrey,
-                              foregroundColor: AppConstants.siteSubColor,
-                            )
-                          ],
-                        );
-                      } else {
-                        return Column(
-                          children: [
-                            Text(
-                              "Rooster Registration Failed",
-                              style: TextStyle(fontSize: 24, color: Colors.red),
-                            ),
-                            // Text(
-                            //   "${_registerController.message}",
-                            //   style: TextStyle(fontSize: 18, color: Colors.black),
-                            // ),
-                            ButtonCustom(
-                              buttonText: "Retry",
-                              onPress: () {
-
-                                setState(() {});
-                              },
-                              backgroundColor: AppConstants.subTextGrey,
-                              foregroundColor: AppConstants.siteSubColor,
-                            )
-                          ],
-                        );
-                      }
-                    } else {
-                      return Column(
-                        children: [
-                          CircularProgressIndicator(
-                            color: AppConstants.siteSubColor,
-                            strokeWidth: 8,
+                            "Rooster Registration Failed",
+                            style: TextStyle(fontSize: 24, color: Colors.red),
                           ),
-                        ],
+                      Text(
+                      _registerController.message.value == null ? "Error" : _registerController.message.value,
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                      ButtonCustom(
+                      buttonText: "Retry",
+                      onPress: () {
+
+                      setState(() {});
+                      },
+                      backgroundColor: AppConstants.subTextGrey,
+                      foregroundColor: AppConstants.siteSubColor,
+                      )
+                      ],
                       );
-                    }
-                  })
+                      }
+                      } else {
+                      return Column(
+                      children: [
+                      CircularProgressIndicator(
+                      color: AppConstants.siteSubColor,
+                      strokeWidth: 8,
+                      ),
+                      ],
+                      );
+                      }
+                    }),
+              )
             ]),
           ),
         ));

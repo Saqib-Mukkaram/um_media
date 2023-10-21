@@ -16,7 +16,8 @@ class StudioView extends StatefulWidget {
 }
 
 class _StudioViewState extends State<StudioView> {
-   StudioController _controller = Get.find();
+  StudioController _controller = Get.find();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -25,8 +26,8 @@ class _StudioViewState extends State<StudioView> {
 
   Future<void> _refresh() async {
     // _controller.dispose();
-  
-    await  _controller.fetchAll();
+
+    await _controller.fetchAll();
     print("studio Controller fetch ${_controller.studios.length}");
   }
 
@@ -107,11 +108,23 @@ class _StudioViewState extends State<StudioView> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
-                                  //FIXME: THis is a Constant.
-                                  child:
-                                      Image.asset(AppConstants.img_studio[0]),
-                                ),
+                                    padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
+                                    //FIXME: THis is a Constant.
+                                    child: CachedNetworkImage(
+                                      imageUrl: AppConstants.base_URL +
+                                          studioList.image,
+                                      fit: BoxFit.fill,
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(32, 64, 32, 64),
+                                        child: CircularProgressIndicator(
+                                          value: downloadProgress.progress,
+                                          color: AppConstants.siteSubColor,
+                                        ),
+                                      ),
+                                    )),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -184,7 +197,9 @@ class _StudioViewState extends State<StudioView> {
                                 ButtonCustom(
                                   buttonText: "Book Studio",
                                   onPress: () {
-                                    Get.to(StudioBookingScreen(id: studioList.id,));
+                                    Get.to(StudioBookingScreen(
+                                      id: studioList.id,
+                                    ));
                                   },
                                   backgroundColor: AppConstants.subTextGrey,
                                   foregroundColor: AppConstants.siteSubColor,

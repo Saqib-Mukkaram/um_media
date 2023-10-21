@@ -48,35 +48,5 @@ class StudioController extends GetxController {
     }
   }
 
-  // Future<void> getStudios() async {
-  //   try {
-  //     var response = await http.post(
-  //         Uri.parse(AppConstants.base_URL + AppConstants.studio_details),
-  //         headers: AppConstants.httpHeader,
-  //         //FIXME: "this is to be made Dynamic for now we have only one studio" a loop would suffice.
-  //         body: {"studio_id": "1"});
-  //     if (response.statusCode == 200) {
-  //       var data =
-  //           jsonDecode(response.body)['data']['gallery'] as List<dynamic>;
-  //       // print(data['gallery']);
-  //       studios =
-  //           data.map((studioData) => Studio.fromJson(studioData)).toList();
-  //     } else {
-  //       print("failed to fetch data.${response.statusCode}");
-  //     }
-  //   } catch (error) {
-  //     print("Error Fetching Studios Gallery $error , ");
-  //   }
-  // }
+
 }
-  // Future<void> cachedData() async {
-  //   var studioImgList = studiosList.map((element) => element.image).toList();
-  //   print("Studios List");
-  //   print(studioImgList);
-  //   for (var element in studioImgList) {
-  //     var image = await CacheController.cache
-  //         .downloadFile(AppConstants.base_URL + element);
-  //     images.add(image);
-  //   }
-  //   // cache.getFileFromCache(key);
-  // }

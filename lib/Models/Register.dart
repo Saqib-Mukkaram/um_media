@@ -11,6 +11,8 @@ class Register {
   String? password;
   String? phone;
   String? dob;
+  String? weight;
+  String? height;
   List<String>? interests;
   File? profileImage;
   
@@ -28,5 +30,7 @@ class Register {
     this.dob,
     this.interests,
     this.profileImage,
+    this.height,
+    this.weight,
   });
 }

@@ -51,10 +51,60 @@ class EnquireListController extends GetxController {
         });
     var xy = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(xy);
-      return true;
+      if (xy['status'] == true) {
+        print(xy);
+        return true;
+      } else {
+        return false;
+      }
     } else {
       print(xy);
+      return false;
+    }
+  }
+
+  Future<bool> enquireStudios(ClientEnquiry client) async {
+    List<EnquireStudio> enquirelist = studioList.toList();
+    List<String> enquireStudio =
+        enquirelist.map((e) => e.studio.id.toString()).toList();
+
+    try {
+      var response = await http.post(
+          Uri.parse(AppConstants.base_URL + AppConstants.studio_enquire),
+          headers: AppConstants.httpHeader,
+          body: {
+            "name": client.name,
+            "email": client.email,
+            "phone": client.phone,
+            "message": client.message,
+            "studios": jsonEncode(Map.fromIterable(
+              enquireStudio,
+              key: (studioId) => studioId,
+              value: (studioId) => {
+                "message": "I enquire this studio",
+                "studio_id": studioId,
+                "studio_hours": 12,
+                "start_date": "2023-09-20 00:00:00",
+                "end_date": "2023-09-24 23:59:59",
+              },
+            )),
+          });
+      var xy = jsonDecode(response.body);
+      print(response.body);
+      print(xy);
+      if (response.statusCode == 200) {
+        if (xy['status'] == true) {
+          print(xy);
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        print(xy);
+        return false;
+      }
+    } catch (error) {
+      print("Error Fetching Studios List: $error");
       return false;
     }
   }

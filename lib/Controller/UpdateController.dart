@@ -7,7 +7,7 @@ import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Models/Register.dart';
 import 'package:um_media/Models/Update.dart';
 class UpdateController extends GetxController {
-  Future<bool> registerRooster({
+  Future<bool> updateRooster({
     required Update register,
   }) async {
     var indexedInterests = Map.fromIterable(

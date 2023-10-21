@@ -269,11 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                       ).toList();
                     },
-                    // buttonStyleData: const ButtonStyleData(
-                    //   padding: EdgeInsets.only(left: 16, right: 8),
-                    //   height: 40,
-                    //   width: 140,
-                    // ),
+
                     menuItemStyleData: const MenuItemStyleData(
                       height: 40,
                       padding: EdgeInsets.zero,

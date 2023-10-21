@@ -14,25 +14,14 @@ class AppConstants {
 
   //Paths
   static const String Logo = "assets/imgs/Logo.png";
-  static const String img_actor = "assets/imgs/Actor.jpg";
-  static const String img_dancing = "assets/imgs/Dancing.jpg";
-  static const String img_singing = "assets/imgs/Singing.jpg";
-  static const String img_photography = "assets\\imgs\\Photography.jpg";
-  static const String google_icon = "assets/imgs/icons/Google.png";
-  static const String img_person = "assets/imgs/Person.jpg";
+
   static List<DropDownValueModel> TalentSelectionList = [
     DropDownValueModel(name: "Actor", value: "Actor"),
   ];
   static List<String> selectedOptions = [
     'Actor',
   ];
-  static const img_sana = [
-    "assets/imgs/People/Sana-1.png",
-    "assets/imgs/People/Sana-2.png",
-    "assets/imgs/People/Sana-3.png",
-    "assets/imgs/People/Sana-4.png",
-    "assets/imgs/People/Sana-5.png",
-  ];
+
   static const img_studio = [
     "assets/imgs/Studio/Studio-1.png",
     "assets/imgs/Studio/Studio-2.png",
@@ -78,6 +67,7 @@ class AppConstants {
   // static const String base_URL = "http://127.0.0.1:8000";
   static const String rooster_categories = "/api/roster/categories";
   static const String rooster_details = "/api/roster/details";
+  static const String studio_enquire = "/api/studio/enquire";
   static const String studio_list = "/api/studio";
   static const String studio_details = "/api/studio/details";
   static const String register = "/api/roster/register";

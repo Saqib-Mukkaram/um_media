@@ -98,6 +98,7 @@ class _TalentsViewState extends State<TalentsView> {
                       itemBuilder: (BuildContext context, int index) {
                         if (specific.length == 0) {
                           return Column(
+                            // crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Center(

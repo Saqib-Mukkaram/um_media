@@ -5,7 +5,7 @@ class Languages extends Translations {
         'en_US': {
           "welcome": "Welcome",
           "welcome_back_user": "Welcome Back ",
-          "welcome_back_descp": "Welcome back! Please enter your details.",
+          "welcome_back_descp": "Please enter your details.",
           "email": "Email",
           "password": "Password",
           "confirm_password": "Confirm Password",

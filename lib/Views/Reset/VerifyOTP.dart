@@ -14,10 +14,27 @@ class VerifyOTP extends StatefulWidget {
 }
 
 class _VerifyOTPState extends State<VerifyOTP> {
-  final TextEditingController otpController = TextEditingController();
+  final TextEditingController otpController1 = TextEditingController();
+  final TextEditingController otpController2 = TextEditingController();
+  final TextEditingController otpController3 = TextEditingController();
+  final TextEditingController otpController4 = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: AppConstants.subTextGrey,
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_outlined,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Get.back();
+              }),
+          title: Text(
+            "Back",
+            style: TextStyle(color: Colors.white),
+          )),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -50,25 +67,25 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 children: [
                   InputField(
                     placeholderText: " ",
-                    fieldController: otpController,
+                    fieldController: otpController1,
                     width: 50,
                     keyboardType: TextInputType.number,
                   ),
                   InputField(
                     placeholderText: " ",
-                    fieldController: otpController,
+                    fieldController: otpController2,
                     width: 50,
                     keyboardType: TextInputType.number,
                   ),
                   InputField(
                     placeholderText: " ",
-                    fieldController: otpController,
+                    fieldController: otpController3,
                     width: 50,
                     keyboardType: TextInputType.number,
                   ),
                   InputField(
                     placeholderText: " ",
-                    fieldController: otpController,
+                    fieldController: otpController4,
                     width: 50,
                     keyboardType: TextInputType.number,
                   ),
@@ -96,6 +113,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
               ),
               ButtonCustom(
                   buttonText: "continue_button".tr,
+                  foregroundColor: AppConstants.siteSubColor,
+                  backgroundColor: AppConstants.subTextGrey,
                   onPress: () {
                     Get.to(ChangePassword());
                   })

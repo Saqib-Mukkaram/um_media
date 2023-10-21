@@ -90,7 +90,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
   bool _isbuttonTapped = false;
 
   var _isTapped;
-  var _imgs_sana = AppConstants.img_sana;
+
   var infohead = ["Name", "Location", "Age", "Phone", "Weight", "Height"];
 
   final infoIcons = [
@@ -386,7 +386,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                           crossAxisCount: 3,
                                         ),
                                         itemCount:
-                                            widget.rooster.gallery.length == 0
+                                            widget.rooster.gallery.isEmpty
                                                 ? 1
                                                 : widget.rooster.gallery.length,
                                         padding: EdgeInsets.all(8),
@@ -402,7 +402,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                                     _getImage("");
                                                   },
                                                   icon: Icon(Icons.add))
-                                              : gallery == null
+                                              : gallery.image.isEmpty
                                                   ? Image.file(
                                                       File(grid_image_list[
                                                           index]),

@@ -1,16 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
+import 'package:um_media/Views/Studio/StudioForm.dart';
 
 class StudioBookingScreen extends StatefulWidget {
   final int id;
-  StudioBookingScreen({
-    required this.id,
-    super.key});
+
+  StudioBookingScreen({required this.id, super.key});
 
   @override
   State<StudioBookingScreen> createState() => _StudioBookingScreenState();
@@ -20,9 +22,15 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
   final StudioController _controller = Get.find();
- 
+  final EnquireListController _enquireListController = Get.find();
+
   var time = TimeOfDay.now().obs;
   var date = DateTime.now().obs;
+  var date_after = ''.obs; // Assuming it's a String
+  var time_after = ''.obs; // Assuming it's a String
+  var date_check = false;
+  var time_check = false;
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -30,21 +38,9 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-
-    if (picked != null && picked != DateTime.now()) {
-      // Do something with the selected date
-      print('Selected date: ${picked.toString()}');
-
-      var year = picked.year;
-      var month = picked.month;
-      var day = picked.day;
-      setState(() {
-        // date.value = year.toString() + '-' + month.toString() + '-' + day.toString();
-      });
-    } else {
-      setState(() {
-        // date = DateTime.now();
-      });
+    //wrap with if
+    if (picked != null) {
+      date.value = picked!;
     }
   }
 
@@ -55,17 +51,11 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
     );
 
     if (picked != null) {
-      // Do something with the selected time
-      print('Selected time: ${picked.format(context)}');
+      time.value = picked!;
     }
-    var hour;
-    var minute;
-    hour = picked!.hour - 12;
-    minute = picked.minute;
-    setState(() {
-      // time = hour.toString() + ":" + minute.toString();
-    });
   }
+
+  // var studiolist = _controller.studios.where((element) => element.id == widget.id).first;
 
   @override
   void initState() {
@@ -80,6 +70,8 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var studiolist =
+        _controller.studios.where((element) => element.id == widget.id).first;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -103,18 +95,28 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
           SizedBox(
             height: 20,
           ),
-          Text("${_controller.studios.where((element) => element.id == widget.id).first.name}", style: TextStyle(fontSize: 20)),
+          Text(
+              "${_controller.studios.where((element) => element.id == widget.id).first.name}",
+              style: TextStyle(fontSize: 20)),
           SizedBox(
             height: 5,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            child: Image.asset(
-              AppConstants.img_studio[0],
-              width: 300,
-              height: 200,
-              fit: BoxFit.fill,
-            ),
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                child: CachedNetworkImage(
+                  imageUrl: AppConstants.base_URL + studiolist.image,
+                  fit: BoxFit.fill,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Padding(
+                    padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
+                    child: CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                      color: AppConstants.siteSubColor,
+                    ),
+                  ),
+                )),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,9 +126,12 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
                 children: [
                   LabelText(labelText: "Date"),
                   InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        await _selectDate(context);
                         setState(() {
-                          _selectDate(context);
+                          date_check = true;
+                          date_after.value =
+                              "${date.value.year}/${date.value.month}/${date.value.day}";
                         });
                       },
                       child: Padding(
@@ -138,10 +143,9 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
                             controller: _dateController,
                             decoration: InputDecoration(
                               label: Obx(() {
-                                return date.value == null
+                                return date_after.value == ''
                                     ? Text("Select Date For Booking")
-                                    : Text(
-                                        "${date.value.year}/${date.value.month}/${date.value.day}");
+                                    : Text(date_after.value);
                               }),
                               // border: const OutlineInputBorder(
                               //   borderSide: BorderSide(color: Colors.grey),
@@ -184,9 +188,12 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
                 children: [
                   LabelText(labelText: "Time"),
                   InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        await _selectTime(context);
                         setState(() {
-                          _selectTime(context);
+                          time_check = true;
+                          time_after.value =
+                              "${time.value.hour > 12 ? time.value.hour - 12 : time.value.hour}:${time.value.minute}";
                         });
                       },
                       child: Padding(
@@ -195,20 +202,13 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
                           width: 175,
                           child: TextFormField(
                             enabled: false,
-                            controller: _dateController,
+                            controller: _timeController,
                             decoration: InputDecoration(
-                              label: date == null
+                              label: Obx(() => time_after.value == ''
                                   ? Text("Select Time For Booking")
-                                  : Text(
-                                      "${time.value.hour}:${time.value.minute}"),
-                              // border: const OutlineInputBorder(
-                              //   borderSide: BorderSide(color: Colors.grey),
-                              //   borderRadius: BorderRadius.all(
-                              //     Radius.circular(8),
-                              //   ),
-                              // ),
+                                  : Text(time_after.value)),
                               focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
+                                borderSide: BorderSide(color: Colors.black),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
@@ -229,7 +229,7 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
                               fillColor: Colors.white,
 
                               hintStyle: TextStyle(
-                                color: Colors.grey.shade400,
+                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -242,7 +242,22 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
           ButtonCustom(
             buttonText: "Book Now",
             onPress: () {
-              
+              if (date_check == false) {
+                Get.defaultDialog(
+                    title: "Missing Fields",
+                    middleText: "Please Enter the Date.");
+              } else if (time_check == false) {
+                Get.defaultDialog(
+                    title: "Missing Fields",
+                    middleText: "Please Enter the Time.");
+              } else {
+                _enquireListController.studioList.add(EnquireStudio(
+                  studio: _controller.studios
+                      .where((element) => element.id == widget.id)
+                      .first,
+                ));
+                Get.to(StudioForm());
+              }
             },
             backgroundColor: AppConstants.subTextGrey,
             foregroundColor: AppConstants.siteSubColor,
