@@ -34,7 +34,7 @@ class TalentPost extends StatelessWidget {
           children: [
             Column(
               children: [
-                //  TODO: Needs to be FIXED //
+              
                 Container(
                   decoration: BoxDecoration(
                           color: Colors.white,

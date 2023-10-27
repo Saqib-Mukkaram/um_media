@@ -77,7 +77,6 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -173,7 +172,7 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                                   },
                                   onSelected: (String choice) {
                                     if (choice == "change_picture") {
-                                      //TODO: CHange the Picture Functionality
+                                    
                                       _getImage();
                                       setState(() {});
                                     }
@@ -280,7 +279,6 @@ class _RegisterProfilePageState extends State<RegisterProfilePage> {
                         },
                       ).toList();
                     },
-
                     menuItemStyleData: const MenuItemStyleData(
                       height: 40,
                       padding: EdgeInsets.zero,

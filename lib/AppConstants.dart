@@ -42,7 +42,9 @@ class AppConstants {
     "DJ",
     "Musician",
   ];
- 
+
+
+
   static const NetworkPaths = {"Actor": ""};
   // Network Paths
   static const String net_actor =
@@ -74,6 +76,9 @@ class AppConstants {
   static const String login = "/api/roster/login";
   static const String enquire_rooster = "/api/roster/enquire";
   static const String rooster_list = "/api/roster";
+  static const String rooster_details_update = "/api/roster/update";
+  static const String rooster_forget_password = "/api/roster/forget-password";
+  static const String rooster_forget_password_update = "/api/roster/password/update";
   static const httpHeader = {
     'Accept': 'application/json',
     'Authorization': 'Bearer ${AppConstants.API_TOKEN}',

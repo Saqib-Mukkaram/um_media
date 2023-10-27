@@ -21,6 +21,13 @@ import 'package:um_media/Views/Registeration/Register.dart';
 import 'package:um_media/Views/Registeration/RegisterProfilePage.dart';
 import 'package:um_media/Views/Splash/spalsh.dart';
 
+
+// Okay this does not have GRADLE errors
+//While compiling it may show the erros but it meta data i have on my
+// computers due to other projects.
+// if u face the meta data error feel free to go to build.gradle.
+// to change the kotlin version
+// if the issue still persistes change the gradle to 4. something.
 void main() {
   // Ensure initialized
   WidgetsFlutterBinding.ensureInitialized();

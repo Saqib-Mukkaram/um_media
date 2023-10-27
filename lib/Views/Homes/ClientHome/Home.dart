@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
+
     scaffoldKey = GlobalKey<ScaffoldState>();
     _tabController = TabController(length: 2, vsync: this);
     //INIT the Controller
@@ -93,8 +93,7 @@ class _HomeScreenState extends State<HomeScreen>
                   () => _enquireListController.roosterEnquireList.isEmpty
                       ? IconButton(
                           onPressed: () {
-                            FIXME:
-                            "THis is to be Redone";
+                     
                             _tabController.animateTo(1);
                           },
                           icon: Icon(

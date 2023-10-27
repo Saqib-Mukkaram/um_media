@@ -55,11 +55,10 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
     }
   }
 
-  // var studiolist = _controller.studios.where((element) => element.id == widget.id).first;
-
+  
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
   }
 

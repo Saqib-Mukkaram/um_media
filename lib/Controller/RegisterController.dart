@@ -53,6 +53,8 @@ class RegisterController extends GetxController {
       "phone": register.phone,
       "date_of_birth": register.dob,
       "interests": jsonEncode(register.interests),
+      "height": register.height,
+      "weight": register.weight,
       "profile_image":
           base64Encode(register.profileImage!.readAsBytesSync()),
     });

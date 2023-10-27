@@ -27,13 +27,13 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
 
   @override
   void initState() {
-    // TODO: implement initState
+   
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    
     super.dispose();
   }
 
@@ -111,7 +111,7 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
                               size: 60,
                               color: AppConstants.siteSubColor,
                             ),
-                            //TODO: Needed to add to the Languages File
+                           
                             Text(
                               "Enquire List Empty!",
                               style: TextStyle(fontSize: 32),

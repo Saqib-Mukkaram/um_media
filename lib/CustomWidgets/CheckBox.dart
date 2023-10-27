@@ -11,14 +11,13 @@ class _CheckBoxCustomState extends State<CheckBoxCustom> {
   var isChecked;
   @override
   void initState() {
-    // TODO: implement initState
     isChecked = false;
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     super.dispose();
   }
 

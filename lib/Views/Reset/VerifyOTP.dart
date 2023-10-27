@@ -7,7 +7,10 @@ import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/Views/Reset/ChangePassword.dart';
 
 class VerifyOTP extends StatefulWidget {
-  const VerifyOTP({super.key});
+  var email;
+  var code;
+
+  VerifyOTP({this.email, this.code, super.key});
 
   @override
   State<VerifyOTP> createState() => _VerifyOTPState();
@@ -15,9 +18,8 @@ class VerifyOTP extends StatefulWidget {
 
 class _VerifyOTPState extends State<VerifyOTP> {
   final TextEditingController otpController1 = TextEditingController();
-  final TextEditingController otpController2 = TextEditingController();
-  final TextEditingController otpController3 = TextEditingController();
-  final TextEditingController otpController4 = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,28 +68,10 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InputField(
-                    placeholderText: " ",
+                    placeholderText: "OTP",
                     fieldController: otpController1,
-                    width: 50,
-                    keyboardType: TextInputType.number,
-                  ),
-                  InputField(
-                    placeholderText: " ",
-                    fieldController: otpController2,
-                    width: 50,
-                    keyboardType: TextInputType.number,
-                  ),
-                  InputField(
-                    placeholderText: " ",
-                    fieldController: otpController3,
-                    width: 50,
-                    keyboardType: TextInputType.number,
-                  ),
-                  InputField(
-                    placeholderText: " ",
-                    fieldController: otpController4,
-                    width: 50,
-                    keyboardType: TextInputType.number,
+                    width: 100,
+
                   ),
                 ],
               ),
@@ -116,7 +100,15 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   foregroundColor: AppConstants.siteSubColor,
                   backgroundColor: AppConstants.subTextGrey,
                   onPress: () {
-                    Get.to(ChangePassword());
+                    var usercode = otpController1.text ;
+                    if (usercode == widget.code) {
+                      Get.to(ChangePassword(
+                        email: widget.email,
+                      ));
+                    } else {
+                      Get.defaultDialog(
+                          title: "Error", middleText: "Invalid Code");
+                    }
                   })
             ],
           ),

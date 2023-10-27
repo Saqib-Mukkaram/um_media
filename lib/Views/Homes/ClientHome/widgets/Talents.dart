@@ -19,18 +19,18 @@ class Talents extends StatefulWidget {
 }
 
 class _TalentsState extends State<Talents> {
-  //TODO: Talent Controller for the forward Routes.
+
   final TalentController _controller = Get.find();
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
 
     super.dispose();
   }
@@ -46,7 +46,7 @@ class _TalentsState extends State<Talents> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     _controller.isDataFetched() == false) {
-                  //FIXME: SHIMMER is to be Implemented. with Animation
+                 
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -70,7 +70,7 @@ class _TalentsState extends State<Talents> {
                     shrinkWrap: true, // Set shrinkWrap to true
                     itemCount: _controller.categories.length,
                     itemBuilder: (BuildContext context, int index) {
-                      //TODO: Make it DYNAMIC
+                     
                       var category = _controller.categories.elementAt(index);
                      
 
@@ -81,7 +81,7 @@ class _TalentsState extends State<Talents> {
                             category_name: category.name,
                           ));
                         },
-                        //TODO: Cache Img Used.
+                       
                         child: TalentCard(
                                 netImg: true,
                                 src: AppConstants.base_URL + category.photo,

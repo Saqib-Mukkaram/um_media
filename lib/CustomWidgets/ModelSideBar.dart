@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
+import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Views/Login/Login.dart';
 import 'package:um_media/Views/Profile/ProfilePage.dart';
 
 import 'SidebarButtons.dart';
 
 class ModelSideBar extends StatefulWidget {
+  final Rooster? rooster;
+
   const ModelSideBar({
+    required this.rooster,
     super.key,
   });
 
@@ -23,7 +27,6 @@ class _ModelSideBarState extends State<ModelSideBar> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -68,12 +71,15 @@ class _ModelSideBarState extends State<ModelSideBar> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 padding: EdgeInsets.all(10.0),
-                shrinkWrap: true, // Set shrinkWrap to true
+                shrinkWrap: true,
+                // Set shrinkWrap to true
                 itemCount: 1,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     onTap: () {
-                      Get.to(ProfilePage());
+                      Get.to(ProfilePage(
+                        rooster: widget.rooster,
+                      ));
                     },
                     dense: true,
                     leading: Icon(

@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/ArtisanController.dart';
 import 'package:um_media/Controller/LoginController.dart';
-import 'package:um_media/Controller/RoosterController.dart';
+import 'package:um_media/Controller/UpdateController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/CustomWidgets/ModelSideBar.dart';
@@ -20,6 +20,7 @@ import 'package:um_media/CustomWidgets/StudioCard.dart';
 import 'package:um_media/CustomWidgets/TalentCard.dart';
 import 'package:um_media/CustomWidgets/TalentCard_Artisan.dart';
 import 'package:um_media/Models/Rooster.dart';
+import 'package:um_media/Models/Update.dart';
 import 'package:um_media/Views/Talents/TalentsView.dart';
 
 class HomeArtisanScreen extends StatefulWidget {
@@ -39,39 +40,95 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
 
   // final LoginController _loginController = Get.find();
   // ArtisanController _artisanController = ArtisanController();
-  List<dynamic> grid_image_list = [];
+
+  final UpdateController _updateController = Get.put(UpdateController());
   var barNumber = 0;
   late CustomTabButtons _tabButtons;
 
   var grid_image;
   var profileImage;
-  final picker = ImagePicker();
+  List<dynamic> grid_image_list = [];
+  var picker = ImagePicker();
 
+  //
+  // Future<void> _getImage(String type) async {
+  //   if (type == "profile") {
+  //     try {
+  //       var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //       if (pickedFile == null) {
+  //         return;
+  //       } else {
+  //         setState(() {
+  //           profileImage = pickedFile
+  //               ?.path; // Use null-aware operator to avoid null issues
+  //           grid_image_list.add(grid_image);
+  //         });
+  //       }
+  //     } catch (e) {
+  //       print('Error: $e');
+  //     }
+  //   } else {
+  //     try {
+  //       var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //       if (pickedFile == null) {
+  //         return;
+  //       } else {
+  //         setState(() {
+  //           grid_image = pickedFile
+  //               ?.path; // Use null-aware operator to avoid null issues
+  //           grid_image_list.add(grid_image);
+  //         });
+  //       }
+  //     } catch (e) {
+  //       print('Error: $e');
+  //     }
+  //   }
+  // }
   Future<void> _getImage(String type) async {
-    if (type == "profile") {
-      try {
-        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-        // Handle the picked image
-        // ...
-        setState(() {
-          profileImage = pickedFile!.path;
-        });
-      } catch (e) {
-        print('Error: $e');
-      }
-    } else {
-      try {
-        final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-        setState(() {
-          grid_image = pickedFile!.path;
-          grid_image_list!.add(grid_image);
-        });
-      } catch (e) {
-        print('Error: $e');
-      }
+    try {
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      // Handle the picked image
+      // ...
+      setState(() {
+        grid_image = pickedFile!.path;
+        grid_image_list.add(grid_image);
+      });
+    } catch (e) {
+      print('Error: $e');
     }
   }
+
+
+  // Future<void> _getImage(String type) async {
+  //   if (type == "profile") {
+  //     try {
+  //       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //       // Handle the picked image
+  //       // ...
+  //       if (pickedFile != null) {
+  //         setState(() {
+  //           profileImage = pickedFile!.path;
+  //         });
+  //       }
+  //
+  //     } catch (e) {
+  //       print('Error: $e');
+  //     }
+  //   } else {
+  //     try {
+  //       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //
+  //       if (pickedFile != null) {
+  //         setState(() {
+  //           grid_image = pickedFile!.path;
+  //           grid_image_list.add(grid_image);
+  //         });
+  //       }
+  //     } catch (e) {
+  //       print('Error: $e');
+  //     }
+  //   }
+  // }
 
   int CustomBar(int exp) {
     switch (exp) {
@@ -132,11 +189,12 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
+    // picker = ImagePicker();
+
     scaffoldKey = GlobalKey<ScaffoldState>();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 1, vsync: this);
     _isTapped = false;
-    saveRooster(widget.rooster);
+
     super.initState();
   }
 
@@ -153,17 +211,19 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
       "${widget.rooster.city} ${widget.rooster.country}",
       "${widget.rooster.dob}",
       "${widget.rooster.phone}",
-      "60kg",
-      "5ft"
+      "${widget.rooster.weight}",
+      "${widget.rooster.height}"
     ];
     Size size = MediaQuery.of(context).size;
     return DefaultTabController(
       animationDuration: Duration(milliseconds: 500),
-      length: 2,
+      length: 1,
       child: Scaffold(
         backgroundColor: Colors.white,
         key: scaffoldKey,
-        drawer: ModelSideBar(),
+        drawer: ModelSideBar(
+          rooster: widget.rooster,
+        ),
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.menu_outlined),
@@ -186,18 +246,16 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                         Icons.home_outlined,
                         color: AppConstants.siteSubColor,
                       ))),
-              Tab(
-                child: IconButton(
-                    onPressed: () {
-                      FIXME:
-                      "THis is to be Redone";
-                      _tabController.animateTo(1);
-                    },
-                    icon: Icon(
-                      Icons.book_outlined,
-                      color: AppConstants.siteSubColor,
-                    )),
-              ),
+              // Tab(
+              //   child: IconButton(
+              //       onPressed: () {
+              //         _tabController.animateTo(1);
+              //       },
+              //       icon: Icon(
+              //         Icons.book_outlined,
+              //         color: AppConstants.siteSubColor,
+              //       )),
+              // ),
             ],
           ),
           backgroundColor: Colors.black,
@@ -206,20 +264,6 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
             "home".tr,
             style: TextStyle(color: Colors.white),
           ),
-          // actions: [
-          //   Padding(
-          //     padding: EdgeInsets.all(8.0),
-          //     child: ClipOval(
-          //       child: Image.asset(
-          //         AppConstants.img_person,
-          //         width:
-          //             35.0, // Set the width and height to twice the radius to make it circular
-          //         height: 35.0,
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //   )
-          // ],
         ),
         body: TabBarView(
           controller: _tabController,
@@ -229,222 +273,283 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                 children: [
                   Positioned(
                     bottom: 0,
-                    child: Container(
-                      width: size.width,
-                      height: (size.height - kToolbarHeight - 225),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  Colors.black.withOpacity(0.5), // Shadow color
-                              spreadRadius: 2, // Spread radius
-                              blurRadius: 7, // Blur radius
-                              // offset: Offset(0, 3), // Offset from the widget
+                    child: RefreshIndicator(
+                      color: AppConstants.siteSubColor,
+                      displacement: 80,
+                      onRefresh: () async {
+                        setState(() {});
+                      },
+                      child: Container(
+                        width: size.width,
+                        height: (size.height - kToolbarHeight - 225),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50),
+                              topRight: Radius.circular(50),
                             ),
-                          ]),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 60,
-                          ),
-                          Text(
-                            "${widget.rooster.firstName} ${widget.rooster.lastName}",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                          Container(
-                            height: 40,
-                            color: Colors.black,
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ButtonCustom(
-                                    elevation: 0,
-                                    height: 25,
-                                    width: size.width / 4,
-                                    buttonText: "Photos".toUpperCase(),
-                                    fontsize: 12,
-                                    onPress: () {
-                                      setState(() {
-                                        _isTapped = false;
-                                        barNumber = 0;
-                                      });
-                                    },
-                                    backgroundColor: Colors.transparent,
-                                    foregroundColor: barNumber == 0
-                                        ? Colors.white
-                                        : AppConstants.siteSubColor,
-                                    paddingBottom: 0,
-                                    paddingTop: 0,
-                                    paddingRight: 8,
-                                  ),
-                                  ButtonCustom(
-                                    elevation: 0,
-                                    height: 25,
-                                    fontsize: 12,
-                                    width: size.width / 4,
-                                    buttonText: "Info".toUpperCase(),
-                                    onPress: () {
-                                      setState(() {
-                                        _isTapped = true;
-                                        barNumber = 1;
-                                      });
-                                    },
-                                    backgroundColor: Colors.transparent,
-                                    foregroundColor: barNumber == 1
-                                        ? Colors.white
-                                        : AppConstants.siteSubColor,
-                                    paddingLeft: 0,
-                                    paddingBottom: 0,
-                                    paddingTop: 0,
-                                    paddingRight: 0,
-                                  ),
-                                  ButtonCustom(
-                                    elevation: 0,
-                                    height: 25,
-                                    fontsize: 12,
-                                    width: size.width / 4,
-                                    buttonText: "Talents",
-                                    onPress: () {
-                                      setState(() {
-                                        _isbuttonTapped = !_isbuttonTapped;
-                                        barNumber = 2;
-                                      });
-                                    },
-                                    backgroundColor: Colors.transparent,
-                                    foregroundColor: barNumber == 2
-                                        ? Colors.white
-                                        : AppConstants.siteSubColor,
-                                    paddingLeft: 8,
-                                    paddingBottom: 0,
-                                    paddingTop: 0,
-                                    paddingRight: 0,
-                                  )
-                                ],
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black
+                                    .withOpacity(0.5), // Shadow color
+                                spreadRadius: 2, // Spread radius
+                                blurRadius: 7, // Blur radius
+                                // offset: Offset(0, 3), // Offset from the widget
+                              ),
+                            ]),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 60,
+                            ),
+                            Text(
+                              "${widget.rooster.firstName} ${widget.rooster.lastName}",
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              height: 40,
+                              color: Colors.black,
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ButtonCustom(
+                                      elevation: 0,
+                                      height: 25,
+                                      width: size.width / 4,
+                                      buttonText: "Photos".toUpperCase(),
+                                      fontsize: 12,
+                                      onPress: () {
+                                        setState(() {
+                                          _isTapped = false;
+                                          barNumber = 0;
+                                        });
+                                      },
+                                      backgroundColor: Colors.transparent,
+                                      foregroundColor: barNumber == 0
+                                          ? Colors.white
+                                          : AppConstants.siteSubColor,
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
+                                      paddingRight: 8,
+                                    ),
+                                    ButtonCustom(
+                                      elevation: 0,
+                                      height: 25,
+                                      fontsize: 12,
+                                      width: size.width / 4,
+                                      buttonText: "Info".toUpperCase(),
+                                      onPress: () {
+                                        setState(() {
+                                          _isTapped = true;
+                                          barNumber = 1;
+                                        });
+                                      },
+                                      backgroundColor: Colors.transparent,
+                                      foregroundColor: barNumber == 1
+                                          ? Colors.white
+                                          : AppConstants.siteSubColor,
+                                      paddingLeft: 0,
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
+                                      paddingRight: 0,
+                                    ),
+                                    ButtonCustom(
+                                      elevation: 0,
+                                      height: 25,
+                                      fontsize: 12,
+                                      width: size.width / 4,
+                                      buttonText: "Talents",
+                                      onPress: () {
+                                        setState(() {
+                                          _isbuttonTapped = !_isbuttonTapped;
+                                          barNumber = 2;
+                                        });
+                                      },
+                                      backgroundColor: Colors.transparent,
+                                      foregroundColor: barNumber == 2
+                                          ? Colors.white
+                                          : AppConstants.siteSubColor,
+                                      paddingLeft: 8,
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
+                                      paddingRight: 0,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          barNumber == 1
-                              ? Row(
-                                  // This is the Info Tab
-                                  children: [
-                                    Container(
-                                      width: 200,
-                                      height: 300,
-                                      child: ListView.builder(
-                                          padding: EdgeInsets.all(0),
-                                          itemCount: 3,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return ListTile(
-                                                visualDensity:
-                                                    VisualDensity(vertical: -4),
-                                                leading: infoIcons[index],
-                                                title: Text(infohead[index]),
-                                                subtitle: Text(infolist[index]),
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        16, 0, 0, 0));
-                                          }),
-                                    ),
-                                    Container(
-                                      width: 200,
-                                      height: 300,
-                                      child: ListView.builder(
-                                          itemCount: 3,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return ListTile(
-                                                visualDensity:
-                                                    VisualDensity(vertical: -4),
-                                                leading: infoIcons[index + 3],
-                                                title:
-                                                    Text(infohead[index + 3]),
-                                                subtitle:
-                                                    Text(infolist[index + 3]),
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        16, 0, 0, 0));
-                                          }),
-                                    ),
-                                  ],
-                                )
-                              : barNumber == 0
-                                  ? Container(
-                                      //This is for Pictures
-                                      height: 500,
-                                      child: GridView.builder(
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                        ),
-                                        itemCount:
-                                            widget.rooster.gallery.isEmpty
-                                                ? 1
-                                                : widget.rooster.gallery.length,
-                                        padding: EdgeInsets.all(8),
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          //FIXME: This is to be Looked AT
-                                          var gallery =
-                                              widget.rooster.gallery[index];
-
-                                          return index == 0
-                                              ? IconButton(
-                                                  onPressed: () {
-                                                    _getImage("");
-                                                  },
-                                                  icon: Icon(Icons.add))
-                                              : gallery.image.isEmpty
-                                                  ? Image.file(
-                                                      File(grid_image_list[
-                                                          index]),
-                                                      width: 100,
-                                                      height: 100,
-                                                    )
-                                                  : Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: AppConstants
-                                                                .base_URL +
-                                                            gallery.image,
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    );
-                                        },
+                            barNumber == 1
+                                ? Row(
+                                    // This is the Info Tab
+                                    children: [
+                                      Container(
+                                        width: 200,
+                                        height: 300,
+                                        child: ListView.builder(
+                                            padding: EdgeInsets.all(0),
+                                            itemCount: 3,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return ListTile(
+                                                  visualDensity: VisualDensity(
+                                                      vertical: -4),
+                                                  leading: infoIcons[index],
+                                                  title: Text(infohead[index]),
+                                                  subtitle:
+                                                      Text(infolist[index]),
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          16, 0, 0, 0));
+                                            }),
                                       ),
-                                    )
-                                  : Container(
-                                      height: 500,
-                                      child: ListView.builder(
-                                          itemCount:
-                                              widget.rooster.interests.length,
+                                      Container(
+                                        width: 200,
+                                        height: 300,
+                                        child: ListView.builder(
+                                            itemCount: 3,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return ListTile(
+                                                  visualDensity: VisualDensity(
+                                                      vertical: -4),
+                                                  leading: infoIcons[index + 3],
+                                                  title:
+                                                      Text(infohead[index + 3]),
+                                                  subtitle:
+                                                      Text(infolist[index + 3]),
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          16, 0, 0, 0));
+                                            }),
+                                      ),
+                                    ],
+                                  )
+                                : barNumber == 0
+                                    ? Container(
+                                        //This is for Pictures
+                                        height: 500,
+                                        child: GridView.builder(
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                          ),
+                                          itemCount: widget
+                                                  .rooster.gallery.isEmpty
+                                              ? grid_image_list.isEmpty
+                                                  ? 1
+                                                  : grid_image_list.length
+                                              : widget.rooster.gallery.length,
+                                          padding: EdgeInsets.all(8),
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            var interest =
-                                                widget.rooster.interests[index];
-                                            return ButtonCustom(
-                                              borderRadius: 5,
-                                              paddingBottom: 0,
-                                              paddingTop: 10,
-                                              backgroundColor:
-                                                  AppConstants.subTextGrey,
-                                              foregroundColor:
-                                                  AppConstants.siteSubColor,
-                                              buttonText: "${interest.name}",
-                                              onPress: () {},
-                                            );
-                                          }),
-                                    )
-                        ],
+                                            //FIXME: This is to be Looked AT
+                                            var gallery = widget
+                                                    .rooster.gallery.isEmpty
+                                                ? null
+                                                : widget.rooster.gallery[index];
+                                            print(gallery);
+                                            print(grid_image_list);
+                                            return index == 0
+                                                ? IconButton(
+                                                    onPressed: () async {
+                                                      if (grid_image_list
+                                                              .isEmpty ||
+                                                          grid_image_list
+                                                                  .length <
+                                                              6) {
+                                                        await _getImage("");
+                                                      } else if (grid_image_list
+                                                              .length >
+                                                          6) {
+                                                        Get.defaultDialog(
+                                                            title:
+                                                                "Limit Reached",
+                                                            middleText:
+                                                                "You can only add 5 images");
+                                                      }
+                                                      if (grid_image_list
+                                                              .length >
+                                                          1) {
+                                                        var update = Update(
+                                                          id: widget.rooster.id,
+                                                          firstname: widget
+                                                              .rooster
+                                                              .firstName,
+                                                          lastName: widget
+                                                              .rooster.lastName,
+                                                          city: widget
+                                                              .rooster.city,
+                                                          country: widget
+                                                              .rooster.country,
+                                                          dob: widget
+                                                              .rooster.dob,
+                                                          email: widget
+                                                              .rooster.email,
+                                                          galleryImage:
+                                                              grid_image_list,
+                                                          state: widget
+                                                              .rooster.state,
+                                                        );
+                                                        await _updateController
+                                                            .updateRooster(
+                                                                updated:
+                                                                    update);
+                                                      }
+                                                    },
+                                                    icon: Icon(Icons.add))
+                                                : gallery == null
+                                                    ? Padding(
+                                                        padding:
+                                                            EdgeInsets.all(4.0),
+                                                        child: Image.file(
+                                                          File(grid_image_list[
+                                                              index]),
+                                                          // width: 100,
+                                                          // height: 100,
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      )
+                                                    : Padding(
+                                                        padding:
+                                                            EdgeInsets.all(4),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: AppConstants
+                                                                  .base_URL +
+                                                              gallery.image,
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      );
+                                          },
+                                        ),
+                                      )
+                                    : Container(
+                                        height: 500,
+                                        child: ListView.builder(
+                                            itemCount:
+                                                widget.rooster.interests.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              var interest = widget
+                                                  .rooster.interests[index];
+                                              return ButtonCustom(
+                                                borderRadius: 5,
+                                                paddingBottom: 0,
+                                                paddingTop: 10,
+                                                backgroundColor:
+                                                    AppConstants.subTextGrey,
+                                                foregroundColor:
+                                                    AppConstants.siteSubColor,
+                                                buttonText: "${interest.name}",
+                                                onPress: () {},
+                                              );
+                                            }),
+                                      )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -471,7 +576,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                   height: 150,
                                   width: 150,
                                   color: Colors.grey.shade300,
-                                  child: widget.rooster.profileImage == null
+                                  child: widget.rooster.profileImage.isEmpty
                                       ? IconButton(
                                           icon: Icon(
                                             Icons.add_a_photo_outlined,
@@ -482,8 +587,8 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                           },
                                         )
                                       : CachedNetworkImage(
-                                          imageUrl: AppConstants.base_URL +
-                                              widget.rooster.profileImage,
+                                          imageUrl:
+                                              "${AppConstants.base_URL}/${widget.rooster.profileImage}",
                                           fit: BoxFit.cover,
                                         )),
                             ),
@@ -495,70 +600,50 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                 ],
               ),
             ),
-            SafeArea(
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: ListTile(
-                          // leading: ClipRRect(
-                          //   borderRadius:
-                          //       BorderRadius.all(Radius.circular(20)),
-                          //   //FIXME : THE AVALIBILITY CHART
-                          //   child: widget.rooster.profileImage == null
-                          //       ? IconButton(
-                          //           onPressed: () {},
-                          //           icon: Icon(
-                          //             Icons.add_outlined,
-                          //             size: 24,
-                          //           ),
-                          //         )
-                          //       : Image.asset(
-                          //           "assets/imgs/People/Sana-2.png"),
-                          // ),
-                          title: Text("Sana Mirza"),
-                          subtitle: Text("#actor, #model"),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.delete_outlined,
-                              color: Colors.red.shade500,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  Positioned(
-                      bottom: 0,
-                      child: Column(
-                        children: [
-                          Container(
-                            child: ButtonCustom(
-                              buttonText: "Confirm Availibility",
-                              onPress: () {},
-                              foregroundColor: AppConstants.siteSubColor,
-                              backgroundColor: AppConstants.subTextGrey,
-                            ),
-                          ),
-                        ],
-                      ))
-                ],
-              ),
-            )
+
+            //The Availibilty of the Rooster Yet to be Implemented.
+            // SafeArea(
+            //   child: Stack(
+            //     children: [
+            //       ListView.builder(
+            //         itemCount: 1,
+            //         itemBuilder: (BuildContext context, int index) {
+            //           return Padding(
+            //             padding: EdgeInsets.all(8.0),
+            //             child: ListTile(
+            //               title: Text("Sana Mirza"),
+            //               subtitle: Text("#actor, #model"),
+            //               trailing: IconButton(
+            //                 onPressed: () {},
+            //                 icon: Icon(
+            //                   Icons.delete_outlined,
+            //                   color: Colors.red.shade500,
+            //                 ),
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //       Positioned(
+            //           bottom: 0,
+            //           child: Column(
+            //             children: [
+            //               Container(
+            //                 child: ButtonCustom(
+            //                   buttonText: "Confirm Availibility",
+            //                   onPress: () {},
+            //                   foregroundColor: AppConstants.siteSubColor,
+            //                   backgroundColor: AppConstants.subTextGrey,
+            //                 ),
+            //               ),
+            //             ],
+            //           ))
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),
     );
   }
 }
-
-// Column(
-//                       children: [
-//
-
-//                       ],
-//                     ),

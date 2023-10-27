@@ -26,7 +26,7 @@ class _EnqurieListState extends State<EnqurieList> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
   }
 

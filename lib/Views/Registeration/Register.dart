@@ -65,14 +65,19 @@ class _RegisterScreenState extends State<RegisterScreen>
         appBar: AppBar(
           backgroundColor: AppConstants.subTextGrey,
           elevation: 0,
-
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_outlined , color: Colors.white,),
-            onPressed: (){
+            icon: Icon(
+              Icons.arrow_back_outlined,
+              color: Colors.white,
+            ),
+            onPressed: () {
               Get.back();
             },
           ),
-          title: Text("Back", style: TextStyle(color: Colors.white),),
+          title: Text(
+            "Back",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         body: SingleChildScrollView(
           child: SafeArea(
@@ -158,118 +163,12 @@ class _RegisterScreenState extends State<RegisterScreen>
                 Container(
                   height: 700,
                   child: TabBarView(controller: _tabController, children: [
-                    // SingleChildScrollView(
-                    //   child: Column(
-                    //     children: [
-                    //       SizedBox(
-                    //         height: 10,
-                    //       ),
-                    //       //globalization TODO: Globalization
-                    //       IconInputField(
-                    //         placeholderText: "First Name",
-                    //         fieldController: _firstnameController,
-                    //         fieldPaddingleft: 20,
-                    //         fieldPaddingright: 20,
-                    //         prefixIcon: Icon(
-                    //           Icons.perm_identity_outlined,
-                    //         ),
-                    //       ),
-                    //       IconInputField(
-                    //         placeholderText: "Last Name",
-                    //         fieldController: _lastnameController,
-                    //         fieldPaddingleft: 20,
-                    //         fieldPaddingright: 20,
-                    //         prefixIcon: Icon(
-                    //           Icons.perm_identity_outlined,
-                    //         ),
-                    //       ),
-                    //       //TODO:ADD to the Languages
-
-                    //       IconInputField(
-                    //         placeholderText: "email".tr,
-                    //         fieldController: _emailController,
-                    //         fieldPaddingleft: 20,
-                    //         fieldPaddingright: 20,
-                    //         prefixIcon: Icon(
-                    //           Icons.alternate_email_outlined,
-                    //         ),
-                    //       ),
-                    //       //TODO:ADD to the Languages
-
-                    //       IconInputField(
-                    //         placeholderText: "password".tr,
-                    //         fieldController: _passwordController,
-                    //         obscureText: true,
-                    //         fieldPaddingleft: 20,
-                    //         fieldPaddingright: 20,
-                    //         keyboardType: TextInputType.visiblePassword,
-                    //         prefixIcon: Icon(
-                    //           Icons.lock_outlined,
-                    //         ),
-                    //       ),
-                    //       IconInputField(
-                    //         placeholderText: "confirm_password".tr,
-                    //         fieldController: _confirmPasswordController,
-                    //         fieldPaddingleft: 20,
-                    //         fieldPaddingright: 20,
-                    //         obscureText: true,
-                    //         keyboardType: TextInputType.visiblePassword,
-                    //         prefixIcon: Icon(
-                    //           Icons.lock_outlined,
-                    //         ),
-                    //       ),
-                    //       Row(
-                    //         children: [
-                    //           Checkbox(
-                    //               fillColor: MaterialStateProperty.resolveWith(
-                    //                   (states) {
-                    //                 if (!states
-                    //                     .contains(MaterialState.selected)) {
-                    //                   return null;
-                    //                 }
-                    //                 return AppConstants.subTextGrey;
-                    //               }),
-                    //               shape: RoundedRectangleBorder(
-                    //                 borderRadius: BorderRadius.all(
-                    //                   Radius.circular(5),
-                    //                 ),
-                    //               ),
-                    //               value: agreedToTerms,
-                    //               onChanged: (bool? value) {
-                    //                 setState(() {
-                    //                   agreedToTerms = value!;
-                    //                 });
-                    //               }),
-                    //           LabelText(
-                    //               labelText: "agree_to_terms".tr,
-                    //               paddingleft: 0,
-                    //               paddingbottom: 0,
-                    //               paddingright: 0,
-                    //               paddingtop: 0),
-                    //         ],
-                    //       ),
-                    //       ButtonCustom(
-                    //         buttonText: "register_button".tr,
-                    //         onPress: () {
-
-                    //           var response;
-                    //         },
-                    //         backgroundColor: AppConstants.subTextGrey,
-                    //         foregroundColor: AppConstants.siteSubColor,
-                    //         elevation: 2,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
-                    //Second Tab here
                     SingleChildScrollView(
                       child: Column(
                         children: [
                           SizedBox(
                             height: 10,
                           ),
-                          //TODO:ADD to the Languages
                           IconInputField(
                             fieldPaddingleft: 20,
                             fieldPaddingright: 20,
@@ -279,7 +178,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                               Icons.badge_outlined,
                             ),
                           ),
-                          //TODO:ADD to the Languages
                           IconInputField(
                             placeholderText: "Last Name".tr,
                             fieldController: _lastnameController,
@@ -299,7 +197,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                               Icons.alternate_email_outlined,
                             ),
                           ),
-                          //TODO:ADD to the Languages
                           IconInputField(
                             placeholderText:
                                 "Phone Number With Country Code: ".tr,
@@ -311,9 +208,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                               Icons.phone_outlined,
                             ),
                           ),
-
-                          //TODO: TAKE a Look
-
                           IconInputField(
                             placeholderText: "password".tr,
                             fieldController: _passwordController,

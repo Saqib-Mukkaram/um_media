@@ -109,7 +109,7 @@ class _StudioViewState extends State<StudioView> {
                                 ),
                                 Padding(
                                     padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
-                                    //FIXME: THis is a Constant.
+                                   
                                     child: CachedNetworkImage(
                                       imageUrl: AppConstants.base_URL +
                                           studioList.image,

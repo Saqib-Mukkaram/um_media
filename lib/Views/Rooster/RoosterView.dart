@@ -22,7 +22,7 @@ class RoosterView extends StatefulWidget {
 }
 
 class _RoosterViewState extends State<RoosterView> {
-  //FIXME: Need to Come back here for testing if this is necessary
+  
   RoosterController _controller = Get.find();
   EnquireListController _enquireListController = Get.find();
 
@@ -94,7 +94,7 @@ class _RoosterViewState extends State<RoosterView> {
   // Create widgets and add them to the list
   @override
   Widget build(BuildContext context) {
-    //TODO: TAKE A LOOK
+  
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -194,8 +194,7 @@ class _RoosterViewState extends State<RoosterView> {
                 .toList();
             print(_rooster);
             List<Widget> widgets = [];
-            // var rooster_interests = _controller.roosterInterests.first;
-            //TODO: Look for Weight and Height
+ 
             var tilelist = [
               "${_rooster.first.firstName} ${_rooster.first.lastName}",
               "${_rooster.first.city}, ${_rooster.first.country}",
@@ -243,8 +242,7 @@ class _RoosterViewState extends State<RoosterView> {
                         SizedBox(
                           height: 20,
                         ),
-                        //FIXME: THis is yet to be Looked AT.
-                        //TODO: Profile Picture
+  
                         Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -333,7 +331,7 @@ class _RoosterViewState extends State<RoosterView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            //FIXME: Its not Showing Buttons But
+                            
                             Container(
                               height: 75,
                               child: Row(
@@ -360,10 +358,7 @@ class _RoosterViewState extends State<RoosterView> {
                                       buttonText: "Photos".toUpperCase(),
                                       fontsize: 12,
                                       onPress: () {
-                                        //FIXME: THis is to be Looked at
-                                        // setState(() {
-                                        //   _isTapped.value = false;
-                                        // });
+                                      
                                         _isTapped.value = false;
                                       },
                                       backgroundColor: Colors.transparent,
@@ -397,7 +392,7 @@ class _RoosterViewState extends State<RoosterView> {
                                     paddingRight: 0,
                                   ),
                                 ),
-                                //TODO: Put in it the bottom of the page.
+                                
                               ],
                             ),
                           ),
@@ -467,7 +462,7 @@ class _RoosterViewState extends State<RoosterView> {
                                           const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3,
                                       ),
-                                      //FIXME: Hardcoded VALUE
+                                    //FIXME: Hardcoded VALUE
                                       itemCount: 5,
                                       padding: EdgeInsets.all(8),
                                       itemBuilder:
@@ -520,7 +515,7 @@ class _RoosterViewState extends State<RoosterView> {
                                   ? "enquired".toUpperCase()
                                   : "Enquire".toUpperCase(),
                               onPress: () {
-                                //TODO: THis is to be Implemented
+                               
                                 _isbuttonTapped.toggle();
                                 _isbuttonTapped.value
                                     ? {

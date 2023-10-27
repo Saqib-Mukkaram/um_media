@@ -63,6 +63,8 @@ class Rooster {
   final String state;
   final String country;
   final String dob;
+  final String? weight;
+  final String? height;
   final String profileImage;
   final List<Interest> interests;
   final List<GalleryImage> gallery;
@@ -82,6 +84,8 @@ class Rooster {
     required this.profileImage,
     required this.interests,
     required this.gallery,
+    required this.weight,
+    required this.height,
   });
 
   factory Rooster.fromJson(Map<String, dynamic> json) {
@@ -96,6 +100,8 @@ class Rooster {
       state: json['state'],
       country: json['country'],
       dob: json['dob'],
+      weight: json['weight'],
+      height: json['height'],
       profileImage: json['profile_image'],
       interests: (json['interest'] as List<dynamic>)
           .map((interest) => Interest.fromJson(interest))

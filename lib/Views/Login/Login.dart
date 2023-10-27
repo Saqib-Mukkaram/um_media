@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (response) {
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     prefs.setBool('isLoggedIn', true);
-                    Get.to(HomeArtisanScreen(
+                    Get.offAll(HomeArtisanScreen(
                       rooster: _loginController.rooster!
                     ));
                   } else {

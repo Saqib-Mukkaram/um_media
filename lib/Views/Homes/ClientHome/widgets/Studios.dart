@@ -23,7 +23,7 @@ class _StudiosState extends State<Studios> {
   ];
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
   }
 

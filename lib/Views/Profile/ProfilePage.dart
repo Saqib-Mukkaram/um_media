@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/GalleryController.dart';
+import 'package:um_media/Controller/UpdateController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/CheckBox.dart';
 import 'package:um_media/CustomWidgets/CustomDropDown.dart';
@@ -12,10 +13,15 @@ import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:um_media/Models/Register.dart';
+import 'package:um_media/Models/Rooster.dart';
+import 'package:um_media/Models/Update.dart';
 // import 'package:um_media/lib/Controller/GalleryController.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final Rooster? rooster;
+
+  const ProfilePage({required this.rooster, super.key});
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -29,11 +35,17 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
-
+  final TextEditingController _countryController = TextEditingController();
+  final UpdateController _updateController = Get.find();
+  final List<String> items = AppConstants.talentlist;
+  List<String> selectedItems = [];
+  List<String> selectedItemsIndex = [];
+  Map<String, int>? interests;
   final picker = ImagePicker();
   var image;
   var date = DateTime.now().obs;
   var picked;
+
   Future<void> _selectDate(BuildContext context) async {
     picked = await showDatePicker(
       context: context,
@@ -48,11 +60,8 @@ class _ProfilePageState extends State<ProfilePage> {
       date.value = DateTime.now();
       setState(() {});
     }
-
   }
 
-  final List<String> items = AppConstants.talentlist;
-  List<String> selectedItems = [];
   Future<void> _getImage() async {
     try {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -96,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         title: Text(
-          "Profile",
+          "Update Profile",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -161,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   },
                                   onSelected: (String choice) {
                                     if (choice == "change_picture") {
-                                      //TODO: CHange the Picture Functionality
+                                      
                                       _getImage();
                                       setState(() {});
                                     }
@@ -181,12 +190,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ]),
                 ],
               ),
-              // LabelText(labelText: "Name", paddingbottom: 0),
-              // InputField(
-              //   fieldController: _nameController,
-              //   placeholderText: "Full Name",
-              //   height: 35,
-              // ),
               LabelText(labelText: "Interests", paddingbottom: 0),
               Padding(
                 padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -217,7 +220,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               onTap: () {
                                 isSelected
                                     ? selectedItems.remove(item)
-                                    : selectedItems.add(item);
+                                    : {
+                                        selectedItems.add(item),
+                                        selectedItemsIndex
+                                            .add(items.indexOf(item).toString())
+                                      };
+
                                 //This rebuilds the StatefulWidget to update the button's text
                                 setState(() {});
                                 //This rebuilds the dropdownMenu Widget to update the check mark
@@ -269,7 +277,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                       ).toList();
                     },
-
                     menuItemStyleData: const MenuItemStyleData(
                       height: 40,
                       padding: EdgeInsets.zero,
@@ -334,6 +341,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+              LabelText(labelText: "Country", paddingbottom: 0),
+              InputField(
+                fieldController: _countryController,
+                placeholderText: "",
+                height: 35,
+              ),
               LabelText(labelText: "State", paddingbottom: 0),
               InputField(
                 fieldController: _stateController,
@@ -371,27 +384,24 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               ButtonCustom(
                 buttonText: "Save Changes",
-                onPress: () {
-                  if (_addressController.value.text.isEmpty ||
-                      _ageController.value.text.isEmpty ||
-                      _heightController.value.text.isEmpty ||
-                      _weightController.value.text.isEmpty ) {
-                    Get.defaultDialog(
-                        title: "Empty Fields",
-                        middleText: "All fields are requried.");
-                  }  else if (selectedItems.isEmpty) {
+                onPress: () async {
+                  var flag = false;
+                  if (selectedItems.isEmpty) {
                     Get.defaultDialog(
                         title: "Interests are Empty",
                         middleText: " Please select the interests.");
-                  } else if (_ageController.value.text.length > 2 ||
-                      _ageController.value.text.length < 2) {
+                  } else if (_countryController.value.text.isEmpty) {
                     Get.defaultDialog(
-                        title: "Invalid Age",
-                        middleText: "Please enter the correct age.");
-                  } else if (_addressController.value.text.isEmpty) {
+                        title: "State Field",
+                        middleText: "State Field is Empty.");
+                  } else if (_stateController.value.text.isEmpty) {
                     Get.defaultDialog(
-                        title: "Address Field",
-                        middleText: "Address Field is Empty.");
+                        title: "State Field",
+                        middleText: "State Field is Empty.");
+                  } else if (_cityController.value.text.isEmpty) {
+                    Get.defaultDialog(
+                        title: "City Field",
+                        middleText: "City Field is Empty.");
                   } else if (_weightController.value.text.isEmpty) {
                     Get.defaultDialog(
                         title: "Weight Field",
@@ -400,8 +410,39 @@ class _ProfilePageState extends State<ProfilePage> {
                     Get.defaultDialog(
                         title: "Height is Empty",
                         middleText: " Please enter the height.");
+                  } else if (image == null) {
+                    Get.defaultDialog(
+                        title: "Profile Picture",
+                        middleText: "Profile Picture is Required.");
                   } else {
-                    Get.defaultDialog(title: "To be Implemented");
+                    // createMap();
+                    var update = Update(
+                      id: widget.rooster!.id,
+                      firstname: widget.rooster!.firstName,
+                      lastName: widget.rooster!.lastName,
+                      city: _cityController.text,
+                      country: widget.rooster!.country,
+                      dob:
+                          "${date.value.year}-${date.value.month}-${date.value.day}",
+                      email: widget.rooster!.email,
+                      profileImage: File(image),
+                      weight: _weightController.text,
+                      height: _heightController.text,
+                      state: _stateController.text,
+                      interests: selectedItemsIndex,
+                    );
+                    if (await _updateController.updateRooster(
+                        updated: update, isProfile: true)) {
+                      Get.defaultDialog(
+                          title: "Changed Successful",
+                          middleText: "Saved the Updated Information.");
+                      flag = true;
+                    } else {
+                      Get.defaultDialog(
+                          title: "Changed Failed",
+                          middleText:
+                              "Failed to save the Updated Information.");
+                    }
                   }
                 },
                 backgroundColor: Colors.black,

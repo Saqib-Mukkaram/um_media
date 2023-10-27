@@ -18,7 +18,7 @@ class Languages extends Translations {
           "register": " Register",
           "join_us": "Register to join us",
           "join_us_descp": "Please enter your details.",
-          "agree_to_terms": "I agree to Terms and Condition",
+          "agree_to_terms": "I agree to terms and condition",
           "register_button": "Register",
           "login_button": " Login",
           "email_confirmation_descp":

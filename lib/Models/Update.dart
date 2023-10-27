@@ -1,6 +1,7 @@
 import 'dart:io';
 
 class Update {
+  int? id;
   String? firstname;
   String? lastName;
   String? gender;
@@ -9,12 +10,16 @@ class Update {
   String? country;
   String? email;
   String? password;
+  String? height;
+  String? weight;
   String? phone;
   String? dob;
-  List<int>? interests;
+  List<String>? interests;
   File? profileImage;
+  List<dynamic>? galleryImage;
 
   Update({
+    this.id,
     this.firstname,
     this.lastName,
     this.gender,
@@ -27,5 +32,8 @@ class Update {
     this.dob,
     this.interests,
     this.profileImage,
+    this.galleryImage,
+    this.height,
+    this.weight,
   });
 }

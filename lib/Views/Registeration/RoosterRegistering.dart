@@ -4,8 +4,9 @@ import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/RegisterController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/Models/Register.dart';
-import 'package:um_media/Views/Homes/HomeArtisan/HomeArtisanRegistered.dart';
+
 import 'package:um_media/Views/Homes/HomeArtisan/Home_artisan.dart';
+import 'package:um_media/Views/Login/Login.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
 
 class RoosterRegistering extends StatefulWidget {
@@ -81,9 +82,7 @@ class _RoosterRegisteringState extends State<RoosterRegistering> {
                               ButtonCustom(
                                 buttonText: "Continue",
                                 onPress: () {
-                                  Get.offAll(HomeArtisanRegistered(
-                                      rooster_id:
-                                      _registerController.rooster_id));
+                                  Get.offAll(LoginScreen());
                                 },
                                 backgroundColor: AppConstants.subTextGrey,
                                 foregroundColor: AppConstants.siteSubColor,

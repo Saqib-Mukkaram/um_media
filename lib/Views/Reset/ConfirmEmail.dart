@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/ForgetPasswordController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/Views/Reset/VerifyOTP.dart';
@@ -14,6 +15,8 @@ class ConfirmEmail extends StatefulWidget {
 
 class _ConfirmEmailState extends State<ConfirmEmail> {
   final TextEditingController confirmEmailController = TextEditingController();
+  final ForgetPasswordController _controller =
+      Get.put(ForgetPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +69,18 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                   buttonText: "send_code".tr,
                   foregroundColor: AppConstants.siteSubColor,
                   backgroundColor: AppConstants.subTextGrey,
-                  onPress: () {
-                    Get.to(VerifyOTP());
+                  onPress: () async {
+                    var flag = await _controller.forgetpasswordRequest(
+                        email: confirmEmailController.text);
+                    if (flag == true) {
+                      Get.to(() => VerifyOTP(
+                            code: _controller.code,
+                            email: confirmEmailController.text,
+                          ));
+                    } else {
+                      Get.defaultDialog(
+                          title: "Error", middleText: _controller.message);
+                    }
                   })
             ],
           ),

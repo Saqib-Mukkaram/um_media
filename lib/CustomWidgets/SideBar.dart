@@ -24,7 +24,6 @@ class _SideBarState extends State<SideBar> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
