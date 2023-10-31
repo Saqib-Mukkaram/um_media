@@ -99,8 +99,8 @@ class UpdateController extends GetxController {
             options: Options(headers: AppConstants.httpHeader),
             data: {
               "roster_id": updated.id.toString(),
-              "first_name": updated.firstname,
-              "last_name": updated.lastName,
+              "first_name": updated.firstname ?? '',
+              "last_name": updated.lastName ?? '',
               "gender": updated.gender ?? 'male',
               "city": updated.city,
               "state": updated.state,
@@ -108,7 +108,7 @@ class UpdateController extends GetxController {
               "email": updated.email,
               "phone": updated.phone ?? '1234567890',
               "date_of_birth": updated.dob,
-              "images": y,
+              "images": jsonEncode(indexedImages),
             });
       } catch (e) {
         print(e);
