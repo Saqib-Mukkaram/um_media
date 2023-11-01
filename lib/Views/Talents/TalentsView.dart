@@ -25,21 +25,18 @@ class _TalentsViewState extends State<TalentsView> {
   RoosterController _roosterController = Get.find();
 
   Future<void> onRefresh() async {
-    setState(() {
-      _roosterController.fetchAll();
-    });
+    // setState(() {
+    //   _roosterController.fetchAll();
+    // });
   }
 
   @override
   void initState() {
-  
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstants.subTextGrey,
@@ -93,9 +90,9 @@ class _TalentsViewState extends State<TalentsView> {
                   child: ListView.builder(
                     // scrollDirection: Axis.vertical,
                     padding: EdgeInsets.all(10.0),
-                    shrinkWrap: true,
-                    //FIXME: FIX this Shit again DUE TO THE CHANGES IN THE BACKEND!!
-                    itemCount: specific.length == 0 ? 1 : specific.length - 1,
+
+                    //FIXME: FIX this Shit again DUE TO THE CHANGES IN THE BACKEND!! == 0 ? 1 : specific.length - 1
+                    itemCount: specific.length == 0 ? 1 : specific.length,
                     itemBuilder: (BuildContext context, int index) {
                       if (specific.length == 0) {
                         return Column(
@@ -112,27 +109,25 @@ class _TalentsViewState extends State<TalentsView> {
                         );
                       } else {
                         var rooster = specific.elementAt(index);
+                        var galleryLength = rooster.gallery.length;
 
                         // Check if the rooster has an image
-                        if (rooster.gallery.isNotEmpty &&
-                            rooster.gallery[index].image != null) {
-                          return TalentPost(
-                            roosterId: rooster.id,
-                            imagePath: AppConstants.base_URL +
-                                (index + 1 < rooster.gallery.length &&
-                                        rooster.gallery[index + 1].image != null
-                                    ? rooster.gallery[index + 1].image
-                                    : rooster.gallery[index].image),
-                            profilePath:
-                                AppConstants.base_URL + rooster.profileImage,
-                            roosterName:
-                                "${rooster.firstName} ${rooster.lastName}",
-                            roosterTags: rooster.interests,
-                          );
-                        } else {
-                          // Skip rooster with no image
-                          return SizedBox.shrink();
-                        }
+                        return TalentPost(
+                          roosterId: rooster.id,
+                          imagePath: (rooster.gallery.length > 0
+                              ? index >= rooster.gallery.length
+                                  ? AppConstants.base_URL +
+                                      rooster.gallery.first.image
+                                  : AppConstants.base_URL +
+                                      rooster.gallery[index].image
+                              : "https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png"),
+                          profilePath: rooster.profileImage.isEmpty
+                              ? "https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png"
+                              : AppConstants.base_URL + rooster.profileImage,
+                          roosterName:
+                              "${rooster.firstName} ${rooster.lastName}",
+                          roosterTags: rooster.interests,
+                        );
                       }
                     },
                   ),

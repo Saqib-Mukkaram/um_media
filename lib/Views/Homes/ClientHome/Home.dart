@@ -78,8 +78,10 @@ class _HomeScreenState extends State<HomeScreen>
             controller: _tabController,
             dividerColor: AppConstants.siteSubColor,
             indicatorColor: AppConstants.siteSubColor,
+            indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
+
                   child: IconButton(
                       onPressed: () {
                         _tabController.animateTo(0);
@@ -155,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           backgroundColor: Colors.black,
           elevation: 0,
+          centerTitle: false,
           title: Text(
             "home".tr,
             style: TextStyle(color: Colors.white),

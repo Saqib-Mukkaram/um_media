@@ -22,7 +22,6 @@ class RoosterView extends StatefulWidget {
 }
 
 class _RoosterViewState extends State<RoosterView> {
-  
   RoosterController _controller = Get.find();
   EnquireListController _enquireListController = Get.find();
 
@@ -94,8 +93,6 @@ class _RoosterViewState extends State<RoosterView> {
   // Create widgets and add them to the list
   @override
   Widget build(BuildContext context) {
-  
-
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -194,14 +191,14 @@ class _RoosterViewState extends State<RoosterView> {
                 .toList();
             print(_rooster);
             List<Widget> widgets = [];
- 
+
             var tilelist = [
               "${_rooster.first.firstName} ${_rooster.first.lastName}",
               "${_rooster.first.city}, ${_rooster.first.country}",
               _rooster.first.dob,
               _rooster.first.phone,
-              "Weight",
-              "Height"
+              _rooster.first.weight,
+              _rooster.first.height
             ];
 
             for (int i = 0; i < _rooster.first.interests.length; i++) {
@@ -242,7 +239,7 @@ class _RoosterViewState extends State<RoosterView> {
                         SizedBox(
                           height: 20,
                         ),
-  
+
                         Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -301,7 +298,7 @@ class _RoosterViewState extends State<RoosterView> {
                                       fontSize: 18),
                                 ),
                                 Text(
-                                  "Enquiries",
+                                  "Inquiries",
                                   style: TextStyle(
                                       color: AppConstants.subTextGrey),
                                 )
@@ -328,20 +325,25 @@ class _RoosterViewState extends State<RoosterView> {
                             )
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            
-                            Container(
-                              height: 75,
-                              child: Row(
-                                children: widgets,
-                              ),
+                        Container(
+                          width: 225,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
+                                  child: Row(
+                                    children: widgets,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                          ],
+                          ),
                         ),
                         Container(
                           height: 40,
@@ -358,7 +360,6 @@ class _RoosterViewState extends State<RoosterView> {
                                       buttonText: "Photos".toUpperCase(),
                                       fontsize: 12,
                                       onPress: () {
-                                      
                                         _isTapped.value = false;
                                       },
                                       backgroundColor: Colors.transparent,
@@ -392,7 +393,6 @@ class _RoosterViewState extends State<RoosterView> {
                                     paddingRight: 0,
                                   ),
                                 ),
-                                
                               ],
                             ),
                           ),
@@ -406,7 +406,9 @@ class _RoosterViewState extends State<RoosterView> {
                           duration: Duration(milliseconds: 500),
                           child: Obx(() {
                             print(
-                                "rooster enquiry value = ${_rooster.first.IsEnquired.value}");
+                                "Gallery Length is ${_rooster.first.gallery.length}");
+                            print(
+                                "rooster Inquiry value = ${_rooster.first.IsEnquired.value}");
                             return _isTapped.value
                                 ? Row(
                                     children: [
@@ -457,52 +459,66 @@ class _RoosterViewState extends State<RoosterView> {
                                   )
                                 : Container(
                                     height: 300,
-                                    child: GridView.builder(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                      ),
-                                    //FIXME: Hardcoded VALUE
-                                      itemCount: 5,
-                                      padding: EdgeInsets.all(8),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        // print(
-                                        //     "Rooster images length == ${rooster_images}");
-                                        // var roostergallery =
-                                        //     rooster_images.first;
-                                        // var roosterPhoto =
-                                        //     roostergallery.elementAt(index);
-                                        var gallery = _rooster.first.gallery
-                                            .elementAt(index);
-
-                                        return Padding(
-                                          padding: EdgeInsets.all(4),
-                                          child: CachedNetworkImage(
-                                            imageUrl: AppConstants.base_URL +
-                                                gallery.image,
-                                            width: 200,
-                                            height: 100,
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  32, 64, 32, 64),
-                                              child: CircularProgressIndicator(
-                                                value:
-                                                    downloadProgress.progress,
-                                                color:
-                                                    AppConstants.siteSubColor,
-                                              ),
+                                    child: _rooster.first.gallery.isEmpty
+                                        ? Center(
+                                            child: Text("No Data Available"),
+                                          )
+                                        : GridView.builder(
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
                                             ),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
+                                            //FIXME: Hardcoded VALUE
+                                            itemCount:
+                                                _rooster.first.gallery.length,
+                                            padding: EdgeInsets.all(8),
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              print(
+                                                  "Gallery Length is ${_rooster.first.gallery.length}");
+                                              if (_rooster
+                                                      .first.gallery.length ==
+                                                  0) {
+                                                return Center(
+                                                  child:
+                                                      Text("No Data Available"),
+                                                );
+                                              } else {
+                                                var gallery = _rooster
+                                                    .first.gallery
+                                                    .elementAt(index);
+
+                                                return Padding(
+                                                  padding: EdgeInsets.all(4),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        AppConstants.base_URL +
+                                                            gallery.image,
+                                                    width: 200,
+                                                    height: 100,
+                                                    progressIndicatorBuilder:
+                                                        (context, url,
+                                                                downloadProgress) =>
+                                                            Padding(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              32, 64, 32, 64),
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        value: downloadProgress
+                                                            .progress,
+                                                        color: AppConstants
+                                                            .siteSubColor,
+                                                      ),
+                                                    ),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ));
                           }),
                         ),
 
@@ -512,20 +528,18 @@ class _RoosterViewState extends State<RoosterView> {
                               width: size.width - 32,
                               buttonText: _isbuttonTapped.value &&
                                       _rooster.first.IsEnquired.value == true
-                                  ? "enquired".toUpperCase()
-                                  : "Enquire".toUpperCase(),
+                                  ? "Inquired".toUpperCase()
+                                  : "Inquire".toUpperCase(),
                               onPress: () {
-                               
                                 _isbuttonTapped.toggle();
                                 _isbuttonTapped.value
                                     ? {
                                         Get.defaultDialog(
-                                            title: "Rooster Enquired",
-                                            middleText: "Check Enquire List.",
+                                            title: "Rooster Inquired",
+                                            middleText: "Check Inquire List.",
                                             onConfirm: () {
                                               Navigator.of(context).pop();
                                             },
-
                                             confirmTextColor:
                                                 AppConstants.siteSubColor,
                                             buttonColor:
@@ -540,9 +554,9 @@ class _RoosterViewState extends State<RoosterView> {
                                       }
                                     : {
                                         Get.defaultDialog(
-                                            title: "Enquiry Canceled.",
+                                            title: "Inquiry Canceled.",
                                             middleText:
-                                                "Rooster removed from Enquire List",
+                                                "Rooster removed from Inquire List",
                                             onConfirm: () {
                                               Navigator.of(context).pop();
                                             },

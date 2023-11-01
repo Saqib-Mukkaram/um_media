@@ -34,6 +34,7 @@ class RoosterController extends GetxController {
     // roosterNumbers = jsonData.map((e) => RoosterData.fromJson(e)).toList();
     roosterList = jsonData.map((e) => Rooster.fromJson(e)).toList();
 
+
     // print('numbers fetched');
   }
 

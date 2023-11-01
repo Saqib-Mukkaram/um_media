@@ -42,7 +42,7 @@ class EnquireListController extends GetxController {
             enquiredRoosterIds,
             key: (roosterId) => roosterId,
             value: (roosterId) => {
-              "message": "I enquire this roster",
+              "message": "I Inquire this roster",
               "roster_id": roosterId,
               "start_date": "2023-09-20 00:00:00",
               "end_date": "2023-09-24 23:59:59",
@@ -81,7 +81,7 @@ class EnquireListController extends GetxController {
               enquireStudio,
               key: (studioId) => studioId,
               value: (studioId) => {
-                "message": "I enquire this studio",
+                "message": "I Inquire this studio",
                 "studio_id": studioId,
                 "studio_hours": 12,
                 "start_date": "2023-09-20 00:00:00",

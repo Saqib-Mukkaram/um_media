@@ -51,53 +51,57 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
   var picker = ImagePicker();
 
   //
-  // Future<void> _getImage(String type) async {
-  //   if (type == "profile") {
-  //     try {
-  //       var pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //       if (pickedFile == null) {
-  //         return;
-  //       } else {
-  //         setState(() {
-  //           profileImage = pickedFile
-  //               ?.path; // Use null-aware operator to avoid null issues
-  //           grid_image_list.add(grid_image);
-  //         });
-  //       }
-  //     } catch (e) {
-  //       print('Error: $e');
-  //     }
-  //   } else {
-  //     try {
-  //       var pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //       if (pickedFile == null) {
-  //         return;
-  //       } else {
-  //         setState(() {
-  //           grid_image = pickedFile
-  //               ?.path; // Use null-aware operator to avoid null issues
-  //           grid_image_list.add(grid_image);
-  //         });
-  //       }
-  //     } catch (e) {
-  //       print('Error: $e');
-  //     }
-  //   }
-  // }
   Future<void> _getImage(String type) async {
-    try {
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      // Handle the picked image
-      // ...
-      setState(() {
-        grid_image = pickedFile!.path;
-        grid_image_list.add(grid_image);
-      });
-    } catch (e) {
-      print('Error: $e');
+    if (type == "profile") {
+      try {
+        var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+        if (pickedFile == null) {
+          return;
+        } else {
+          setState(() {
+            profileImage = pickedFile
+                ?.path; // Use null-aware operator to avoid null issues
+            grid_image_list.add(grid_image);
+          });
+        }
+      } catch (e) {
+        print('Error: $e');
+      }
+    } else {
+      try {
+        var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+        if (pickedFile == null) {
+          return;
+        } else {
+          setState(() {
+            grid_image = pickedFile
+                ?.path; // Use null-aware operator to avoid null issues
+            grid_image_list.add(grid_image);
+          });
+        }
+      } catch (e) {
+        print('Error: $e');
+      }
     }
   }
 
+  // Future<void> _getImage(String type) async {
+  //   try {
+  //     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //
+  //     if (pickedFile != null) {
+  //       print("Image picked: ${pickedFile.path}");
+  //
+  //       setState(() {
+  //         grid_image = pickedFile.path;
+  //         grid_image_list.add(grid_image);
+  //         print("grid_image_list: $grid_image_list");
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //   }
+  // }
 
   // Future<void> _getImage(String type) async {
   //   if (type == "profile") {
@@ -429,100 +433,96 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                   )
                                 : barNumber == 0
                                     ? Container(
-                                        //This is for Pictures
                                         height: 500,
                                         child: GridView.builder(
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 3,
                                           ),
-                                          itemCount: widget
-                                                  .rooster.gallery.isEmpty
-                                              ? grid_image_list.isEmpty
-                                                  ? 1
-                                                  : grid_image_list.length
-                                              : widget.rooster.gallery.length,
+                                          itemCount: grid_image_list.isEmpty
+                                              ? 1
+                                              : grid_image_list.length +
+                                                  (widget.rooster.gallery
+                                                          ?.length ??
+                                                      0),
                                           padding: EdgeInsets.all(8),
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            //FIXME: This is to be Looked AT
-                                            var gallery = widget
-                                                    .rooster.gallery.isEmpty
-                                                ? null
-                                                : widget.rooster.gallery[index];
-                                            print(gallery);
-                                            print(grid_image_list);
-                                            return index == 0
-                                                ? IconButton(
-                                                    onPressed: () async {
-                                                      if (grid_image_list
-                                                              .isEmpty ||
-                                                          grid_image_list
-                                                                  .length <
-                                                              6) {
-                                                        await _getImage("");
-                                                      } else if (grid_image_list
-                                                              .length >
-                                                          6) {
-                                                        Get.defaultDialog(
-                                                            title:
-                                                                "Limit Reached",
-                                                            middleText:
-                                                                "You can only add 5 images");
-                                                      }
-                                                      if (grid_image_list
-                                                              .length >
-                                                          1) {
-                                                        var update = Update(
-                                                          id: widget.rooster.id,
-                                                          firstname: widget
-                                                              .rooster
-                                                              .firstName,
-                                                          lastName: widget
-                                                              .rooster.lastName,
-                                                          city: widget
-                                                              .rooster.city,
-                                                          country: widget
-                                                              .rooster.country,
-                                                          dob: widget
-                                                              .rooster.dob,
-                                                          email: widget
-                                                              .rooster.email,
-                                                          galleryImage:
-                                                              grid_image_list,
-                                                          state: widget
-                                                              .rooster.state,
-                                                        );
-                                                        await _updateController
-                                                            .updateRooster(
-                                                                updated:
-                                                                    update);
-                                                      }
-                                                    },
-                                                    icon: Icon(Icons.add))
-                                                : gallery == null
-                                                    ? Padding(
-                                                        padding:
-                                                            EdgeInsets.all(4.0),
-                                                        child: Image.file(
-                                                          File(grid_image_list[
-                                                              index]),
-                                                          // width: 100,
-                                                          // height: 100,
-                                                          fit: BoxFit.fill,
-                                                        ),
-                                                      )
-                                                    : Padding(
-                                                        padding:
-                                                            EdgeInsets.all(4),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: AppConstants
-                                                                  .base_URL +
-                                                              gallery.image,
-                                                          fit: BoxFit.fill,
-                                                        ),
-                                                      );
+                                            if (index == 0
+                                                ) {
+                                              return IconButton(
+                                                onPressed: () async {
+                                                  if (grid_image_list.length <
+                                                      6) {
+                                                    await _getImage("");
+                                                  } else {
+                                                    Get.defaultDialog(
+                                                      title: "Limit Reached",
+                                                      middleText:
+                                                          "You can only add 5 images",
+                                                    );
+                                                  }
+                                                  if (grid_image_list.length >
+                                                      0) {
+                                                    var update = Update(
+                                                      id: widget.rooster.id,
+                                                      firstname: widget
+                                                          .rooster.firstName,
+                                                      lastName: widget
+                                                          .rooster.lastName,
+                                                      city: widget.rooster.city,
+                                                      country: widget
+                                                          .rooster.country,
+                                                      dob: widget.rooster.dob,
+                                                      email:
+                                                          widget.rooster.email,
+                                                      galleryImage:
+                                                          grid_image_list,
+                                                      state:
+                                                          widget.rooster.state,
+                                                    );
+                                                    await _updateController
+                                                        .updateRooster(
+                                                            updated: update);
+                                                  }
+                                                },
+                                                icon: Icon(Icons.add),
+                                              );
+                                            } else {
+                                              // Adjust index to account for the "Add" button
+                                              int adjustedIndex = index - 1;
+
+                                              if (adjustedIndex <
+                                                  grid_image_list.length) {
+                                                // Display images from grid_image_list
+                                                return Padding(
+                                                  padding: EdgeInsets.all(4.0),
+                                                  child: Image.file(
+                                                    File(grid_image_list[
+                                                        adjustedIndex]),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                );
+                                              } else {
+                                                // Display images from widget.rooster.gallery
+                                                var galleryIndex =
+                                                    adjustedIndex -
+                                                        grid_image_list.length;
+                                                var galleryImage = widget
+                                                    .rooster
+                                                    .gallery?[galleryIndex];
+
+                                                return Padding(
+                                                  padding: EdgeInsets.all(4),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        AppConstants.base_URL +
+                                                            galleryImage!.image,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                );
+                                              }
+                                            }
                                           },
                                         ),
                                       )

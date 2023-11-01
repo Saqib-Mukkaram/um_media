@@ -24,7 +24,7 @@ class EnquireForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Enquire Form", style: TextStyle(color: Colors.white)),
+        title: Text("Inquire Form", style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: AppConstants.subTextGrey,
         leading: Row(children: [
@@ -46,7 +46,7 @@ class EnquireForm extends StatelessWidget {
               height: 20,
             ),
             Text(
-              "Enquire Now",
+              "Inquire Now",
               style: TextStyle(fontSize: 24),
             ),
             Padding(
@@ -92,7 +92,7 @@ class EnquireForm extends StatelessWidget {
               ),
             ),
             ButtonCustom(
-              buttonText: "Enquire Now",
+              buttonText: "Inquire Now",
               onPress: () async {
                 if (_emailController.value.text.isEmpty ||
                     _phoneController.value.text.isEmpty ||

@@ -52,33 +52,36 @@ class TalentPost extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
-                              child: Text(
-                                roosterName,
-                                style: TextStyle(fontSize: 24),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+                                child: Text(
+                                  roosterName,
+                                  style: TextStyle(fontSize: 24),
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 5, 20, 0),
-                              child: Text(
-                                "#$tagsText",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: AppConstants.subTextGrey),
+                              SizedBox(
+                                width: 30,
                               ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                          ],
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 5, 20, 0),
+                                child: Text(
+                                  "#$tagsText",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: AppConstants.subTextGrey),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
