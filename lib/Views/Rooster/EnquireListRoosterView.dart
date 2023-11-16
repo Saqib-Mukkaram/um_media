@@ -7,6 +7,7 @@ import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/Views/Enquire/EnquireForm.dart';
+import 'package:um_media/Views/Enquire/SingleEnquireForm.dart';
 
 class EnquireListRoosterView extends StatefulWidget {
   EnquireListRoosterView({
@@ -21,26 +22,24 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
   EnquireListController _enquireListController = Get.find();
 
   Future<void> _refresh() async {
-
-      _enquireListController.fetchAll();
+    _enquireListController.fetchAll();
   }
 
   @override
   void initState() {
-   
     super.initState();
   }
 
   @override
   void dispose() {
-    
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var isAvailble =
-        _enquireListController.roosterEnquireList.isEmpty ? false.obs : true.obs;
+    var isAvailble = _enquireListController.roosterEnquireList.isEmpty
+        ? false.obs
+        : true.obs;
     return Scaffold(
       appBar: AppBar(
         title: Text("Enquire List", style: TextStyle(color: Colors.white)),
@@ -56,8 +55,7 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
               color: Colors.white,
             ),
           ),
-        ]
-        ),
+        ]),
       ),
       body: SafeArea(
         child: RefreshIndicator(
@@ -67,35 +65,42 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
               Obx(
                 () => isAvailble.value
                     ? ListView.builder(
-                        itemCount: _enquireListController.roosterEnquireList.length,
+                        itemCount:
+                            _enquireListController.roosterEnquireList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          var item = _enquireListController.roosterEnquireList[index];
+                          var item =
+                              _enquireListController.roosterEnquireList[index];
                           var tagsText = item.rooster.interests
                               .map((tag) => tag.name)
                               .join(', ');
-                          return Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                                child: CachedNetworkImage(
-                                    imageUrl: AppConstants.base_URL +
-                                        item.rooster.profileImage),
-                              ),
-                              title: Text(
-                                  "${item.rooster.firstName + " " + item.rooster.lastName}"),
-                              subtitle: Text(tagsText),
-                              trailing: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _enquireListController.roosterEnquireList
-                                        .removeAt(index);
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.delete_outlined,
-                                  color: Colors.red.shade500,
+                          return InkWell(
+                            onTap: () {
+                              Get.to(SingleEnquireForm(rooster: item.rooster,));
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                  child: CachedNetworkImage(
+                                      imageUrl: AppConstants.base_URL +
+                                          item.rooster.profileImage),
+                                ),
+                                title: Text(
+                                    "${item.rooster.firstName + " " + item.rooster.lastName}"),
+                                subtitle: Text(tagsText),
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _enquireListController.roosterEnquireList
+                                          .removeAt(index);
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.delete_outlined,
+                                    color: Colors.red.shade500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -111,7 +116,6 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
                               size: 60,
                               color: AppConstants.siteSubColor,
                             ),
-                           
                             Text(
                               "Enquire List Empty!",
                               style: TextStyle(fontSize: 32),
@@ -131,9 +135,7 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
                               ? Get.defaultDialog(
                                   title: "Enquire list empty",
                                   middleText: "Add some roosters!")
-                              : {
-                                  Get.to(EnquireForm())
-                                };
+                              : {Get.to(EnquireForm())};
                         },
                         foregroundColor: AppConstants.siteSubColor,
                         backgroundColor: AppConstants.subTextGrey,

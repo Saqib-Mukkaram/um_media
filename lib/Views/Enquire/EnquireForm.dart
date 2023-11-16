@@ -117,7 +117,7 @@ class EnquireForm extends StatelessWidget {
                     if (value == true) {
                       Get.defaultDialog(
                         title: "Success",
-                        middleText: "Enquiry Submitted Successfully We will contact you soon",
+                        middleText: "Inquiry Submitted Successfully We will contact you soon",
                         onWillPop: () {
                           _enquireListController.roosterEnquireList.clear();
 
@@ -129,7 +129,7 @@ class EnquireForm extends StatelessWidget {
                       Get.defaultDialog(
                           title: "Error",
                           middleText:
-                          "Enquiry Submission Failed\n Returning to Home Screen",
+                          "Inquiry Submission Failed\n Returning to Home Screen",
                           onWillPop: () {
                             Get.offAll(HomeScreen());
                             return Future.value(true);
@@ -213,7 +213,7 @@ Future<dynamic> EnquireBottomSheet(BuildContext context, Size size) {
                   height: 20,
                 ),
                 Text(
-                  "Enquire Now",
+                  "Inquire Now",
                   style: TextStyle(fontSize: 24),
                 ),
                 Padding(

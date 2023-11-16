@@ -528,8 +528,8 @@ class _RoosterViewState extends State<RoosterView> {
                               width: size.width - 32,
                               buttonText: _isbuttonTapped.value &&
                                       _rooster.first.IsEnquired.value == true
-                                  ? "Inquired".toUpperCase()
-                                  : "Inquire".toUpperCase(),
+                                  ? "Remove".toUpperCase()
+                                  : "Add".toUpperCase(),
                               onPress: () {
                                 _isbuttonTapped.toggle();
                                 _isbuttonTapped.value

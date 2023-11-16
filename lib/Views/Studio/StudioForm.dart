@@ -38,7 +38,7 @@ class StudioForm extends StatelessWidget {
               height: 20,
             ),
             Text(
-              "Enquire Now",
+              "Inquire Now",
               style: TextStyle(fontSize: 24),
             ),
             Padding(
@@ -84,7 +84,7 @@ class StudioForm extends StatelessWidget {
               ),
             ),
             ButtonCustom(
-              buttonText: "Enquire Now",
+              buttonText: "Inquire Now",
               onPress: () async {
                 if (_emailController.value.text.isEmpty ||
                     _phoneController.value.text.isEmpty ||
@@ -109,7 +109,7 @@ class StudioForm extends StatelessWidget {
                     if (value == true) {
                       Get.defaultDialog(
                         title: "Success",
-                        middleText: "Enquiry Submitted Successfully \nWe will contact you soon",
+                        middleText: "Inquiry Submitted Successfully \nWe will contact you soon",
                         onWillPop: () {
                           _enquireListController.studioList.clear();
 
@@ -121,7 +121,7 @@ class StudioForm extends StatelessWidget {
                       Get.defaultDialog(
                           title: "Error",
                           middleText:
-                          "Enquiry Submission Failed\n Returning to Home Screen",
+                          "Inquiry Submission Failed\n Returning to Home Screen",
                           onWillPop: () {
                             Get.offAll(HomeScreen());
                             return Future.value(true);
@@ -152,7 +152,7 @@ class StudioForm extends StatelessWidget {
                       ),
                       title: Text(
                           "${item.studio.name}"),
-                      subtitle: Text("Studio for enquire"),
+                      subtitle: Text("Studio for Inquire"),
 
                     ),
                   );
