@@ -11,14 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/ArtisanController.dart';
 import 'package:um_media/Controller/LoginController.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/Controller/UpdateController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/LabelText.dart';
 import 'package:um_media/CustomWidgets/ModelSideBar.dart';
-import 'package:um_media/CustomWidgets/SideBar.dart';
-import 'package:um_media/CustomWidgets/StudioCard.dart';
-import 'package:um_media/CustomWidgets/TalentCard.dart';
-import 'package:um_media/CustomWidgets/TalentCard_Artisan.dart';
+
 import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Models/Update.dart';
 import 'package:um_media/Views/Talents/TalentsView.dart';
@@ -519,6 +517,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                                         AppConstants.base_URL +
                                                             galleryImage!.image,
                                                     fit: BoxFit.fill,
+                                                    placeholder: (context, url) => ShimmerController.shimmerList(),
                                                   ),
                                                 );
                                               }
@@ -590,6 +589,7 @@ class _HomeArtisanScreenState extends State<HomeArtisanScreen>
                                           imageUrl:
                                               "${AppConstants.base_URL}/${widget.rooster.profileImage}",
                                           fit: BoxFit.cover,
+                                          placeholder: (context, url) => ShimmerController.shimmerList(),
                                         )),
                             ),
                           ),

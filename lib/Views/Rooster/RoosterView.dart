@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/Controller/RoosterController.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/Models/EnquiredRooster.dart';
 import 'package:um_media/Models/Rooster.dart';
@@ -261,16 +262,7 @@ class _RoosterViewState extends State<RoosterView> {
                               width: 150,
                               height: 150,
                               fit: BoxFit.fill,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Padding(
-                                padding: EdgeInsets.fromLTRB(32, 32, 32, 32),
-                                child: CircularProgressIndicator(
-                                  value: downloadProgress.progress,
-                                  color: AppConstants.siteSubColor,
-                                ),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                             placeholder: (context, url) => ShimmerController.shimmerList(),
                             ),
                           ),
                         ),

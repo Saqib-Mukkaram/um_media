@@ -2,6 +2,7 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 
 class AppConstants {
+
   //Colors
   static const Color white = Color.fromARGB(255, 255, 255, 255);
   static const Color login_text = Color.fromARGB(100, 131, 131, 131);
@@ -11,6 +12,8 @@ class AppConstants {
   static const Color dividerColor = Color.fromARGB(255, 217, 217, 217);
   static const Color siteSubColor = Color.fromARGB(255, 196, 143, 27);
   static const Color subTextGrey = Color.fromARGB(255, 0, 0, 0);
+
+
 
   //Paths
   static const String Logo = "assets/imgs/Logo.png";
@@ -43,8 +46,6 @@ class AppConstants {
     "Musician",
   ];
 
-
-
   static const NetworkPaths = {"Actor": ""};
   // Network Paths
   static const String net_actor =
@@ -61,10 +62,8 @@ class AppConstants {
       "http://ummediagroup.com/assets/images/categories/musician.jpg";
   static const String net_dj =
       "http://ummediagroup.com/assets/images/categories/dj.jpg";
-
   //API Paths
   static const String API_TOKEN = "e9a3cc12ce4aab1e136b25ad23b06d01";
-
   static const String base_URL = "https://ummediagroup.com";
   // static const String base_URL = "http://127.0.0.1:8000";
   static const String rooster_categories = "/api/roster/categories";

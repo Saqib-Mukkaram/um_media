@@ -13,6 +13,7 @@ class RoosterController extends GetxController {
 // whenever calss is called it will be called first
 
   Future<bool> isDataFetched() {
+    // Future.delayed(Duration(seconds: 2));
     if (roosterList.isNotEmpty) {
       return Future.value(true);
     } else {

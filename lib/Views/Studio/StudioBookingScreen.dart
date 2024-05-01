@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
@@ -107,14 +108,7 @@ class _StudioBookingScreenState extends State<StudioBookingScreen> {
                 child: CachedNetworkImage(
                   imageUrl: AppConstants.base_URL + studiolist.image,
                   fit: BoxFit.fill,
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Padding(
-                    padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
-                    child: CircularProgressIndicator(
-                      value: downloadProgress.progress,
-                      color: AppConstants.siteSubColor,
-                    ),
-                  ),
+                placeholder: (context, url) => ShimmerController.shimmerList(),
                 )),
           ),
           Row(

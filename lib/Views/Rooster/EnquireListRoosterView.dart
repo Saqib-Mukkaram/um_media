@@ -42,7 +42,7 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
         : true.obs;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Enquire List", style: TextStyle(color: Colors.white)),
+        title: Text("Inquire List", style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: AppConstants.subTextGrey,
         leading: Row(children: [
@@ -75,7 +75,9 @@ class _EnqurieListRoosterViewState extends State<EnquireListRoosterView> {
                               .join(', ');
                           return InkWell(
                             onTap: () {
-                              Get.to(SingleEnquireForm(rooster: item.rooster,));
+                              Get.to(SingleEnquireForm(
+                                rooster: item.rooster,
+                              ));
                             },
                             child: Padding(
                               padding: EdgeInsets.all(8.0),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/Views/Enquire/EnquireForm.dart';
 import 'package:um_media/Views/Enquire/SingleEnquireForm.dart';
@@ -69,6 +70,7 @@ class _EnqurieListState extends State<EnqurieList> {
                                       imageUrl: AppConstants.base_URL +
                                           item.rooster.profileImage,
                                       width: 25,
+                                      placeholder: (context, url) => ShimmerController.shimmerList(),
                                     ),
                                   ),
                                   title: Text(
@@ -112,6 +114,8 @@ class _EnqurieListState extends State<EnqurieList> {
                 ),
                 Positioned(
                     bottom: 0,
+                    left: 0,
+                    right: 0,
                     child: Column(
                       children: [
                         ButtonCustom(

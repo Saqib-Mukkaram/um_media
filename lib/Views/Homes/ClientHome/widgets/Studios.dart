@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/CustomWidgets/StudioCard.dart';
 import 'package:um_media/Views/Studio/StudioView.dart';
@@ -45,11 +46,8 @@ class _StudiosState extends State<Studios> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: CircularProgressIndicator(
-                          color: AppConstants
-                              .siteSubColor), // Show a loading indicator
-                    ),
+                  
+                 ShimmerController.shimmerList(),
                   ],
                 );
               } else if (snapshot.hasError) {

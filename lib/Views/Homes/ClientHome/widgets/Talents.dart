@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/CacheController.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 import 'package:um_media/CustomWidgets/TalentCard.dart';
 import 'package:um_media/Views/Talents/TalentsView.dart';
@@ -47,16 +48,18 @@ class _TalentsState extends State<Talents> {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     _controller.isDataFetched() == false) {
                  
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: CircularProgressIndicator(
-                            color: AppConstants
-                                .siteSubColor), // Show a loading indicator
-                      ),
-                    ],
-                  );
+
+                 return ShimmerController.shimmerList();
+                  // return Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Center(
+                  //       child: CircularProgressIndicator(
+                  //           color: AppConstants
+                  //               .siteSubColor), // Show a loading indicator
+                  //     ),
+                  //   ],
+                  // );
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text(

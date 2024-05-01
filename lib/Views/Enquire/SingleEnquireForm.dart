@@ -7,12 +7,15 @@ import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/CustomAppBar.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
 import 'package:um_media/Models/Client.dart';
+import 'package:um_media/Models/EnquiredRooster.dart';
+import 'package:um_media/Models/Rooster.dart';
 import 'package:um_media/Views/Homes/ClientHome/Home.dart';
 
 import '../../Controller/ShimmerController.dart';
 
-class EnquireForm extends StatelessWidget {
-  EnquireForm({super.key});
+class SingleEnquireForm extends StatelessWidget {
+  final Rooster rooster;
+  SingleEnquireForm({super.key, required this.rooster});
 
   final scaffoldkey = GlobalKey<ScaffoldState>();
 
@@ -20,10 +23,13 @@ class EnquireForm extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
-  final EnquireListController _enquireListController = Get.find();
+  final EnquireListController _enquireListController = EnquireListController();
 
   @override
   Widget build(BuildContext context) {
+    _enquireListController.roosterEnquireList.add(EnquireRooster(
+      rooster: rooster,
+    ));
     return Scaffold(
       appBar: AppBar(
         title: Text("Inquire Form", style: TextStyle(color: Colors.white)),
@@ -102,8 +108,7 @@ class EnquireForm extends StatelessWidget {
                     _nameController.value.text.isEmpty) {
                   Get.defaultDialog(
                       title: "Error", middleText: "Please fill all the fields");
-                }
-                else if (_emailController.value.text == false) {
+                } else if (_emailController.value.text == false) {
                   Get.defaultDialog(
                       title: "Error", middleText: "Please enter a Valid Email");
                 } else {
@@ -113,13 +118,14 @@ class EnquireForm extends StatelessWidget {
                     phone: _phoneController.text,
                     message: _messageController.text,
                   );
-                 
+
                   await _enquireListController.EnquiredRoosterByClient(client)
                       .then((value) {
                     if (value == true) {
                       Get.defaultDialog(
                         title: "Success",
-                        middleText: "Inquiry Submitted Successfully We will contact you soon",
+                        middleText:
+                            "Inquiry Submitted Successfully We will contact you soon",
                         onWillPop: () {
                           _enquireListController.roosterEnquireList.clear();
 
@@ -131,7 +137,7 @@ class EnquireForm extends StatelessWidget {
                       Get.defaultDialog(
                           title: "Error",
                           middleText:
-                          "Inquiry Submission Failed\n Returning to Home Screen",
+                              "Inquiry Submission Failed\n Returning to Home Screen",
                           onWillPop: () {
                             Get.offAll(HomeScreen());
                             return Future.value(true);
@@ -150,7 +156,7 @@ class EnquireForm extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   var item = _enquireListController.roosterEnquireList[index];
                   var tagsText =
-                  item.rooster.interests.map((tag) => tag.name).join(', ');
+                      item.rooster.interests.map((tag) => tag.name).join(', ');
                   return Padding(
                     padding: EdgeInsets.all(8.0),
                     child: ListTile(
@@ -158,14 +164,13 @@ class EnquireForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                         child: CachedNetworkImage(
                           imageUrl:
-                          AppConstants.base_URL + item.rooster.profileImage,
+                              AppConstants.base_URL + item.rooster.profileImage,
                           width: 25,
                           placeholder: (context, url) => ShimmerController.shimmerList(),
                         ),
                       ),
                       title: Text(
-                          "${item.rooster.firstName + " " + item.rooster
-                              .lastName}"),
+                          "${item.rooster.firstName + " " + item.rooster.lastName}"),
                       subtitle: Text(tagsText),
                       // trailing: IconButton(
                       //   onPressed: () {

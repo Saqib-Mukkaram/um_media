@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:um_media/AppConstants.dart';
 
+import '../Controller/ShimmerController.dart';
+
 class TalentCard extends StatelessWidget {
   final String src;
   final String text;
@@ -36,17 +38,18 @@ class TalentCard extends StatelessWidget {
                           width: 150,
                           height: 200,
                           fit: BoxFit.fill,
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(32,64,32,64),
-                                    child: CircularProgressIndicator(
-                                        value: downloadProgress.progress,
-                                        color: AppConstants.siteSubColor
-                                        ,),
-                                  ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                          // progressIndicatorBuilder:
+                          //     (context, url, downloadProgress) =>
+                          //         Padding(
+                          //           padding: EdgeInsets.fromLTRB(32,64,32,64),
+                          //           child: CircularProgressIndicator(
+                          //               value: downloadProgress.progress,
+                          //               color: AppConstants.siteSubColor
+                          //               ,),
+                          //         ),
+                          // errorWidget: (context, url, error) =>
+                          //     Icon(Icons.error),
+                          placeholder: (context, url) => ShimmerController.shimmerList(),
                         )
                       : Image.network(
                           src,

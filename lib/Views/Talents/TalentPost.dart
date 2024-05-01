@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/TalentProfile.dart';
 import 'package:um_media/Models/Rooster.dart';
@@ -34,20 +37,18 @@ class TalentPost extends StatelessWidget {
           children: [
             Column(
               children: [
-              
                 Container(
                   decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black
-                                  .withOpacity(0.1), // Shadow color
-                              spreadRadius: 5, // Spread radius
-                              blurRadius: 7, // Blur radius
-                              // offset: Offset(0, 3), // Offset from the widget
-                            ),
-                          ]),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1), // Shadow color
+                          spreadRadius: 5, // Spread radius
+                          blurRadius: 7, // Blur radius
+                          // offset: Offset(0, 3), // Offset from the widget
+                        ),
+                      ]),
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Column(
@@ -59,7 +60,7 @@ class TalentPost extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+                                padding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
                                 child: Text(
                                   roosterName,
                                   style: TextStyle(fontSize: 24),
@@ -90,14 +91,16 @@ class TalentPost extends StatelessWidget {
                             width: size.width,
                             height: 400,
                             fit: BoxFit.fill,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => Padding(
-                              padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
-                              child: CircularProgressIndicator(
-                                value: downloadProgress.progress,
-                                color: AppConstants.siteSubColor,
-                              ),
-                            ),
+                            placeholder: (context, url) =>
+                                ShimmerController.shimmerList(),
+                            // progressIndicatorBuilder:
+                            //     (context, url, downloadProgress) => Padding(
+                            //   padding: EdgeInsets.fromLTRB(32, 64, 32, 64),
+                            //   child: CircularProgressIndicator(
+                            //     value: downloadProgress.progress,
+                            //     color: AppConstants.siteSubColor,
+                            //   ),
+                            // ),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                           ),
@@ -109,7 +112,7 @@ class TalentPost extends StatelessWidget {
               ],
             ),
             //This is the Center Image
-            
+
             Positioned(
               right: 15,
               bottom: 20,
@@ -133,7 +136,7 @@ class TalentPost extends StatelessWidget {
                         color: AppConstants.subTextGrey,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             // SizedBox(height: 10,),
                             Text(
                               "View",

@@ -14,7 +14,7 @@ class LabelText extends StatelessWidget {
       {Key? key,
       required this.labelText,
       this.paddingleft = 16,
-      this.paddingtop = 10,
+      this.paddingtop = 0,
       this.paddingright = 0,
       this.paddingbottom = 3,
       this.TextColor = Colors.black,

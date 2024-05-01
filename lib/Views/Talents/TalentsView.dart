@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/RoosterController.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 
 import 'package:um_media/Views/Talents/TalentPost.dart';
-import 'package:um_media/Models/Rooster.dart';
-import 'package:um_media/Models/RoosterImages.dart';
+
 
 class TalentsView extends StatefulWidget {
   final int category_id;
@@ -20,7 +20,7 @@ class TalentsView extends StatefulWidget {
 }
 
 class _TalentsViewState extends State<TalentsView> {
-  TalentController _talentController = Get.find();
+  // TalentController _talentController = Get.find();
 
   RoosterController _roosterController = Get.find();
 
@@ -51,7 +51,7 @@ class _TalentsViewState extends State<TalentsView> {
         centerTitle: true,
         title: Text(
           widget.category_name.toUpperCase(),
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: SafeArea(
@@ -63,11 +63,12 @@ class _TalentsViewState extends State<TalentsView> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: CircularProgressIndicator(
-                          color: AppConstants
-                              .siteSubColor), // Show a loading indicator
-                    ),
+                    // Center(
+                    //   child: CircularProgressIndicator(
+                    //       color: AppConstants
+                    //           .siteSubColor), // Show a loading indicator
+                    // ),
+                    ShimmerController.shimmerList(),
                   ],
                 );
               } else if (snapshot.hasError) {
@@ -109,7 +110,7 @@ class _TalentsViewState extends State<TalentsView> {
                         );
                       } else {
                         var rooster = specific.elementAt(index);
-                        var galleryLength = rooster.gallery.length;
+                        // var galleryLength = rooster.gallery.length;
 
                         // Check if the rooster has an image
                         return TalentPost(

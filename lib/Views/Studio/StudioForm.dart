@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
 import 'package:um_media/CustomWidgets/InputField.dart';
@@ -148,6 +149,7 @@ class StudioForm extends StatelessWidget {
                           imageUrl:
                           AppConstants.base_URL + item.studio.image,
                           width: 25,
+                          placeholder: (context, url) => ShimmerController.shimmerList(),
                         ),
                       ),
                       title: Text(

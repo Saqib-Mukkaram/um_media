@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:um_media/AppConstants.dart';
+import 'package:um_media/Controller/ShimmerController.dart';
 
 
 class StudioCard extends StatelessWidget {
@@ -24,6 +25,7 @@ class StudioCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(12)),
           child: Container(
+            constraints: BoxConstraints(maxWidth: 300),
             color: Colors.white,
             // color: Color.fromARGB(28, 0, 0, 0),
             child: Column(
@@ -37,17 +39,7 @@ class StudioCard extends StatelessWidget {
                           width: 350,
                           height: 270,
                           fit: BoxFit.fill,
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(32,64,32,64),
-                                    child: CircularProgressIndicator(
-                                        value: downloadProgress.progress,
-                                        color: AppConstants.siteSubColor
-                                        ,),
-                                  ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                          placeholder: (context, url) => ShimmerController.shimmerList(),
                         )
                       : Image.network(
                           src,
