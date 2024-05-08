@@ -90,6 +90,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'UmMedia',
+      initialBindings: AppBindings()
       translations: Languages(),
       locale: const Locale('en', 'US'),
       fallbackLocale: const Locale('en', 'UK'),
@@ -98,22 +99,12 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
         fontFamily: "Poppins",
       ),
+      
       home: FutureBuilder(
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            // bool isLoggedIn = prefs?.getBool('isLoggedIn') ?? false;
-            // if (isLoggedIn) {
-            //   rooster =
-            //       jsonDecode(prefs?.getString('rooster') as String);
-            // }
-            // print("Logged ? $isLoggedIn");
-            //
-            // return isLoggedIn == true && rooster != null
-            //     ? HomeArtisanScreen(
-            //         rooster: rooster as Rooster,
-            //       )
-            //     : HomeScreen();
+         
             return HomeScreen();
             // return HomeArtisanScreen(rooster_id: 1);
           } else {
