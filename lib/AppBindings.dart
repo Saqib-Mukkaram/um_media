@@ -9,10 +9,10 @@ import 'Controller/TalentController.dart';
 class AppBindings extends Bindings {
   @override
   void dependencies() {
-    Get.put(() => RoosterController());
-    Get.put(() => TalentController());
-    Get.put(() => StudioController());
-    Get.put(() => EnquireListController());
-    Get.put(() => LoginController());
+    Get.lazyPut(() => RoosterController());
+    Get.lazyPut(() => TalentController());
+    Get.lazyPut(() => StudioController());
+    Get.lazyPut(() => EnquireListController());
+    Get.lazyPut(() => LoginController());
   }
 }

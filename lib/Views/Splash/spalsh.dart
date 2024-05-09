@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:um_media/AppConstants.dart';
-
+import 'package:um_media/Controller/RoosterController.dart';
+import 'package:um_media/Controller/StudioController.dart';
+import 'package:um_media/Controller/TalentController.dart';
+import 'package:um_media/Views/Homes/ClientHome/Home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,14 +15,37 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  SharedPreferences? prefs;
+
+  Future<void> fetchData() async {
+    // Future.delayed(Duration(seconds: 2));
+    final RoosterController _roosterController = Get.find();
+    final TalentController _talentController = Get.find();
+    final StudioController _studioController = Get.find();
+    if (_talentController.categories.isEmpty ||
+        _roosterController.roosterList.isEmpty ||
+        _studioController.studios.isEmpty) {
+      print(_talentController.categories);
+      print(_roosterController.roosterList);
+      print(_studioController.studios);
+      await _talentController.fetchAll();
+      await _studioController.fetchAll();
+      await _roosterController.fetchAll();
+      prefs = await SharedPreferences.getInstance();
+      print(_talentController.categories);
+      print(_roosterController.roosterList);
+      print(_studioController.studios);
+    } else {
+      return Future.delayed(Duration(seconds: 2));
+    }
+  }
 
   @override
   void initState() {
-
+    fetchData().then((value) => Get.off(HomeScreen()));
     super.initState();
-
-   
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -46,7 +73,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             CircularProgressIndicator(
               color: AppConstants.siteSubColor,
-
             )
           ],
         ),
