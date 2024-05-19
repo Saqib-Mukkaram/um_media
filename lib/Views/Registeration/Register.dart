@@ -1,4 +1,4 @@
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+// import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
@@ -37,6 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   bool agreedToTerms = false;
   bool IsModel = false;
   var gender;
+
   @override
   void initState() {
     _tabController = TabController(length: 1, vsync: this);
@@ -232,58 +233,65 @@ class _RegisterScreenState extends State<RegisterScreen>
                           ),
                           Padding(
                             padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                            child: DropDownTextField(
-                              textFieldDecoration: InputDecoration(
-                                label: Text("Gender"),
-                                // border: const OutlineInputBorder(
-                                //   borderSide: BorderSide(color: Colors.grey),
-                                //   borderRadius: BorderRadius.all(
-                                //     Radius.circular(8),
-                                //   ),
-                                // ),
-                                focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                // errorText: "This is a requirement",
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                fillColor: Colors.white,
-
-                                hintStyle: TextStyle(
-                                  color: Colors.grey.shade400,
-                                ),
-                              ),
-                              clearOption: false,
-                              dropdownColor: Colors.white,
-                              // searchAutofocus: true,
-                              dropDownItemCount: 2,
-                              searchShowCursor: false,
-
-                              dropDownList: [
-                                DropDownValueModel(name: 'Male', value: 0),
-                                DropDownValueModel(
-                                  name: 'Female',
-                                  value: 1,
-                                ),
-                              ],
-                              onChanged: (val) {
-                                gender = val.name;
-                                _genderController.text = val.name;
-                              },
-                            ),
+                            // child: DropDownTextField(
+                            //   textFieldDecoration: InputDecoration(
+                            //     label: Text("Gender"),
+                            //     // border: const OutlineInputBorder(
+                            //     //   borderSide: BorderSide(color: Colors.grey),
+                            //     //   borderRadius: BorderRadius.all(
+                            //     //     Radius.circular(8),
+                            //     //   ),
+                            //     // ),
+                            //     focusedBorder: const UnderlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.grey),
+                            //       borderRadius: BorderRadius.all(
+                            //         Radius.circular(8),
+                            //       ),
+                            //     ),
+                            //     errorBorder: const OutlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.red),
+                            //       borderRadius: BorderRadius.all(
+                            //         Radius.circular(8),
+                            //       ),
+                            //     ),
+                            //     // errorText: "This is a requirement",
+                            //     focusedErrorBorder: const OutlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.red),
+                            //       borderRadius: BorderRadius.all(
+                            //         Radius.circular(8),
+                            //       ),
+                            //     ),
+                            //     fillColor: Colors.white,
+                            //
+                            //     hintStyle: TextStyle(
+                            //       color: Colors.grey.shade400,
+                            //     ),
+                            //   ),
+                            //   clearOption: false,
+                            //   dropdownColor: Colors.white,
+                            //   // searchAutofocus: true,
+                            //   dropDownItemCount: 3,
+                            //   searchShowCursor: false,
+                            //
+                            //   dropDownList: [
+                            //     DropDownValueModel(
+                            //       name: 'Male',
+                            //       value: 0,
+                            //     ),
+                            //     DropDownValueModel(
+                            //       name: 'Female',
+                            //       value: 1,
+                            //     ),
+                            //     DropDownValueModel(
+                            //       name: 'Other',
+                            //       value: 2,
+                            //     ),
+                            //   ],
+                            //   onChanged: (val) {
+                            //     gender = val.name;
+                            //     _genderController.text = val.name;
+                            //   },
+                            // ),
                           ),
                           Row(
                             children: [

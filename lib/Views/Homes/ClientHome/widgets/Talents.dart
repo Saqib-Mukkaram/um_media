@@ -20,19 +20,15 @@ class Talents extends StatefulWidget {
 }
 
 class _TalentsState extends State<Talents> {
-
   final TalentController _controller = Get.find();
 
   @override
   void initState() {
-
     super.initState();
   }
 
   @override
   void dispose() {
-
-
     super.dispose();
   }
 
@@ -41,15 +37,13 @@ class _TalentsState extends State<Talents> {
     return Row(
       children: [
         Container(
-          height: 275,
+          height: 225,
           child: FutureBuilder(
               future: _controller.isDataFetched(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     _controller.isDataFetched() == false) {
-                 
-
-                 return ShimmerController.shimmerList();
+                  return ShimmerController.shimmerList();
                   // return Column(
                   //   mainAxisAlignment: MainAxisAlignment.center,
                   //   children: [
@@ -70,12 +64,11 @@ class _TalentsState extends State<Talents> {
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.all(10.0),
-                    shrinkWrap: true, // Set shrinkWrap to true
+                    shrinkWrap: true,
+                    // Set shrinkWrap to true
                     itemCount: _controller.categories.length,
                     itemBuilder: (BuildContext context, int index) {
-                     
                       var category = _controller.categories.elementAt(index);
-                     
 
                       return InkWell(
                         onTap: () {
@@ -84,13 +77,11 @@ class _TalentsState extends State<Talents> {
                             category_name: category.name,
                           ));
                         },
-                       
                         child: TalentCard(
-                                netImg: true,
-                                src: AppConstants.base_URL + category.photo,
-                                text: category.name,
-                              ),
-                            
+                          netImg: true,
+                          src: AppConstants.base_URL + category.photo,
+                          text: category.name,
+                        ),
                       );
                     },
                   );

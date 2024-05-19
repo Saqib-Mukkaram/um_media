@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -11,20 +12,27 @@ import 'package:um_media/Models/TalentCategory.dart';
 class TalentController extends GetxController {
   List<TalentCategory> categories =
       []; // Create a list to store Category objects
+  var datafetched = false;
 
   Future<bool> isDataFetched() {
-    if (categories.isNotEmpty) {
-      return Future.value(true);
-    } else {
-      return Future.value(false);
+    while (datafetched == false) {
+      Future.delayed(
+        Duration(seconds: 1),
+      );
     }
+    return Future.value(true);
   }
 
+  @override
+  void onInit() async {
+    super.onInit();
+    await getCategories();
+  }
 
   Future<void> fetchAll() async {
     await getCategories();
     // await cachedData();
-    print("Categories Fetched");
+    kDebugMode ?  print("Categories Fetched") : null;
   }
 
   Future<void> getCategories() async {
@@ -39,6 +47,7 @@ class TalentController extends GetxController {
         categories = data
             .map((categoryData) => TalentCategory.fromJson(categoryData))
             .toList();
+        datafetched = true;
         // print(categories.length);
       } else {
         print(
@@ -50,14 +59,14 @@ class TalentController extends GetxController {
   }
 }
 
-  // Future<void> cachedData() async {
-  //   var studioImgList = categories.map((element) => element.photo).toList();
-  //   print("Studios List");
-  //   print(studioImgList);
-  //   for (var element in studioImgList) {
-  //     var image = await CacheController.cache
-  //         .downloadFile(AppConstants.base_URL + element);
-  //     images.add(image);
-  //   }
-  //   // cache.getFileFromCache(key);
-  // }
+// Future<void> cachedData() async {
+//   var studioImgList = categories.map((element) => element.photo).toList();
+//   print("Studios List");
+//   print(studioImgList);
+//   for (var element in studioImgList) {
+//     var image = await CacheController.cache
+//         .downloadFile(AppConstants.base_URL + element);
+//     images.add(image);
+//   }
+//   // cache.getFileFromCache(key);
+// }

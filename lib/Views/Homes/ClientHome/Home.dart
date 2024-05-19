@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers, prefer_const_constructors
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -5,18 +7,22 @@ import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/EnquireListController.dart';
 import 'package:um_media/Controller/LoginController.dart';
+import 'package:um_media/Controller/RentalsController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/Controller/TalentController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
-import 'package:um_media/CustomWidgets/SideBar.dart';
 import 'package:um_media/CustomWidgets/SidebarButtons.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/EnquireList.dart';
+import 'package:um_media/Views/Homes/ClientHome/widgets/RentalBar.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/Studios.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/StudiosBar.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/Talents.dart';
 import 'package:um_media/Views/Homes/ClientHome/widgets/TalentsBar.dart';
 import 'package:um_media/Views/Login/Login.dart';
 import 'package:um_media/Views/Registeration/Register.dart';
+import 'package:um_media/Views/Rentals/RentalsSection.dart';
+
+import '../../../Models/Rentals.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen>
   Future<void> _refresh() async {
     StudioController _studioController = Get.find();
     TalentController _talentController = Get.find();
-
+    RentalController _rentalController = Get.find();
     await _studioController.fetchAll();
     await _talentController.fetchAll();
     setState(() {});
@@ -44,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-
     scaffoldKey = GlobalKey<ScaffoldState>();
     _tabController = TabController(length: 2, vsync: this);
     //INIT the Controller
@@ -73,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen>
           //   onPressed: () {
           //     scaffoldKey.currentState?.openDrawer();
           //   // },
-          
+
           bottom: TabBar(
             controller: _tabController,
             dividerColor: AppConstants.siteSubColor,
@@ -81,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen>
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(
-
                   child: IconButton(
                       onPressed: () {
                         _tabController.animateTo(0);
@@ -95,7 +99,6 @@ class _HomeScreenState extends State<HomeScreen>
                   () => _enquireListController.roosterEnquireList.isEmpty
                       ? IconButton(
                           onPressed: () {
-                     
                             _tabController.animateTo(1);
                           },
                           icon: Icon(
@@ -139,7 +142,8 @@ class _HomeScreenState extends State<HomeScreen>
                                     : Text(
                                         _enquireListController
                                             .roosterEnquireList.length
-                                            .toString(), // Replace with your counter value
+                                            .toString(),
+                                        // Replace with your counter value
                                         style: TextStyle(
                                           color: Colors
                                               .white, // Customize the text color
@@ -164,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           actions: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0,0, 0,0),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: _loginController.isLoggedin.value
                   ? SideBarButtons(
                       buttonIcon: Icon(
@@ -220,6 +224,7 @@ class _HomeScreenState extends State<HomeScreen>
                     child: SafeArea(
                       child: Column(
                         children: [
+                          //Talents Bar
                           Container(
                             color: Colors.black,
                             child: Padding(
@@ -230,14 +235,27 @@ class _HomeScreenState extends State<HomeScreen>
                           SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Talents()),
-                          // Divider(
-                          //   indent: 16,
-                          //   endIndent: 16,
-                          // ),
+                          //Rental Bar
+                          Container(
+                            color: Colors.black,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RentalsBar(),
+                            ),
+                          ),
+
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: RentalsSection(),
+                          ),
+                          //Studios Bar
                           InkWell(
                             child: Container(
                               color: Colors.black,
-                              child: StudiosBar(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: StudiosBar(),
+                              ),
                             ),
                           ),
                           SingleChildScrollView(

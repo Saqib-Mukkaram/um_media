@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
 
-class StudiosBar extends StatelessWidget {
-  const StudiosBar({
+class RentalsBar extends StatelessWidget {
+  const RentalsBar({
     super.key,
   });
 
@@ -14,7 +14,7 @@ class StudiosBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
           child: Text(
-            "Prooduction Space Rentals".toUpperCase(),
+            "Rent Equipment".toUpperCase(),
             style: TextStyle(
                 fontSize: 18,
                 fontStyle: FontStyle.normal,
@@ -22,14 +22,12 @@ class StudiosBar extends StatelessWidget {
                 color: Colors.white),
           ),
         ),
-        // Spacer(),
-        // Padding(
-        //   padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-        //   child: Text(
-        //     "viewall".tr,
-        //     style: TextStyle(color: AppConstants.siteSubColor),
-        //   ),
-        // )
+        Spacer(),
+        Icon(
+          Icons.arrow_forward_ios_outlined
+              ,
+          color: Colors.white,
+        )
       ],
     );
   }

@@ -8,6 +8,14 @@ import 'package:um_media/Models/LoginRequest.dart';
 import 'package:um_media/Models/Rooster.dart';
 
 class LoginController extends GetxController {
+
+  //Ctor
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+
   var isLoggedin = false.obs;
   // var RoosterId;
   Rooster? rooster;

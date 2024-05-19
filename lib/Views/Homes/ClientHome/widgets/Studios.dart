@@ -24,7 +24,6 @@ class _StudiosState extends State<Studios> {
   ];
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -46,8 +45,7 @@ class _StudiosState extends State<Studios> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                  
-                 ShimmerController.shimmerList(),
+                    ShimmerController.shimmerList(),
                   ],
                 );
               } else if (snapshot.hasError) {

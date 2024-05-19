@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -7,6 +8,7 @@ import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/ShimmerController.dart';
 import 'package:um_media/Controller/StudioController.dart';
 import 'package:um_media/CustomWidgets/ButtonCustom.dart';
+import 'package:um_media/Models/Studio.dart';
 import 'package:um_media/Views/Studio/StudioBookingScreen.dart';
 
 class StudioView extends StatefulWidget {
@@ -110,12 +112,12 @@ class _StudioViewState extends State<StudioView> {
                                 ),
                                 Padding(
                                     padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
-                                   
                                     child: CachedNetworkImage(
                                       imageUrl: AppConstants.base_URL +
                                           studioList.image,
                                       fit: BoxFit.fill,
-                                     placeholder: (context, url) => ShimmerController.shimmerList(),
+                                      placeholder: (context, url) =>
+                                          ShimmerController.shimmerList(),
                                     )),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -141,6 +143,7 @@ class _StudioViewState extends State<StudioView> {
                                               var Gallerylist = studioList
                                                   .gallery
                                                   .elementAt(index);
+
                                               return Padding(
                                                 padding: EdgeInsets.all(8.0),
                                                 child: Material(
@@ -153,17 +156,34 @@ class _StudioViewState extends State<StudioView> {
                                                         BorderRadius.all(
                                                             Radius.circular(
                                                                 12)),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: AppConstants
-                                                              .base_URL +
-                                                          Gallerylist.image,
-                                                      width: 125,
-                                                      height: 65,
-                                                      fit: BoxFit.fill,
-                                                    placeholder: (context, url) => ShimmerController.shimmerList(),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Icon(Icons.error),
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        Get.to(EnlargePhoto(
+                                                          images: studioList
+                                                              .gallery,
+                                                          imageUrl:
+                                                              Gallerylist.image,
+                                                        ));
+                                                      },
+                                                      child: Hero(
+                                                        tag: Gallerylist.image,
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: AppConstants
+                                                                  .base_URL +
+                                                              Gallerylist.image,
+                                                          width: 125,
+                                                          height: 65,
+                                                          fit: BoxFit.fill,
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              ShimmerController
+                                                                  .shimmerList(),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(Icons.error),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -192,6 +212,70 @@ class _StudioViewState extends State<StudioView> {
                 return Center(child: Text("Loading"));
               }
             }),
+      ),
+    );
+  }
+}
+
+class EnlargePhoto extends StatefulWidget {
+  final String imageUrl;
+  final List<StudioImage> images;
+
+  EnlargePhoto({required this.imageUrl, required this.images, Key? key})
+      : super(key: key);
+
+  @override
+  State<EnlargePhoto> createState() => _EnlargePhotoState();
+}
+
+class _EnlargePhotoState extends State<EnlargePhoto> {
+  @override
+  Widget build(BuildContext context) {
+    TransformationController _transformationController =
+        TransformationController(); // Add a TransformationController
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      body: InteractiveViewer(
+        transformationController:
+            _transformationController, // Set the transformationController
+        onInteractionEnd: (details) {
+          if (_transformationController.value.getMaxScaleOnAxis() > 1) {
+            // Reset scale if zoomed in
+            _transformationController.value = Matrix4.identity();
+          }
+        },
+        child: Center(
+          child: CarouselSlider(
+            options: CarouselOptions(
+              enlargeCenterPage: true,
+              aspectRatio: 16 / 9,
+            ),
+            items: widget.images.map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Hero(
+                    tag: i,
+                    child: CachedNetworkImage(
+                      imageUrl: AppConstants.base_URL + i.image,
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          ),
+        ),
       ),
     );
   }

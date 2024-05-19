@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
@@ -11,6 +12,12 @@ class RoosterController extends GetxController {
   List<Rooster> roosterList = [];
 
 // whenever calss is called it will be called first
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchAll();
+  }
 
   Future<bool> isDataFetched() {
     // Future.delayed(Duration(seconds: 2));
@@ -24,7 +31,7 @@ class RoosterController extends GetxController {
   Future<void> fetchAll() async {
     await fetchRoosterNumbers();
     // await cachedData();
-    print("Roosters Fetched ${roosterList.length}}");
+    kDebugMode ? print("Roosters Fetched ${roosterList.length}") : null;
   }
 
   Future<void> fetchRoosterNumbers() async {
@@ -35,10 +42,6 @@ class RoosterController extends GetxController {
     // roosterNumbers = jsonData.map((e) => RoosterData.fromJson(e)).toList();
     roosterList = jsonData.map((e) => Rooster.fromJson(e)).toList();
 
-
     // print('numbers fetched');
   }
-
-  
 }
-

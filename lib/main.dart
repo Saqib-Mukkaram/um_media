@@ -3,19 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:um_media/Controller/EnquireListController.dart';
-import 'package:um_media/Controller/Langauge.dart';
-import 'package:um_media/Controller/LoginController.dart';
-import 'package:um_media/Controller/RoosterController.dart';
-import 'package:um_media/Controller/StudioController.dart';
-import 'package:um_media/Controller/TalentController.dart';
 
-import 'package:um_media/Models/Rooster.dart';
+import 'package:um_media/Controller/Langauge.dart';
+
 import 'package:um_media/AppBindings.dart';
-import 'package:um_media/Views/Homes/ClientHome/Home.dart';
 
 import 'package:um_media/Views/Splash/spalsh.dart';
+
+import 'AppTheme.dart';
+
+// import 'package:webview_flutter/webview_flutter.dart';
 
 // Okay this does not have GRADLE errors
 //While compiling it may show the erros but it meta data i have on my
@@ -26,11 +23,11 @@ import 'package:um_media/Views/Splash/spalsh.dart';
 void main() {
   // Ensure initialized
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const InitScreen());
+  runApp(InitScreen());
 }
 
 class InitScreen extends StatelessWidget {
-  const InitScreen({super.key});
+  InitScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +38,7 @@ class InitScreen extends StatelessWidget {
         translations: Languages(),
         locale: const Locale('en', 'US'),
         fallbackLocale: const Locale('en', 'UK'),
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-          useMaterial3: true,
-          fontFamily: "Poppins",
-        ),
+        theme: AppTheme.theme,
         home: SplashScreen());
   }
 }

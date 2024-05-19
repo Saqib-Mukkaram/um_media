@@ -14,9 +14,9 @@ class TalentsBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
           child: Text(
-            "Talents".toUpperCase(),
+            "Hire Talents",
             style: TextStyle(
-                fontSize: 22,
+                fontSize: 18,
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.bold,
                 color: Colors.white),

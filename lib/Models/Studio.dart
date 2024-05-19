@@ -10,6 +10,8 @@ class Studio {
   Studio({required this.name, required this.id, required this.image,
   required this.gallery,
   });
+
+  
   factory Studio.fromJson(Map<String, dynamic> json) {
     return Studio(
       id: json['id'],

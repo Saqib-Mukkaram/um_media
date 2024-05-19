@@ -15,6 +15,11 @@ class EnquireStudio {
 }
 
 class EnquireListController extends GetxController {
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
   var roosterEnquireList = <EnquireRooster>[].obs;
   var studioList = <EnquireStudio>[].obs;
 

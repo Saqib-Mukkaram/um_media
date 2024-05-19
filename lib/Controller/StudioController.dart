@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:um_media/AppConstants.dart';
@@ -19,10 +20,16 @@ class StudioController extends GetxController {
     }
   }
 
+  @override
+  void onInit() async {
+    super.onInit();
+    await getStudios();
+  }
+
   Future<void> fetchAll() async {
     await getStudios();
     // await cachedData();
-    print("Studios Fetched length ${studios.length}");
+    kDebugMode ? print("Studios Fetched length ${studios.length}"): null;
   }
 
   Future<void> getStudios() async {
@@ -47,6 +54,4 @@ class StudioController extends GetxController {
       print("Error Fetching Studios List: $error");
     }
   }
-
-
 }

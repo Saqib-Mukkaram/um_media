@@ -1,6 +1,7 @@
+// ignore_for_file: unused_local_variable, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:um_media/AppConstants.dart';
 import 'package:um_media/Controller/RoosterController.dart';
 import 'package:um_media/Controller/StudioController.dart';
@@ -15,34 +16,35 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  SharedPreferences? prefs;
-
   Future<void> fetchData() async {
-    // Future.delayed(Duration(seconds: 2));
-    final RoosterController _roosterController = Get.find();
-    final TalentController _talentController = Get.find();
-    final StudioController _studioController = Get.find();
+    Future.delayed(Duration(seconds: 2));
+    final RoosterController _roosterController = Get.find<RoosterController>();
+    final TalentController _talentController = Get.find<TalentController>();
+    final StudioController _studioController = Get.find<StudioController>();
+
     if (_talentController.categories.isEmpty ||
         _roosterController.roosterList.isEmpty ||
         _studioController.studios.isEmpty) {
-      print(_talentController.categories);
-      print(_roosterController.roosterList);
-      print(_studioController.studios);
+      // print(_talentController.categories);
+      // print(_roosterController.roosterList);
+      // print(_studioController.studios);
       await _talentController.fetchAll();
       await _studioController.fetchAll();
       await _roosterController.fetchAll();
-      prefs = await SharedPreferences.getInstance();
-      print(_talentController.categories);
-      print(_roosterController.roosterList);
-      print(_studioController.studios);
+      // prefs = await SharedPreferences.getInstance();
+      // print(_talentController.categories);
+      // print(_roosterController.roosterList);
+      // print(_studioController.studios);
+      // Future.delayed(Duration(seconds: 2));
     } else {
       return Future.delayed(Duration(seconds: 2));
     }
+    Future.delayed(Duration(seconds: 2));
   }
 
   @override
   void initState() {
-    fetchData().then((value) => Get.off(HomeScreen()));
+    fetchData().then((value) => Get.offAll(() => HomeScreen()));
     super.initState();
   }
 

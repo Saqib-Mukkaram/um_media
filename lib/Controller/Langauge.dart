@@ -43,7 +43,7 @@ class Languages extends Translations {
           "viewall": "View All >",
           "join_us_talent": "Join Us!",
           "let_us_decide":
-              "Compnay is always on the lookout for up and coming talent.",
+              "Company is always on the lookout for upcoming talent.",
           "username": "UserName",
           "logout": "Logout",
           "choose_talent": "Choose your Talent",
